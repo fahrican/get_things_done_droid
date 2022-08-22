@@ -1,6 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.ui.open_task
 
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponse
+import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import retrofit2.HttpException
@@ -11,14 +11,14 @@ class OpenTaskRepositoryImpl @Inject constructor(
     private val taskApiService: TaskApi
 ) : OpenTaskRepository {
 
-    override suspend fun getOpenTasks(): Result<List<TaskResponseItem>> {
-        var result: Result<List<TaskResponseItem>>
+    override suspend fun getOpenTasks(): ViewState<List<TaskResponseItem>> {
+        var result: ViewState<List<TaskResponseItem>>
         try {
             val response = taskApiService.getOpenTasks()
-            response.let { result = Result.success(it) }
+            response.let { result = ViewState.Success(it) }
         } catch (error: HttpException) {
             Timber.e("HttpException: ${error.message}")
-            return Result.failure(error)
+            return ViewState.Error(error)
         }
         return result
     }
