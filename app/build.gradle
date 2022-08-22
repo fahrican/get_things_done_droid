@@ -74,6 +74,9 @@ dependencies {
     // Add the annotation processor if you are using Epoxy's annotations (recommended)
     kapt "com.airbnb.android:epoxy-processor:4.6.2"
 
+    // Facebook Shimmer Layout
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
     // debugImplementation because LeakCanary should only run in debug builds.
     //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 

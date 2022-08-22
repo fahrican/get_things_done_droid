@@ -99,7 +99,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
             when (response) {
                 is ViewState.Loading -> {
                     binding.recyclerView.visibility = View.GONE
-                    binding.taskFetchProgress.visibility = View.VISIBLE
+                    binding.shimmerFrame.startShimmerAnimation()
                 }
                 is ViewState.Success -> {
                     this.myTasks.clear()
@@ -119,7 +119,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
                         }
                         this.controller.setTasks(myTasks)
                     }
-                    binding.taskFetchProgress.visibility = View.GONE
+                    binding.shimmerFrame.stopShimmerAnimation()
+                    binding.shimmerFrame.visibility = View.GONE
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is ViewState.Error -> {
@@ -131,7 +132,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
 
     private fun showEmptyScreen() {
         controller.setTasks(emptyList())
-        binding.taskFetchProgress.visibility = View.GONE
+        binding.shimmerFrame.stopShimmerAnimation()
+        binding.shimmerFrame.visibility = View.GONE
         binding.recyclerView.visibility = View.GONE
         binding.emptyText.visibility = View.VISIBLE
         binding.retryFetchButton.visibility = View.VISIBLE
@@ -147,7 +149,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
         binding.retryFetchButton.setOnClickListener {
             binding.emptyText.visibility = View.GONE
             it.visibility = View.GONE
-            binding.taskFetchProgress.visibility = View.VISIBLE
+            binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
                 val response = async { viewModel.fetchOpenTasks() }
                 response.await()
