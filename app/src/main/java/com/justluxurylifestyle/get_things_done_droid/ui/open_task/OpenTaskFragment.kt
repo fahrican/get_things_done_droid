@@ -61,6 +61,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
         binding.swipeRefresh.setOnRefreshListener(null)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.retryFetchButton.setOnClickListener(null)
+    }
+
     //From SwipeRefreshLayout
     override fun onRefresh() {
         viewModel.fetchOpenTasks()
@@ -97,6 +102,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
                     binding.taskFetchProgress.visibility = View.VISIBLE
                 }
                 is ViewState.Success -> {
+                    this.myTasks.clear()
                     if (response.data.isEmpty()) {
                         showEmptyScreen()
                     } else {
