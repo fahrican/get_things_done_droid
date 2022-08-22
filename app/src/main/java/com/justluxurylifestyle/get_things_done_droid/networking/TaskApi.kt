@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import retrofit2.http.GET
 

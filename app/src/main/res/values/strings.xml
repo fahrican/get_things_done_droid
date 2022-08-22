@@ -3,6 +3,7 @@
     <string name="closed_tasks">Closed Tasks</string>
     <string name="open_tasks">Open Tasks</string>
     <string name="all_tasks">All Tasks</string>
+    <string name="task_detail">Task Detail</string>
     <string name="priority_text">Priority: %s</string>
     <string name="created_on_text">Created on: %s</string>
     <string name="reminder_text">Reminder: %s</string>

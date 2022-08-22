@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import androidx.navigation.fragment.findNavController
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -36,15 +36,14 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.d("OpenTaskFragment: ${viewModel.fetchOpenTasks()}")
-/*
+
         setUpViewModel()
 
        setUpRecyclerView()
 
         observeLiveData()
 
-        clickOnRetry()*/
+        clickOnRetry()
     }
 
     private fun setUpViewModel() {
@@ -59,7 +58,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
         }
     }
 
-/*    private fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.tasks.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Loading -> {
@@ -74,15 +73,14 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            val newsArticle = MyTask(task)
-                            newsArticle.onClick = View.OnClickListener {
-                               *//* val action = FeedScreenFragmentDirections
-                                    .actionFeedScreenFragmentToNewsDetailFragment(article)
-                                findNavController().navigate(action)*//*
+                            val taskItems = MyTask(task)
+                            taskItems.onClick = View.OnClickListener {
+                                val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail()
+                                findNavController().navigate(action)
                             }
-                            myTasks.add(newsArticle)
+                            this.myTasks.add(taskItems)
                         }
-                        controller.setTasks(myTasks)
+                        this.controller.setTasks(myTasks)
                     }
                     binding.articleFetchProgress.visibility = View.GONE
                     //binding.swipeRefresh.isRefreshing = false
@@ -92,7 +90,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
                 }
             }
         }
-    }*/
+    }
 
     private fun showEmptyScreen() {
         controller.setTasks(emptyList())

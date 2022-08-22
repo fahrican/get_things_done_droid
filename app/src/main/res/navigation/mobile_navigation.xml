@@ -15,11 +15,26 @@
         android:id="@+id/open_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.open_task.OpenTaskFragment"
         android:label="@string/open_tasks"
-        tools:layout="@layout/fragment_open_task" />
+        tools:layout="@layout/fragment_open_task">
+
+        <action
+            android:id="@+id/action_open_task_to_task_detail"
+            app:destination="@+id/task_detail"
+            app:popUpTo="@id/open_tasks"
+            app:popUpToInclusive="false" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/all_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.notifications.NotificationsFragment"
         android:label="@string/all_tasks"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/task_detail"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.task_detail.TaskDetailFragment"
+        android:label="@string/task_detail"
+        tools:layout="@layout/fragment_task_detail" />
+
 </navigation>

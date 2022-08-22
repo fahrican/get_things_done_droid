@@ -6,12 +6,12 @@ import com.justluxurylifestyle.get_things_done_droid.model.MyTask
 
 class TaskController : EpoxyController() {
 
-    val myTasks = mutableListOf<MyTask>()
+    private val myTasks = mutableListOf<MyTask>()
 
     override fun buildModels() {
-        myTasks.forEachIndexed { position, model ->
+        myTasks.forEachIndexed { _, model ->
             itemTask {
-                id(position)
+                id(model.task?.id)
                 myTask(model)
             }
         }
