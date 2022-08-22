@@ -9,9 +9,9 @@ class TaskController : EpoxyController() {
     private val myTasks = mutableListOf<MyTask>()
 
     override fun buildModels() {
-        myTasks.forEachIndexed { _, model ->
+        myTasks.forEachIndexed { position, model ->
             itemTask {
-                id(model.task?.id)
+                id(position)
                 myTask(model)
             }
         }

@@ -19,10 +19,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.justluxurylifestyle.get_things_done_droid.R
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
+class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
+    SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by viewModels<OpenTaskViewModel>()
     private val controller = TaskController()
@@ -36,18 +39,46 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setUpViewModel()
 
-       setUpRecyclerView()
+        setUpRecyclerView()
 
         observeLiveData()
 
         clickOnRetry()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setUpSwipeRefresh()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.swipeRefresh.isRefreshing = false
+        binding.swipeRefresh.clearAnimation()
+        binding.swipeRefresh.clearFocus()
+        binding.swipeRefresh.setOnRefreshListener(null)
+    }
+
+    //From SwipeRefreshLayout
+    override fun onRefresh() {
+        viewModel.fetchOpenTasks()
+    }
+
     private fun setUpViewModel() {
         viewModel.fetchOpenTasks()
+    }
+
+    private fun setUpSwipeRefresh() {
+        binding.swipeRefresh.let {
+            it.setOnRefreshListener(this)
+            it.setColorSchemeResources(R.color.purple_200)
+            it.setOnRefreshListener {
+                it.isRefreshing = false
+                viewModel.fetchOpenTasks()
+            }
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -63,7 +94,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
             when (response) {
                 is ViewState.Loading -> {
                     binding.recyclerView.visibility = View.GONE
-                    binding.articleFetchProgress.visibility = View.VISIBLE
+                    binding.taskFetchProgress.visibility = View.VISIBLE
                 }
                 is ViewState.Success -> {
                     if (response.data.isEmpty()) {
@@ -82,8 +113,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
                         }
                         this.controller.setTasks(myTasks)
                     }
-                    binding.articleFetchProgress.visibility = View.GONE
-                    //binding.swipeRefresh.isRefreshing = false
+                    binding.taskFetchProgress.visibility = View.GONE
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is ViewState.Error -> {
                     showEmptyScreen()
@@ -94,7 +125,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
 
     private fun showEmptyScreen() {
         controller.setTasks(emptyList())
-        binding.articleFetchProgress.visibility = View.GONE
+        binding.taskFetchProgress.visibility = View.GONE
         binding.recyclerView.visibility = View.GONE
         binding.emptyText.visibility = View.VISIBLE
         binding.retryFetchButton.visibility = View.VISIBLE
@@ -110,7 +141,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
         binding.retryFetchButton.setOnClickListener {
             binding.emptyText.visibility = View.GONE
             it.visibility = View.GONE
-            binding.articleFetchProgress.visibility = View.VISIBLE
+            binding.taskFetchProgress.visibility = View.VISIBLE
             lifecycleScope.launch(Dispatchers.Main) {
                 val response = async { viewModel.fetchOpenTasks() }
                 response.await()
@@ -124,6 +155,4 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>() {
             }
         }
     }
-
-
 }
