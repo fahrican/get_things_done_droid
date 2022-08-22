@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">get_things_done_droid</string>
+    <string name="closed_tasks">Closed Tasks</string>
+    <string name="open_tasks">Open Tasks</string>
+    <string name="all_tasks">All Tasks</string>
+    <string name="priority_text">Priority: %s</string>
+    <string name="created_on_text">Created on: %s</string>
+    <string name="reminder_text">Reminder: %s</string>
+    <string name="zero_tasks_found">zero tasks found</string>
+    <string name="retry_btn_text">Retry</string>
+</resources>
