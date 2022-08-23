@@ -10,4 +10,14 @@
     <string name="zero_tasks_found">zero tasks found</string>
     <string name="retry_btn_text">Retry</string>
     <string name="add_icon_description">Add a new task</string>
+    <string name="task_detail_id">id: %s</string>
+    <string name="task_detail_description">description: %s</string>
+    <string name="task_detail_reminder_set">reminder set: %s</string>
+    <string name="task_detail_task_open">task open: %s</string>
+    <string name="task_detail_created_on">created on: %s</string>
+    <string name="task_detail_started_on">started on: %s</string>
+    <string name="task_detail_finished_on">finished on: %s</string>
+    <string name="task_detail_time_interval">time interval: %s</string>
+    <string name="task_detail_time_taken">time taken: %s</string>
+    <string name="task_detail_priority">priority: %s</string>
 </resources>

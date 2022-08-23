@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/task_detail"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.task_detail.TaskDetailFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskDetailFragment"
         android:label="@string/task_detail"
         tools:layout="@layout/fragment_task_detail" />
 

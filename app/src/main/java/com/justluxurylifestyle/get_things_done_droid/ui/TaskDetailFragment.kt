@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.task_detail
+package com.justluxurylifestyle.get_things_done_droid.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
