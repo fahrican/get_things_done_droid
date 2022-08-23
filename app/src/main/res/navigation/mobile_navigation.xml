@@ -35,6 +35,12 @@
         android:id="@+id/task_detail"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskDetailFragment"
         android:label="@string/task_detail"
-        tools:layout="@layout/fragment_task_detail" />
+        tools:layout="@layout/fragment_task_detail">
+
+        <!--<argument
+            android:name="my_task"
+            app:argType="com.justluxurylifestyle.get_things_done_droid.model.MyTask" />-->
+
+    </fragment>
 
 </navigation>

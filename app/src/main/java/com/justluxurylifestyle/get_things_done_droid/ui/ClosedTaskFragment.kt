@@ -115,12 +115,12 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            val taskItems = MyTask(task)
-                            taskItems.onClick = View.OnClickListener {
+                            val myTask = MyTask(task)
+                            myTask.onClick = View.OnClickListener {
                                 val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail()
                                 findNavController().navigate(action)
                             }
-                            this.myTasks.add(taskItems)
+                            this.myTasks.add(myTask)
                         }
                         this.controller.setTasks(myTasks)
                     }
