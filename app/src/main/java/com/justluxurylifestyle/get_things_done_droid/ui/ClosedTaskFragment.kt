@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.open_task
+package com.justluxurylifestyle.get_things_done_droid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,28 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
+import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentOpenTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.MyTask
+import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import androidx.navigation.fragment.findNavController
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.justluxurylifestyle.get_things_done_droid.R
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
+class ClosedTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
+
 
     private val viewModel by viewModels<TaskViewModel>()
     private val controller = TaskController()
@@ -70,11 +72,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+        viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
     }
 
     private fun setUpViewModel() {
-        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+        viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
     }
 
     private fun setUpSwipeRefresh() {
@@ -83,7 +85,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
             it.setColorSchemeResources(R.color.purple_200)
             it.setOnRefreshListener {
                 it.isRefreshing = false
-                viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+                viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
             }
         }
     }
@@ -153,7 +155,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS) }
+                val response = async { viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS) }
                 response.await()
                 if (controller.getNumberOfMyTasks() == 0) {
                     Snackbar.make(
