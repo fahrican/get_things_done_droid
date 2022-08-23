@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
-import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentOpenTaskBinding
+import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.MyTask
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
@@ -27,9 +27,8 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ClosedTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
+class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
-
 
     private val viewModel by viewModels<TaskViewModel>()
     private val controller = TaskController()
@@ -38,10 +37,12 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentOpenTaskBinding = FragmentOpenTaskBinding.inflate(inflater)
+    ): FragmentTaskBinding = FragmentTaskBinding.inflate(inflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fab.visibility = View.GONE
 
         setUpViewModel()
 

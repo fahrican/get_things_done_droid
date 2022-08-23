@@ -9,13 +9,13 @@
         android:id="@+id/closed_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.ClosedTaskFragment"
         android:label="@string/closed_tasks"
-        tools:layout="@layout/fragment_open_task" />
+        tools:layout="@layout/fragment_task" />
 
     <fragment
         android:id="@+id/open_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.OpenTaskFragment"
         android:label="@string/open_tasks"
-        tools:layout="@layout/fragment_open_task">
+        tools:layout="@layout/fragment_task">
 
         <action
             android:id="@+id/action_open_task_to_task_detail"
@@ -27,9 +27,9 @@
 
     <fragment
         android:id="@+id/all_tasks"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.ClosedTaskFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.AllTasksFragment"
         android:label="@string/all_tasks"
-        tools:layout="@layout/fragment_open_task" />
+        tools:layout="@layout/fragment_task" />
 
     <fragment
         android:id="@+id/task_detail"
