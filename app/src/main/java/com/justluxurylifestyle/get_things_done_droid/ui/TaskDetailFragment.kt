@@ -14,7 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
-    //private val args: TaskDetailFragmentArgs by navArgs()
+    private val args: TaskDetailFragmentArgs by navArgs()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -23,6 +23,6 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //binding.myTask = args.myTask
+        binding.task = args.taskItem
     }
 }

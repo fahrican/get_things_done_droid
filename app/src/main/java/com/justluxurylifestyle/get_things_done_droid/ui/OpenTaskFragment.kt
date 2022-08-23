@@ -114,7 +114,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
                             myTask.onClick = View.OnClickListener {
-                                val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail()
+                                val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
                                 findNavController().navigate(action)
                             }
                             this.myTasks.add(myTask)

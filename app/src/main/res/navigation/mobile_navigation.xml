@@ -37,10 +37,9 @@
         android:label="@string/task_detail"
         tools:layout="@layout/fragment_task_detail">
 
-        <!--<argument
-            android:name="my_task"
-            app:argType="com.justluxurylifestyle.get_things_done_droid.model.MyTask" />-->
-
+        <argument
+            android:name="task_item"
+            app:argType="com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem" />
     </fragment>
 
 </navigation>

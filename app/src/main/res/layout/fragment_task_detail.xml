@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="myTask"
-            type="com.justluxurylifestyle.get_things_done_droid.model.MyTask" />
+            name="task"
+            type="com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -16,14 +16,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/task_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/task_detail_id(myTask.task.id)}"
+                android:layout_margin="16dp"
+                android:text="@{@string/task_detail_id(task.id)}"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,8 @@
                 android:id="@+id/task_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/task_detail_description(myTask.task.description)}"
+                android:layout_margin="16dp"
+                android:text="@{@string/task_detail_description(task.description)}"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_id_line"
@@ -63,7 +64,8 @@
                 android:id="@+id/task_reminder_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/task_detail_reminder_set(myTask.task.isReminderSet)}"
+                android:layout_margin="16dp"
+                android:text="@{@string/task_detail_reminder_set(task.isReminderSet)}"
                 android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_description_line"
