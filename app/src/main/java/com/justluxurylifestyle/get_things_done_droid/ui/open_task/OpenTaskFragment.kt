@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.justluxurylifestyle.get_things_done_droid.R
+import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -68,11 +69,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        viewModel.fetchOpenTasks()
+        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
     }
 
     private fun setUpViewModel() {
-        viewModel.fetchOpenTasks()
+        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
     }
 
     private fun setUpSwipeRefresh() {
@@ -81,7 +82,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
             it.setColorSchemeResources(R.color.purple_200)
             it.setOnRefreshListener {
                 it.isRefreshing = false
-                viewModel.fetchOpenTasks()
+                viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
             }
         }
     }
@@ -151,7 +152,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { viewModel.fetchOpenTasks() }
+                val response = async { viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS) }
                 response.await()
                 if (controller.getNumberOfMyTasks() == 0) {
                     Snackbar.make(

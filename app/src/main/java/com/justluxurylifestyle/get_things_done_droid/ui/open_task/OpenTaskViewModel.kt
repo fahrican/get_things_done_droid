@@ -24,10 +24,10 @@ class OpenTaskViewModel @Inject constructor(
     val tasks: LiveData<ViewState<List<TaskResponseItem>>>
         get() = _tasks
 
-    fun fetchOpenTasks() {
-        //_tasks.postValue(ViewState.Loading)
+    fun fetchOpenTasks(endpoint: String) {
+        _tasks.postValue(ViewState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
-            val response = repository.getOpenTasks()
+            val response = repository.getTasks(endpoint)
             response.let { data ->
                 when (data) {
                     is ViewState.Success -> {

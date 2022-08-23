@@ -5,5 +5,5 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 
 interface OpenTaskRepository {
 
-    suspend fun getOpenTasks(): ViewState<List<TaskResponseItem>>
+    suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>>
 }

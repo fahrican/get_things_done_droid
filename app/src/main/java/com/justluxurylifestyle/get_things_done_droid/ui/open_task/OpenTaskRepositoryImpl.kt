@@ -11,10 +11,14 @@ class OpenTaskRepositoryImpl @Inject constructor(
     private val taskApiService: TaskApi
 ) : OpenTaskRepository {
 
-    override suspend fun getOpenTasks(): ViewState<List<TaskResponseItem>> {
+    override suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>> {
         var result: ViewState<List<TaskResponseItem>>
         try {
-            val response = taskApiService.getOpenTasks()
+            val response = when (endpoint) {
+                TaskApi.OPEN_TASKS -> taskApiService.getTasks(TaskApi.OPEN_TASKS)
+                TaskApi.CLOSED_TASKS -> taskApiService.getTasks(TaskApi.CLOSED_TASKS)
+                else -> taskApiService.getTasks(TaskApi.ALL_TASKS)
+            }
             response.let { result = ViewState.Success(it) }
         } catch (error: HttpException) {
             Timber.e("HttpException: ${error.message}")
