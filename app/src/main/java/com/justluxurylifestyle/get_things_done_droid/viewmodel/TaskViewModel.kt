@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.open_task
+package com.justluxurylifestyle.get_things_done_droid.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,8 +17,8 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class OpenTaskViewModel @Inject constructor(
-    private val repository: OpenTaskRepository
+class TaskViewModel @Inject constructor(
+    private val repository: TaskRepository
 ) : ViewModel() {
 
     private val _tasks = MutableLiveData<ViewState<List<TaskResponseItem>>>()

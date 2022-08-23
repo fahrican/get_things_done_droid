@@ -1,7 +1,7 @@
 package com.justluxurylifestyle.get_things_done_droid.di
 
-import com.justluxurylifestyle.get_things_done_droid.ui.open_task.OpenTaskRepository
-import com.justluxurylifestyle.get_things_done_droid.ui.open_task.OpenTaskRepositoryImpl
+import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
+import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ abstract class TaskViewModelModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindRepository(repo: OpenTaskRepositoryImpl): OpenTaskRepository
+    abstract fun bindRepository(repo: TaskRepositoryImpl): TaskRepository
 }

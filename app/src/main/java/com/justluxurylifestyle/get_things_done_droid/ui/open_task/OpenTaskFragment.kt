@@ -22,13 +22,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class OpenTaskFragment : ViewBindingFragment<FragmentOpenTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
 
-    private val viewModel by viewModels<OpenTaskViewModel>()
+    private val viewModel by viewModels<TaskViewModel>()
     private val controller = TaskController()
     private val myTasks = mutableListOf<MyTask>()
 
