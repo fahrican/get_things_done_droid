@@ -227,6 +227,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_priority" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_btn"
+                style="@style/Button.Edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_detail_edit_task"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/task_priority_line" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
