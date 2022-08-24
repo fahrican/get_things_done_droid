@@ -15,10 +15,6 @@
     </style>
 
     <style name="Button.Edit" parent="ShapeAppearanceOverlay.Material3.Button">
-        <item name="background">@color/blue_dark</item>
-        <item name="backgroundColor">@color/blue_dark</item>
-        <item name="tint">@color/blue_dark</item>
-        <item name="backgroundTint">@color/blue_dark</item>
-        <item name="color">@color/blue_dark</item>
+        <item name="backgroundTint">@color/darker_gray</item>
     </style>
 </resources>
