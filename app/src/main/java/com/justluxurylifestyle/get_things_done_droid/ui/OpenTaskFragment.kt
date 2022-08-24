@@ -45,7 +45,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
         controller = TaskController(color)
 
-        setUpViewModel()
+        callViewModel()
 
         setUpRecyclerView()
 
@@ -74,11 +74,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+        callViewModel()
     }
 
-    private fun setUpViewModel() {
-        viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+    private fun callViewModel() {
+        viewModel.fetchTasks(TaskApi.OPEN_TASKS)
     }
 
     private fun setUpSwipeRefresh() {
@@ -87,7 +87,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.setColorSchemeResources(R.color.purple_200)
             it.setOnRefreshListener {
                 it.isRefreshing = false
-                viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS)
+                callViewModel()
             }
         }
     }
@@ -118,7 +118,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
                             myTask.onClick = View.OnClickListener {
-                                val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
+                                val action =
+                                    OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
                                 findNavController().navigate(action)
                             }
                             this.myTasks.add(myTask)
@@ -157,7 +158,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { viewModel.fetchOpenTasks(TaskApi.OPEN_TASKS) }
+                val response = async { callViewModel() }
                 response.await()
                 if (controller.getNumberOfMyTasks() == 0) {
                     Snackbar.make(

@@ -76,11 +76,11 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
+        viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
     }
 
     private fun setUpViewModel() {
-        viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
+        viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
     }
 
     private fun setUpSwipeRefresh() {
@@ -89,7 +89,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.setColorSchemeResources(R.color.purple_200)
             it.setOnRefreshListener {
                 it.isRefreshing = false
-                viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS)
+                viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
             }
         }
     }
@@ -159,7 +159,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { viewModel.fetchOpenTasks(TaskApi.CLOSED_TASKS) }
+                val response = async { viewModel.fetchTasks(TaskApi.CLOSED_TASKS) }
                 response.await()
                 if (controller.getNumberOfMyTasks() == 0) {
                     Snackbar.make(
