@@ -9,7 +9,14 @@
         android:id="@+id/closed_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.ClosedTaskFragment"
         android:label="@string/closed_tasks"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task">
+
+        <action
+            android:id="@+id/action_closed_task_to_task_detail"
+            app:destination="@+id/task_detail"
+            app:popUpTo="@id/closed_tasks"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/open_tasks"
@@ -22,14 +29,20 @@
             app:destination="@+id/task_detail"
             app:popUpTo="@id/open_tasks"
             app:popUpToInclusive="false" />
-
     </fragment>
 
     <fragment
         android:id="@+id/all_tasks"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.AllTasksFragment"
         android:label="@string/all_tasks"
-        tools:layout="@layout/fragment_task" />
+        tools:layout="@layout/fragment_task">
+
+        <action
+            android:id="@+id/action_all_tasks_to_task_detail"
+            app:destination="@+id/task_detail"
+            app:popUpTo="@id/all_tasks"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/task_detail"
