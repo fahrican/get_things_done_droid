@@ -47,7 +47,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         controller = TaskController(color)
         binding.fab.visibility = View.GONE
 
-        setUpViewModel()
+        callViewModel()
 
         setUpRecyclerView()
 
@@ -76,10 +76,10 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
+        callViewModel()
     }
 
-    private fun setUpViewModel() {
+    private fun callViewModel() {
         viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
     }
 
@@ -89,7 +89,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.setColorSchemeResources(R.color.purple_200)
             it.setOnRefreshListener {
                 it.isRefreshing = false
-                viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
+                callViewModel()
             }
         }
     }
@@ -120,7 +120,8 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
                             myTask.onClick = View.OnClickListener {
-                                val action = ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task)
+                                val action =
+                                    ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task)
                                 findNavController().navigate(action)
                             }
                             this.myTasks.add(myTask)
@@ -159,7 +160,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
             lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { viewModel.fetchTasks(TaskApi.CLOSED_TASKS) }
+                val response = async { callViewModel() }
                 response.await()
                 if (controller.getNumberOfMyTasks() == 0) {
                     Snackbar.make(
