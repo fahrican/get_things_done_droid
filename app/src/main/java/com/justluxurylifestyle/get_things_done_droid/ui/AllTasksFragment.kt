@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -31,7 +32,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by viewModels<TaskViewModel>()
-    private val controller = TaskController()
+    private lateinit var controller : TaskController
     private val myTasks = mutableListOf<MyTask>()
 
     override fun createBinding(
@@ -42,6 +43,8 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val color = ContextCompat.getColor(requireActivity(), R.color.black)
+        controller = TaskController(color)
         binding.fab.visibility = View.GONE
 
         setUpViewModel()

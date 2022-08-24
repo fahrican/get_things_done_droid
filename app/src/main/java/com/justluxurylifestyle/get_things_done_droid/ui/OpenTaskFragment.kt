@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -30,7 +31,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by viewModels<TaskViewModel>()
-    private val controller = TaskController()
+    private lateinit var controller: TaskController
     private val myTasks = mutableListOf<MyTask>()
 
     override fun createBinding(
@@ -40,6 +41,9 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
+        controller = TaskController(color)
 
         setUpViewModel()
 

@@ -8,6 +8,10 @@
         <variable
             name="myTask"
             type="com.justluxurylifestyle.get_things_done_droid.model.MyTask" />
+
+        <variable
+            name="cardColor"
+            type="Integer" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -28,7 +32,7 @@
                 android:id="@+id/task_priority_and_reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
+                android:background="@{cardColor}"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +84,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
+                android:background="@{cardColor}"
                 android:orientation="horizontal"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,7 @@ import com.airbnb.epoxy.EpoxyController
 import com.justluxurylifestyle.get_things_done_droid.itemTask
 import com.justluxurylifestyle.get_things_done_droid.model.MyTask
 
-class TaskController : EpoxyController() {
+class TaskController(private val cardBgColor: Int) : EpoxyController() {
 
     private val myTasks = mutableListOf<MyTask>()
 
@@ -13,6 +13,7 @@ class TaskController : EpoxyController() {
             itemTask {
                 id(model.task?.id)
                 myTask(model)
+                cardColor(this@TaskController.cardBgColor)
             }
         }
     }
