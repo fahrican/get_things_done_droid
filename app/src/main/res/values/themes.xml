@@ -17,4 +17,8 @@
     <style name="Button.Edit" parent="ShapeAppearanceOverlay.Material3.Button">
         <item name="backgroundTint">@color/darker_gray</item>
     </style>
+
+    <style name="Button.Delete" parent="ShapeAppearanceOverlay.Material3.Button">
+        <item name="backgroundTint">@color/red_dark</item>
+    </style>
 </resources>

@@ -229,7 +229,7 @@
                 app:layout_constraintTop_toBottomOf="@id/task_priority" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/edit_btn"
+                android:id="@+id/edit_task_btn"
                 style="@style/Button.Edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,6 +240,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_priority_line" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete_task_btn"
+                style="@style/Button.Delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/task_detail_delete_task"
+                app:icon="@drawable/ic_delete_24"
+                app:iconGravity="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
