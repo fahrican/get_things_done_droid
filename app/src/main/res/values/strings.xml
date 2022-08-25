@@ -32,4 +32,5 @@
     <string name="create_task_priority_high">HIGH</string>
     <string name="create_task_set_reminder">Set reminder</string>
     <string name="create_task_text">Create task</string>
+    <string name="delete_task_headline">Are you sure you want to delete the task?</string>
 </resources>
