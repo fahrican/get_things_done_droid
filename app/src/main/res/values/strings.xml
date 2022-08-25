@@ -23,4 +23,7 @@
     <string name="task_detail_edit_task">Edit Task</string>
     <string name="task_detail_delete_task">Delete Task</string>
     <string name="create_task">Create Task</string>
+    <string name="create_task_description">Description:</string>
+    <string name="create_task_time_interval">Time Interval:</string>
+    <string name="create_task_time_taken">Time Taken:</string>
 </resources>
