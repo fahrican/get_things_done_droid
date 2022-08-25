@@ -4,20 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
+import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
+
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
     private val viewModel by viewModels<TaskViewModel>()
+    private lateinit var radioButton: RadioButton
+    val priorityLow = ObservableBoolean()
+    val priorityMedium = ObservableBoolean()
+    val priorityHigh = ObservableBoolean()
+
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -27,10 +35,17 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.createTaskBtn.setOnClickListener {
             val description = binding.createTaskDescriptionInput.text.toString()
-            val timeTaken = binding.createTaskTimeIntervalInput.text.toString()
-            Timber.d("CreateTaskFragment: $description & $timeTaken")
+            val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
+            val timeTaken = binding.createTaskTimeTakenInput.text
+            val checkedRadioButtonId = binding.createTaskPriorityRadioGroup.checkedRadioButtonId
+            val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
+            Timber.d(
+                "CreateTaskFragment -> description: $description & timeInterval: $timeInterval & timeTaken: $timeTaken " +
+                        "& priorityLow: ${binding.priorityLow.isChecked} & priorityMedium: ${binding.priorityMedium.isChecked}} & priorityHigh: ${binding.priorityHigh.isChecked}} & isSetReminderSet: $isSetReminderSet"
+            )
             //val task = TaskResponseItem(description = binding.textInputDescription.get)
             //viewModel.createTask()
         }

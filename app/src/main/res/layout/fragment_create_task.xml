@@ -4,6 +4,17 @@
 
     <data>
 
+        <variable
+            name="priorityLow"
+            type="androidx.databinding.ObservableBoolean" />
+
+        <variable
+            name="priorityMedium"
+            type="androidx.databinding.ObservableBoolean" />
+
+        <variable
+            name="priorityHigh"
+            type="androidx.databinding.ObservableBoolean" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -52,7 +63,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_time_taken"
+                android:id="@+id/create_task_time_taken_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_task_time_taken"
@@ -62,6 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@id/create_task_time_interval_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_task_time_taken_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -69,7 +81,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_select_priority_line"
+                android:id="@+id/create_task_priority_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/create_task_select_priority"
@@ -78,47 +90,49 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_time_taken" />
+                app:layout_constraintTop_toBottomOf="@id/create_task_time_taken_layout" />
 
             <RadioGroup
-                android:id="@+id/priority_radio_group"
+                android:id="@+id/create_task_priority_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_select_priority_line">
+                app:layout_constraintTop_toBottomOf="@id/create_task_priority_line">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_low"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="@={priorityLow}"
                     android:text="@string/create_task_priority_low" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@={priorityMedium}"
                     android:text="@string/create_task_priority_medium" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@={priorityHigh}"
                     android:text="@string/create_task_priority_high" />
             </RadioGroup>
 
             <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/set_reminder_check_box"
+                android:id="@+id/create_task_set_reminder_check_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/create_task_set_reminder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/priority_radio_group" />
+                app:layout_constraintTop_toBottomOf="@id/create_task_priority_radio_group" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/create_task_btn"
@@ -130,7 +144,7 @@
                 app:iconGravity="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/set_reminder_check_box" />
+                app:layout_constraintTop_toBottomOf="@id/create_task_set_reminder_check_box" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
