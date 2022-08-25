@@ -7,5 +7,5 @@ interface TaskRepository {
 
     suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>>
 
-    suspend fun createTask(task: TaskResponseItem): TaskResponseItem
+    suspend fun createTask(task: TaskResponseItem): ViewState<TaskResponseItem>
 }

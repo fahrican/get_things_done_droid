@@ -48,8 +48,21 @@ class TaskViewModel @Inject constructor(
     }
 
     fun createTask(task: TaskResponseItem) {
-        viewModelScope.launch {
-            repository.createTask(task)
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = repository.createTask(task)
+            response.let { data ->
+                when (data) {
+                    is ViewState.Success -> {
+                        Timber.d("success block: $response")
+                    }
+                    is ViewState.Error -> {
+                        Timber.d("error block: $response")
+                    }
+                    else -> {
+                        Timber.d("else block: $response")
+                    }
+                }
+            }
         }
     }
 }

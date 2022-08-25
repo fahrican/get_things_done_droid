@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.time.LocalDateTime
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -57,7 +62,10 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 createdOn = createdOn,
                 isTaskOpen = true
             )
-            viewModel.createTask(task)
+            lifecycleScope.launch(Dispatchers.Main) {
+                async { viewModel.createTask(task) }.await()
+                findNavController().popBackStack()
+            }
         }
     }
 
