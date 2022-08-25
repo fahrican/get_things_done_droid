@@ -52,6 +52,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         observeLiveData()
 
         clickOnRetry()
+
+        binding.fabBtn.setOnClickListener {
+            val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onResume() {

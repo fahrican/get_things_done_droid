@@ -1,7 +1,9 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface TaskApi {
@@ -14,4 +16,7 @@ interface TaskApi {
 
     @GET("api/{endpoint}")
     suspend fun getTasks(@Path("endpoint") endpoint: String): List<TaskResponseItem>
+
+    @POST("api/create")
+    suspend fun createTask(@Body task: TaskResponseItem): TaskResponseItem
 }

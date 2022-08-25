@@ -26,4 +26,8 @@ class TaskRepositoryImpl @Inject constructor(
         }
         return result
     }
+
+    override suspend fun createTask(task: TaskResponseItem): TaskResponseItem {
+        return taskApiService.createTask(task)
+    }
 }

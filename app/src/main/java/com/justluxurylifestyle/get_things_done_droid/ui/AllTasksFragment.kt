@@ -45,7 +45,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
         val color = ContextCompat.getColor(requireActivity(), R.color.black)
         controller = TaskController(color)
-        binding.fab.visibility = View.GONE
+        binding.fabLayout.visibility = View.GONE
 
         callViewModel()
 

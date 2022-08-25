@@ -6,4 +6,6 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 interface TaskRepository {
 
     suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>>
+
+    suspend fun createTask(task: TaskResponseItem): TaskResponseItem
 }

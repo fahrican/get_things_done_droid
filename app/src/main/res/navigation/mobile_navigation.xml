@@ -29,6 +29,12 @@
             app:destination="@+id/task_detail"
             app:popUpTo="@id/open_tasks"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_open_task_to_create_task"
+            app:destination="@+id/create_task"
+            app:popUpTo="@id/open_tasks"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -54,5 +60,11 @@
             android:name="task_item"
             app:argType="com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem" />
     </fragment>
+
+    <fragment
+        android:id="@+id/create_task"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.CreateTaskFragment"
+        android:label="@string/create_task"
+        tools:layout="@layout/fragment_create_task" />
 
 </navigation>
