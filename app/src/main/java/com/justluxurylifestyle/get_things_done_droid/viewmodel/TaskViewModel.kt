@@ -65,4 +65,23 @@ class TaskViewModel @Inject constructor(
             }
         }
     }
+
+    fun deleteTask(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = repository.deleteTask(id)
+            response.let { data ->
+                when (data) {
+                    is ViewState.Success -> {
+                        Timber.d("success block: $response")
+                    }
+                    is ViewState.Error -> {
+                        Timber.d("error block: $response")
+                    }
+                    else -> {
+                        Timber.d("else block: $response")
+                    }
+                }
+            }
+        }
+    }
 }

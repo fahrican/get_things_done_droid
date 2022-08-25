@@ -8,4 +8,6 @@ interface TaskRepository {
     suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>>
 
     suspend fun createTask(task: TaskResponseItem): ViewState<TaskResponseItem>
+
+    suspend fun deleteTask(id: String): ViewState<String>
 }

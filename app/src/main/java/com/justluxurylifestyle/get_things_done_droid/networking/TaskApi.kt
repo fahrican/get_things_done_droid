@@ -1,10 +1,7 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface TaskApi {
     companion object {
@@ -19,4 +16,7 @@ interface TaskApi {
 
     @POST("api/create")
     suspend fun createTask(@Body task: TaskResponseItem): TaskResponseItem
+
+    @DELETE("api/delete/{id}")
+    suspend fun deleteTask(@Path("id") id: String): String
 }

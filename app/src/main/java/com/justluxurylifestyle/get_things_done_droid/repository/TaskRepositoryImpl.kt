@@ -38,4 +38,16 @@ class TaskRepositoryImpl @Inject constructor(
         }
         return result
     }
+
+    override suspend fun deleteTask(id: String): ViewState<String> {
+        var result: ViewState<String>
+        try {
+            val response = taskApiService.deleteTask(id)
+            response.let { result = ViewState.Success(it) }
+        } catch (error: HttpException) {
+            Timber.e("HttpException: ${error.message}")
+            return ViewState.Error(error)
+        }
+        return result
+    }
 }
