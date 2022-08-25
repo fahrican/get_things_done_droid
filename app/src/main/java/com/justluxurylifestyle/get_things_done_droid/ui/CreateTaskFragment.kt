@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import androidx.annotation.RequiresApi
-import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.viewModels
-import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
+import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 import java.time.LocalDateTime
 
 
@@ -45,14 +41,13 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
             } else {
                 "2022-08-28T23:12:53"
             }
-            val priority: String = if (binding.priorityLow.isChecked) {
-                "LOW"
+            val priority = if (binding.priorityLow.isChecked) {
+                Priority.LOW
             } else if (binding.priorityMedium.isChecked) {
-                "MEDIUM"
+                Priority.MEDIUM
             } else {
-                "HIGH"
+                Priority.HIGH
             }
-            Timber.d("createdOn: $createdOn")
             val task = TaskResponseItem(
                 description = description,
                 timeInterval = timeInterval,
@@ -63,7 +58,6 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 isTaskOpen = true
             )
             viewModel.createTask(task)
-            Timber.d("CreateTaskFragment: %s", viewModel.createTask(task))
         }
     }
 
