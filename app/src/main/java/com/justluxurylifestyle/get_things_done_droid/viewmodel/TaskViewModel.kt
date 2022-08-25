@@ -48,7 +48,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun createTask(task: TaskResponseItem) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.createTask(task)
         }
     }
