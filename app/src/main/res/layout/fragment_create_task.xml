@@ -16,7 +16,7 @@
             android:padding="16dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_description"
+                android:id="@+id/create_task_description_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_task_description"
@@ -26,6 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_task_description_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -33,16 +34,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_time_interval"
+                android:id="@+id/create_task_time_interval_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/create_task_time_interval"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_description">
+                app:layout_constraintTop_toBottomOf="@id/create_task_description_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/create_task_time_interval_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -57,7 +59,7 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_input_time_interval">
+                app:layout_constraintTop_toBottomOf="@id/create_task_time_interval_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -119,6 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@id/priority_radio_group" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_task_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

@@ -75,6 +75,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     override fun onDestroyView() {
         super.onDestroyView()
         binding.retryFetchButton.setOnClickListener(null)
+        binding.fabBtn.setOnClickListener(null)
     }
 
     //From SwipeRefreshLayout
