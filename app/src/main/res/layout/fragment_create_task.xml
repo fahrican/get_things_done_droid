@@ -4,17 +4,6 @@
 
     <data>
 
-        <variable
-            name="priorityLow"
-            type="androidx.databinding.ObservableBoolean" />
-
-        <variable
-            name="priorityMedium"
-            type="androidx.databinding.ObservableBoolean" />
-
-        <variable
-            name="priorityHigh"
-            type="androidx.databinding.ObservableBoolean" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -106,21 +95,18 @@
                     android:id="@+id/priority_low"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@={priorityLow}"
                     android:text="@string/create_task_priority_low" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@={priorityMedium}"
                     android:text="@string/create_task_priority_medium" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_high"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@={priorityHigh}"
                     android:text="@string/create_task_priority_high" />
             </RadioGroup>
 

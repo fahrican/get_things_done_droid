@@ -21,11 +21,6 @@ import timber.log.Timber
 class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
     private val viewModel by viewModels<TaskViewModel>()
-    private lateinit var radioButton: RadioButton
-    val priorityLow = ObservableBoolean()
-    val priorityMedium = ObservableBoolean()
-    val priorityHigh = ObservableBoolean()
-
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -40,7 +35,6 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
             val description = binding.createTaskDescriptionInput.text.toString()
             val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
             val timeTaken = binding.createTaskTimeTakenInput.text
-            val checkedRadioButtonId = binding.createTaskPriorityRadioGroup.checkedRadioButtonId
             val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
             Timber.d(
                 "CreateTaskFragment -> description: $description & timeInterval: $timeInterval & timeTaken: $timeTaken " +
