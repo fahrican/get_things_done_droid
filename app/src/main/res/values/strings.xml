@@ -33,4 +33,8 @@
     <string name="create_task_set_reminder">Set reminder</string>
     <string name="create_task_text">Create task</string>
     <string name="delete_task_headline">Are you sure you want to delete the task?</string>
+    <string name="edit_task_created_on">Created on:</string>
+    <string name="edit_task_finished_on">Finished on:</string>
+    <string name="edit_task_is_reminder_set">Reminder set:</string>
+
 </resources>
