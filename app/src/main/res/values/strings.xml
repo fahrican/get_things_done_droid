@@ -36,5 +36,9 @@
     <string name="edit_task_created_on">Created on:</string>
     <string name="edit_task_finished_on">Finished on:</string>
     <string name="edit_task_is_reminder_set">Reminder set:</string>
-
+    <string name="edit_task_is_task_open">Task open:</string>
+    <string name="edit_task_priority">Priority:</string>
+    <string name="edit_task_started_on">Started on:</string>
+    <string name="edit_task_save_task">save task</string>
+    <string name="edit_task_time_taken">Time taken</string>
 </resources>
