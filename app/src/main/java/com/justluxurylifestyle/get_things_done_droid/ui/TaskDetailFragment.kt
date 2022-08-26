@@ -1,7 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.ui
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +39,11 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(id)
+        }
+
+        binding.editTaskBtn.setOnClickListener {
+            val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(args.taskItem)
+            findNavController().navigate(action)
         }
     }
 
