@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:inputType="text"
-                    android:text="@{task.finishedOn}" />
+                    android:text="@{task.startedOn}" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
