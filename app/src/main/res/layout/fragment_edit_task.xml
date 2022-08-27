@@ -71,7 +71,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:inputType="text" />
+                    android:inputType="number"
+                    android:text="@{task.timeTaken.toString()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@{task.createdOn}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -107,26 +109,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@{task.finishedOn}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_is_task_open_layout"
-                android:layout_width="match_parent"
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/edit_task_is_task_open_box"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/edit_task_is_task_open"
-                app:endIconMode="clear_text"
+                android:layout_marginBottom="16dp"
+                android:text="@string/edit_task_is_task_open"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_finished_on_layout">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_is_task_open_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/edit_task_finished_on_layout" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_task_started_on_layout"
@@ -136,15 +131,29 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_is_task_open_layout">
+                app:layout_constraintTop_toBottomOf="@id/edit_task_is_task_open_box">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_task_started_on_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@{task.finishedOn}" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/create_task_priority_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_task_select_priority"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_started_on_layout" />
 
             <RadioGroup
                 android:id="@+id/edit_task_priority_radio_group"
@@ -154,7 +163,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_started_on_layout">
+                app:layout_constraintTop_toBottomOf="@id/create_task_priority_line">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/priority_low"
