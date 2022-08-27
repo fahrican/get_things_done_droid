@@ -19,4 +19,13 @@ interface TaskApi {
 
     @DELETE("api/delete/{id}")
     suspend fun deleteTask(@Path("id") id: String): String
+
+    @PUT("api/update")
+    suspend fun updateTask(@Body task: TaskResponseItem): TaskResponseItem
+
+    @PUT("api/update/{id}")
+    suspend fun updateTaskWithId(
+        @Path("id") id: String,
+        @Body task: TaskResponseItem
+    ): TaskResponseItem
 }

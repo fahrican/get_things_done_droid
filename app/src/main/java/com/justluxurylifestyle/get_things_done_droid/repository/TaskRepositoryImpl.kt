@@ -50,4 +50,16 @@ class TaskRepositoryImpl @Inject constructor(
         }
         return result
     }
+
+    override suspend fun updateTask(task: TaskResponseItem): ViewState<TaskResponseItem> {
+        var result: ViewState<TaskResponseItem>
+        try {
+            val response = taskApiService.updateTaskWithId(task.id.toString(), task)
+            response.let { result = ViewState.Success(it) }
+        } catch (error: HttpException) {
+            Timber.e("HttpException: ${error.message}")
+            return ViewState.Error(error)
+        }
+        return result
+    }
 }
