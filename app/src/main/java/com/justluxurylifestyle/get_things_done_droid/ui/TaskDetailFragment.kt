@@ -7,16 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
+import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -54,7 +54,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 is ViewState.Success -> {
                     Toast.makeText(
                         requireContext(),
-                        "DELETE TASK was successful!",
+                        TaskApi.REQUEST_SUCCESS,
                         Toast.LENGTH_SHORT
                     ).show()
                     findNavController().popBackStack()
@@ -62,7 +62,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 is ViewState.Error -> {
                     Toast.makeText(
                         requireContext(),
-                        "DELETE TASK couldn't be processed!",
+                        TaskApi.REQUEST_FAILURE,
                         Toast.LENGTH_SHORT
                     ).show()
                 }

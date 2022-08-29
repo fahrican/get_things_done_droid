@@ -13,6 +13,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -75,13 +76,13 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 is ViewState.Loading -> {}
                 is ViewState.Success -> {
                     Toast.makeText(
-                        requireContext(), "CREATE TASK was successful!", Toast.LENGTH_SHORT
+                        requireContext(), TaskApi.REQUEST_SUCCESS, Toast.LENGTH_SHORT
                     ).show()
                     findNavController().popBackStack()
                 }
                 is ViewState.Error -> {
                     Toast.makeText(
-                        requireContext(), "CREATE TASK couldn't be processed!", Toast.LENGTH_SHORT
+                        requireContext(), TaskApi.REQUEST_FAILURE, Toast.LENGTH_SHORT
                     ).show()
                 }
             }

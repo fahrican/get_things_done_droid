@@ -9,6 +9,8 @@ interface TaskApi {
         const val OPEN_TASKS = "open-tasks"
         const val ALL_TASKS = "all-tasks"
         const val CLOSED_TASKS = "closed-tasks"
+        const val REQUEST_SUCCESS = "Request was successful!"
+        const val REQUEST_FAILURE = "Request couldn't be processed!"
     }
 
     @GET("api/{endpoint}")
