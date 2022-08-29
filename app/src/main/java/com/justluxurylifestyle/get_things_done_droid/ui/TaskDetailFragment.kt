@@ -35,7 +35,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         binding.task = args.taskItem
         val id: String = args.taskItem.id.toString()
 
-        observeDeleteTaskLiveData(id)
+        observeDeleteTaskLiveData()
 
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(id)
@@ -47,7 +47,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         }
     }
 
-    private fun observeDeleteTaskLiveData(id: String) {
+    private fun observeDeleteTaskLiveData() {
         viewModel.deleteTaskText.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Loading -> {}
@@ -62,7 +62,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 is ViewState.Error -> {
                     Toast.makeText(
                         requireContext(),
-                        "DELETE TASK was couldn't be processed!",
+                        "DELETE TASK couldn't be processed!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
