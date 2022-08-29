@@ -1,9 +1,12 @@
 package com.justluxurylifestyle.get_things_done_droid.ui
 
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.airbnb.epoxy.EpoxyTouchHelper
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
@@ -57,6 +61,63 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
             findNavController().navigate(action)
         }
+
+        //setUpSwiping()
+        EpoxyTouchHelper.initSwiping(binding.recyclerView)
+            .right()
+            .withTarget(MyTask::class.java)
+            .andCallbacks(object : EpoxyTouchHelper.SwipeCallbacks<MyTask>() {
+
+                override fun onSwipeCompleted(
+                    model: MyTask?,
+                    itemView: View?,
+                    position: Int,
+                    direction: Int
+                ) {
+                    val itemThatWasRemoved = model?.task ?: return
+                    Toast.makeText(requireContext(), "delete swipe", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+    }
+
+    private fun setUpSwiping() {
+        EpoxyTouchHelper.initSwiping(binding.recyclerView)
+            .leftAndRight()
+            .withTarget(MyTask::class.java)
+            .andCallbacks(object : EpoxyTouchHelper.SwipeCallbacks<MyTask>() {
+
+                override fun onSwipeCompleted(
+                    model: MyTask?,
+                    itemView: View?,
+                    position: Int,
+                    direction: Int
+                ) {
+                    controller.requestModelBuild()
+                }
+
+                override fun onSwipeProgressChanged(
+                    model: MyTask?,
+                    itemView: View?,
+                    swipeProgress: Float,
+                    canvas: Canvas?
+                ) {
+                    super.onSwipeProgressChanged(model, itemView, swipeProgress, canvas)
+                    // Fades a background color in the further you swipe. A different color is used
+                    // for swiping left vs right.
+                    val alpha: Int = (Math.abs(swipeProgress) * 255).toInt()
+                    if (swipeProgress > 0) {
+                        itemView?.setBackgroundColor(Color.argb(alpha, 0, 255, 0));
+                    } else {
+                        itemView?.setBackgroundColor(Color.argb(alpha, 255, 0, 0));
+                    }
+                }
+
+                override fun clearView(model: MyTask?, itemView: View?) {
+                    super.clearView(model, itemView)
+                    itemView?.setBackgroundColor(Color.WHITE)
+                }
+            })
     }
 
     override fun onResume() {
