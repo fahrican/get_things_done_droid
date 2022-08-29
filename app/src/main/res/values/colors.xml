@@ -11,4 +11,5 @@
     <color name="darker_gray">@android:color/darker_gray</color>
     <color name="blue_dark">@android:color/holo_blue_dark</color>
     <color name="red_dark">@android:color/holo_red_dark</color>
+    <color name="splash_screen_bg">#FB20ABE5</color>
 </resources>
