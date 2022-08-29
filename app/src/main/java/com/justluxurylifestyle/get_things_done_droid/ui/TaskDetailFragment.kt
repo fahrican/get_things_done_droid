@@ -75,12 +75,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         builder.setMessage(getString(R.string.delete_task_headline))
             .setPositiveButton(
                 "delete"
-            ) { _, _ ->
-                lifecycleScope.launch(Dispatchers.Main) {
-                    async { viewModel.deleteTask(id) }.await()
-                }
-                Toast.makeText(requireContext(), "pressed delete", Toast.LENGTH_SHORT).show()
-            }
+            ) { _, _ -> viewModel.deleteTask(id) }
             .setNegativeButton(
                 "cancel"
             ) { _, _ ->
