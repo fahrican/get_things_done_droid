@@ -25,4 +25,14 @@ class TaskController(private val cardBgColor: Int) : EpoxyController() {
     }
 
     fun getNumberOfMyTasks(): Int = myTasks.size
+
+    fun deleteItem(index: Int) {
+        myTasks.removeAt(index)
+        requestModelBuild()
+    }
+
+    fun addItem(index: Int, myTask: MyTask) {
+        myTasks.add(index, myTask)
+        requestModelBuild()
+    }
 }

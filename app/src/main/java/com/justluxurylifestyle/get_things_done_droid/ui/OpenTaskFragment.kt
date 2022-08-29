@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,10 +20,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 
 @ExperimentalCoroutinesApi
@@ -41,6 +45,22 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val swipeGestures = object : SwipeGestures(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when (direction) {
+                    ItemTouchHelper.LEFT -> {
+                        controller.deleteItem(viewHolder.absoluteAdapterPosition)
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        Toast.makeText(requireContext(), "swipe right", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGestures)
+        touchHelper.attachToRecyclerView(binding.recyclerView)
 
         val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
         controller = TaskController(color)
