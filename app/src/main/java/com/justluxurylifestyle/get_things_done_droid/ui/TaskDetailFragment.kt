@@ -12,13 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
+import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -37,6 +35,8 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         binding.task = args.taskItem
         val id: String = args.taskItem.id.toString()
 
+        observeDeleteTaskLiveData(id)
+
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(id)
         }
@@ -44,6 +44,29 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         binding.editTaskBtn.setOnClickListener {
             val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(args.taskItem)
             findNavController().navigate(action)
+        }
+    }
+
+    private fun observeDeleteTaskLiveData(id: String) {
+        viewModel.deleteTaskText.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ViewState.Loading -> {}
+                is ViewState.Success -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "DELETE TASK was successful!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    findNavController().popBackStack()
+                }
+                is ViewState.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "DELETE TASK was couldn't be processed!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -55,7 +78,6 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
             ) { _, _ ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     async { viewModel.deleteTask(id) }.await()
-                    findNavController().popBackStack()
                 }
                 Toast.makeText(requireContext(), "pressed delete", Toast.LENGTH_SHORT).show()
             }
