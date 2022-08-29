@@ -20,6 +20,7 @@ import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBin
 import com.justluxurylifestyle.get_things_done_droid.model.MyTask
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
@@ -48,13 +49,18 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
         val swipeGestures = object : SwipeGestures(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        controller.deleteItem(viewHolder.absoluteAdapterPosition)
-                    }
-                    ItemTouchHelper.RIGHT -> {
-                        val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
-                        myTask.task?.let { task ->
+                val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
+                myTask.task?.let { task ->
+                    when (direction) {
+                        ItemTouchHelper.LEFT -> {
+                            displayAlertDialog(
+                                task.id.toString(),
+                                requireContext(),
+                                getString(R.string.delete_task_headline),
+                                viewModel
+                            )
+                        }
+                        ItemTouchHelper.RIGHT -> {
                             navigateToTaskDetailScreen(task)
                         }
                     }

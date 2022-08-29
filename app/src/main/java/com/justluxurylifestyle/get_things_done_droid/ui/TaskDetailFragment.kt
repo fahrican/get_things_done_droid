@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,7 +38,12 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         observeDeleteTaskLiveData()
 
         binding.deleteTaskBtn.setOnClickListener {
-            displayAlertDialog(id)
+            displayAlertDialog(
+                id,
+                requireContext(),
+                getString(R.string.delete_task_headline),
+                viewModel
+            )
         }
 
         binding.editTaskBtn.setOnClickListener {
@@ -68,20 +73,5 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 }
             }
         }
-    }
-
-    private fun displayAlertDialog(id: String) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage(getString(R.string.delete_task_headline))
-            .setPositiveButton(
-                "delete"
-            ) { _, _ -> viewModel.deleteTask(id) }
-            .setNegativeButton(
-                "cancel"
-            ) { _, _ ->
-                Toast.makeText(requireContext(), "pressed cancel", Toast.LENGTH_SHORT).show()
-            }
-        builder.create()
-        builder.show()
     }
 }
