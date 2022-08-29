@@ -11,6 +11,10 @@ class TaskRepositoryImpl @Inject constructor(
     private val taskApiService: TaskApi
 ) : TaskRepository {
 
+    companion object {
+        const val HTTP_EXCEPTION = "HttpException"
+    }
+
     override suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>> {
         var result: ViewState<List<TaskResponseItem>>
         try {
@@ -21,7 +25,43 @@ class TaskRepositoryImpl @Inject constructor(
             }
             response.let { result = ViewState.Success(it) }
         } catch (error: HttpException) {
-            Timber.e("HttpException: ${error.message}")
+            Timber.e("$HTTP_EXCEPTION: ${error.message}")
+            return ViewState.Error(error)
+        }
+        return result
+    }
+
+    override suspend fun createTask(task: TaskResponseItem): ViewState<TaskResponseItem> {
+        var result: ViewState<TaskResponseItem>
+        try {
+            val response = taskApiService.createTask(task)
+            response.let { result = ViewState.Success(it) }
+        } catch (error: HttpException) {
+            Timber.e("$HTTP_EXCEPTION: ${error.message}")
+            return ViewState.Error(error)
+        }
+        return result
+    }
+
+    override suspend fun deleteTask(id: String): ViewState<String> {
+        var result: ViewState<String>
+        try {
+            val response = taskApiService.deleteTask(id)
+            response.let { result = ViewState.Success(it) }
+        } catch (error: HttpException) {
+            Timber.e("$HTTP_EXCEPTION: ${error.message}")
+            return ViewState.Error(error)
+        }
+        return result
+    }
+
+    override suspend fun updateTask(task: TaskResponseItem): ViewState<TaskResponseItem> {
+        var result: ViewState<TaskResponseItem>
+        try {
+            val response = taskApiService.updateTaskWithId(task.id.toString(), task)
+            response.let { result = ViewState.Success(it) }
+        } catch (error: HttpException) {
+            Timber.e("$HTTP_EXCEPTION: ${error.message}")
             return ViewState.Error(error)
         }
         return result

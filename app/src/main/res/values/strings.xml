@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">get_things_done_droid</string>
+    <string name="app_name">Get Things Done</string>
     <string name="closed_tasks">Closed Tasks</string>
     <string name="open_tasks">Open Tasks</string>
     <string name="all_tasks">All Tasks</string>
@@ -20,4 +20,25 @@
     <string name="task_detail_time_interval">time interval: %s</string>
     <string name="task_detail_time_taken">time taken: %s</string>
     <string name="task_detail_priority">priority: %s</string>
+    <string name="task_detail_edit_task">Edit Task</string>
+    <string name="task_detail_delete_task">Delete Task</string>
+    <string name="create_task">Create Task</string>
+    <string name="create_task_description">Description:</string>
+    <string name="create_task_time_interval">Time Interval:</string>
+    <string name="create_task_time_taken">Time Taken:</string>
+    <string name="create_task_select_priority">Please select your priority:</string>
+    <string name="create_task_priority_low">LOW</string>
+    <string name="create_task_priority_medium">MEDIUM</string>
+    <string name="create_task_priority_high">HIGH</string>
+    <string name="create_task_set_reminder">Set reminder</string>
+    <string name="create_task_text">Create task</string>
+    <string name="delete_task_headline">Are you sure you want to delete the task?</string>
+    <string name="edit_task_created_on">Created on:</string>
+    <string name="edit_task_finished_on">Finished on:</string>
+    <string name="edit_task_is_reminder_set">Reminder set:</string>
+    <string name="edit_task_is_task_open">Task open:</string>
+    <string name="edit_task_priority">Priority:</string>
+    <string name="edit_task_started_on">Started on:</string>
+    <string name="edit_task_save_task">save task</string>
+    <string name="edit_task_time_taken">Time taken</string>
 </resources>

@@ -52,6 +52,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         observeLiveData()
 
         clickOnRetry()
+
+        binding.fabBtn.setOnClickListener {
+            val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onResume() {
@@ -70,6 +75,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     override fun onDestroyView() {
         super.onDestroyView()
         binding.retryFetchButton.setOnClickListener(null)
+        binding.fabBtn.setOnClickListener(null)
     }
 
     //From SwipeRefreshLayout

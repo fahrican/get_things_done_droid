@@ -1,10 +1,12 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
+import com.google.gson.GsonBuilder
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.TASK_API_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object TaskApiWebService {
@@ -18,11 +20,13 @@ object TaskApiWebService {
     }
 
     fun getTaskApiClient(): TaskApi {
+        val gson = GsonBuilder().setLenient().create()
         val okHttpClient = createOkHttpClient()
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(TASK_API_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create()) //important
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(TaskApi::class.java)
     }
