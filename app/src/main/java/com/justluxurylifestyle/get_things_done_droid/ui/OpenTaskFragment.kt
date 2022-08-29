@@ -4,30 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
+import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.MyTask
+import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.justluxurylifestyle.get_things_done_droid.R
-import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -53,7 +53,10 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         controller.deleteItem(viewHolder.absoluteAdapterPosition)
                     }
                     ItemTouchHelper.RIGHT -> {
-                        Toast.makeText(requireContext(), "swipe right", Toast.LENGTH_SHORT).show()
+                        val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
+                        myTask.task?.let { task ->
+                            navigateToTaskDetailScreen(task)
+                        }
                     }
                 }
             }
@@ -143,11 +146,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     response.data.let { tasks ->
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
-                            myTask.onClick = View.OnClickListener {
-                                val action =
-                                    OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
-                                findNavController().navigate(action)
-                            }
+                            myTask.onClick =
+                                View.OnClickListener { navigateToTaskDetailScreen(task) }
                             this.myTasks.add(myTask)
                         }
                         this.controller.setTasks(myTasks)
@@ -161,6 +161,12 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                 }
             }
         }
+    }
+
+    private fun navigateToTaskDetailScreen(task: TaskResponseItem) {
+        val action =
+            OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
+        findNavController().navigate(action)
     }
 
     private fun showEmptyScreen() {

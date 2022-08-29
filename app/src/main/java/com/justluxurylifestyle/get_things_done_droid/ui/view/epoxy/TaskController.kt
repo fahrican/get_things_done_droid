@@ -35,4 +35,6 @@ class TaskController(private val cardBgColor: Int) : EpoxyController() {
         myTasks.add(index, myTask)
         requestModelBuild()
     }
+
+    fun getTaskById(index: Int): MyTask = myTasks[index]
 }
