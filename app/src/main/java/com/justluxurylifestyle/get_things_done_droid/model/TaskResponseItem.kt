@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TaskResponseItem(
-    val id: Int? = null,
+    val id: Long? = null,
     val description: String? = null,
     val createdOn: String? = null,
     val finishedOn: String? = null,
