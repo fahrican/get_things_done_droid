@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">get_things_done_droid</string>
+    <string name="app_name">Get Things Done</string>
     <string name="closed_tasks">Closed Tasks</string>
     <string name="open_tasks">Open Tasks</string>
     <string name="all_tasks">All Tasks</string>
