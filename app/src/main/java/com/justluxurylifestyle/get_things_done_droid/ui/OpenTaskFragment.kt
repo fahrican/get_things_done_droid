@@ -59,6 +59,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                                 getString(R.string.delete_task_headline),
                                 viewModel
                             )
+                            controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
                         }
                         ItemTouchHelper.RIGHT -> {
                             navigateToTaskDetailScreen(task)
