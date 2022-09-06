@@ -62,7 +62,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                             controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
                         }
                         ItemTouchHelper.RIGHT -> {
-                            navigateToTaskDetailScreen(task)
+                            navigateToTaskEditScreen(task)
                         }
                     }
                 }
@@ -154,7 +154,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
                             myTask.onClick =
-                                View.OnClickListener { navigateToTaskDetailScreen(task) }
+                                View.OnClickListener { navigateToTaskEditScreen(task) }
                             this.myTasks.add(myTask)
                         }
                         this.controller.setTasks(myTasks)
@@ -170,9 +170,8 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         }
     }
 
-    private fun navigateToTaskDetailScreen(task: TaskResponseItem) {
-        val action =
-            OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
+    private fun navigateToTaskEditScreen(task: TaskResponseItem) {
+        val action = OpenTaskFragmentDirections.actionOpenTaskToEdittask(task)
         findNavController().navigate(action)
     }
 

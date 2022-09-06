@@ -35,6 +35,12 @@
             app:destination="@+id/create_task"
             app:popUpTo="@id/open_tasks"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_open_task_to_edittask"
+            app:destination="@+id/edit_task"
+            app:popUpTo="@id/open_tasks"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
