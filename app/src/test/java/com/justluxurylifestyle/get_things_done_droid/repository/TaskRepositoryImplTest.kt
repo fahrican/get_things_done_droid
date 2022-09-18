@@ -19,7 +19,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 @ExperimentalCoroutinesApi
@@ -39,7 +40,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     override fun setUp() {
         taskApi = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create()) //important
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
             .create(TaskApi::class.java)
 
@@ -60,7 +62,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
                 objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
-       assertEquals(null, actualResult)
+        assertEquals(null, actualResult)
     }
 
     @Test
@@ -71,6 +73,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
 
         val newList = gson.fromJson<List<TaskResponseItem>>(expectedResponse, listType)
+
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))

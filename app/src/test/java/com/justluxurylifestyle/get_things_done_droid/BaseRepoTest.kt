@@ -1,7 +1,8 @@
 package com.justluxurylifestyle.get_things_done_droid
 
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import io.mockk.MockKAnnotations
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -27,9 +28,8 @@ abstract class BaseRepoTest {
 
     inline fun <reified T : Any> getDataClass(jsonFile: String): T? {
         val reader = FileReader(jsonFile)
-        val moshi = Moshi.Builder().build()
-        val jsonAdapter: JsonAdapter<T> = moshi.adapter(T::class.java)
-        return jsonAdapter.fromJson(reader.content)
+        val gson = GsonBuilder().create()
+        return gson.fromJson(reader.content, T::class.java)
     }
 
     inline fun <reified T : Any> getJsonString(jsonFile: String): String {
