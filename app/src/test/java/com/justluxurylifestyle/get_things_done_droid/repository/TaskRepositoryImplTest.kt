@@ -68,12 +68,10 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     @Test
     fun `given api when fetching bitcoin articles then check success response`() {
         // given
-        val expectedResponse = getJsonString<List<TaskResponseItem>>(SUCCESS_RESPONSE)
+        val jsonArray = getJsonString<List<TaskResponseItem>>(SUCCESS_RESPONSE)
         val gson = GsonBuilder().create()
         val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
-
-        val newList = gson.fromJson<List<TaskResponseItem>>(expectedResponse, listType)
-
+        val expectedItems = gson.fromJson<List<TaskResponseItem>>(jsonArray, listType)
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
@@ -85,6 +83,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
                 objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
-        assertEquals(newList, actualResult)
+        assertEquals(expectedItems, actualResult)
     }
 }
