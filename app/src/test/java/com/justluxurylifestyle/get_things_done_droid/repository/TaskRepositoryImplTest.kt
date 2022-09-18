@@ -1,5 +1,7 @@
 package com.justluxurylifestyle.get_things_done_droid.repository
 
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.justluxurylifestyle.get_things_done_droid.BaseRepoTest
 import com.justluxurylifestyle.get_things_done_droid.FileReader
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
@@ -8,16 +10,17 @@ import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.ALL_TASKS
 import io.mockk.coEvery
 import io.mockk.mockk
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
@@ -52,10 +55,33 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
         var actualResult: List<TaskResponseItem>?
         runBlocking {
-            coEvery { objectUnderTest.getTasks(ALL_TASKS)} returns ViewState.Loading
-            val actualResponse: ViewState<List<TaskResponseItem>> = objectUnderTest.getTasks(ALL_TASKS)
+            coEvery { objectUnderTest.getTasks(ALL_TASKS) } returns ViewState.Loading
+            val actualResponse: ViewState<List<TaskResponseItem>> =
+                objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
-        Assert.assertEquals(null, actualResult)
+       assertEquals(null, actualResult)
+    }
+
+    @Test
+    fun `given api when fetching bitcoin articles then check success response`() {
+        // given
+        val expectedResponse = getJsonString<List<TaskResponseItem>>(SUCCESS_RESPONSE)
+        val gson = GsonBuilder().create()
+        val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
+
+        val newList = gson.fromJson<List<TaskResponseItem>>(expectedResponse, listType)
+
+        mockWebServer.apply {
+            enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
+        }
+
+        var actualResult: List<TaskResponseItem>?
+        runBlocking {
+            val actualResponse: ViewState<List<TaskResponseItem>> =
+                objectUnderTest.getTasks(ALL_TASKS)
+            actualResult = actualResponse.extractData
+        }
+        assertEquals(newList, actualResult)
     }
 }

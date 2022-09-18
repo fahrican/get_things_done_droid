@@ -31,4 +31,9 @@ abstract class BaseRepoTest {
         val jsonAdapter: JsonAdapter<T> = moshi.adapter(T::class.java)
         return jsonAdapter.fromJson(reader.content)
     }
+
+    inline fun <reified T : Any> getJsonString(jsonFile: String): String {
+        val reader = FileReader(jsonFile)
+        return reader.content
+    }
 }
