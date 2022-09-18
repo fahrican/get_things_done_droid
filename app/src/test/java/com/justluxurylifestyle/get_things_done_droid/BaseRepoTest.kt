@@ -1,8 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid
 
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import io.mockk.MockKAnnotations
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
