@@ -1,0 +1,26 @@
+[
+  {
+    "id": 815,
+    "description": "Finish ToDo App",
+    "isReminderSet": false,
+    "isTaskOpen": true,
+    "createdOn": "2022-09-09T10:53:57",
+    "startedOn": null,
+    "finishedOn": null,
+    "timeInterval": "3 days",
+    "timeTaken": 124,
+    "priority": "MEDIUM"
+  },
+  {
+    "id": 825,
+    "description": "Watch Arabic lesson from Monday",
+    "isReminderSet": false,
+    "isTaskOpen": true,
+    "createdOn": "2022-09-09T10:54:44",
+    "startedOn": null,
+    "finishedOn": null,
+    "timeInterval": "50 minutes",
+    "timeTaken": 45,
+    "priority": "HIGH"
+  }
+]
