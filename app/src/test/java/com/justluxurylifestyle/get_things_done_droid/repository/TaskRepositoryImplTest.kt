@@ -66,7 +66,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `given api when fetching bitcoin articles then check success response`() {
+    fun `given api when fetching all tasks then check success response`() {
         // given
         val jsonArray = getJsonString<List<TaskResponseItem>>(SUCCESS_RESPONSE)
         val gson = GsonBuilder().create()
@@ -75,6 +75,27 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
+        }
+
+        var actualResult: List<TaskResponseItem>?
+        runBlocking {
+            val actualResponse: ViewState<List<TaskResponseItem>> =
+                objectUnderTest.getTasks(ALL_TASKS)
+            actualResult = actualResponse.extractData
+        }
+        assertEquals(expectedItems, actualResult)
+    }
+
+    @Test
+    fun `given api when fetching all tasks then get error response`() {
+        // given
+        val expectedResponse = getJsonString<List<TaskResponseItem>>(ERROR_RESPONSE)
+        val gson = GsonBuilder().create()
+        val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
+        val expectedItems = gson.fromJson<List<TaskResponseItem>>(expectedResponse, listType)
+
+        mockWebServer.apply {
+            enqueue(MockResponse().setBody(FileReader(ERROR_RESPONSE).content))
         }
 
         var actualResult: List<TaskResponseItem>?
