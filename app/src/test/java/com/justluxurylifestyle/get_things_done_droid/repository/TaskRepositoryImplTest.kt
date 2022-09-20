@@ -1,5 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.repository
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.justluxurylifestyle.get_things_done_droid.BaseRepoTest
@@ -31,8 +32,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     companion object {
-        private val SUCCESS_RESPONSE = "successful_task_response.json"
-        private val ERROR_RESPONSE = "error_task_response.json"
+        private const val SUCCESS_RESPONSE = "successful_task_response.json"
+        private const val ERROR_RESPONSE = "error_task_response.json"
+        private const val TASK_POST_REQUEST = "post_request_task.json"
     }
 
     private lateinit var objectUnderTest: TaskRepositoryImpl
@@ -126,6 +128,23 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
                 expectedValue.exception.message,
                 (apiResponse as ViewState.Error).exception.message
             )
+        }
+    }
+
+    @Test
+    fun `when post request send check for successful creation`() {
+        val json = getJsonString<TaskResponseItem>(TASK_POST_REQUEST)
+        val gson = Gson()
+        val expectedTask: TaskResponseItem = gson.fromJson(json, TaskResponseItem::class.java)
+
+        mockWebServer.apply {
+            enqueue(MockResponse().setBody(FileReader(TASK_POST_REQUEST).content))
+        }
+
+        runBlocking {
+            val taskReq = TaskResponseItem()
+            val actualTask = objectUnderTest.createTask(taskReq).extractData
+            assertEquals(expectedTask, actualTask)
         }
     }
 }
