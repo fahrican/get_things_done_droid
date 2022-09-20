@@ -1,5 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
+import com.google.gson.GsonBuilder
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.TASK_API_BASE_URL
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -11,7 +12,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 
@@ -55,7 +57,8 @@ internal class TaskApiWebServiceTest {
         val actualClient = Retrofit.Builder()
             .client(createOkHttpClient())
             .baseUrl(TASK_API_BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create()) //important
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
             .create(TaskApi::class.java)
 

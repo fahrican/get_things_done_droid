@@ -1,5 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.repository
 
+import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
     private val taskApiService: TaskApi
-) : TaskRepository {
+) : BaseRepository(), TaskRepository {
 
     companion object {
         const val HTTP_EXCEPTION = "HttpException"
@@ -23,10 +24,10 @@ class TaskRepositoryImpl @Inject constructor(
                 TaskApi.CLOSED_TASKS -> taskApiService.getTasks(TaskApi.CLOSED_TASKS)
                 else -> taskApiService.getTasks(TaskApi.ALL_TASKS)
             }
-            response.let { result = ViewState.Success(it) }
+            response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
-            return ViewState.Error(error)
+            return handleException(error.code())
         }
         return result
     }
