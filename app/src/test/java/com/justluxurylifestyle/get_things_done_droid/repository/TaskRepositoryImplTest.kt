@@ -35,6 +35,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         private const val SUCCESS_RESPONSE = "successful_task_response.json"
         private const val ERROR_RESPONSE = "error_task_response.json"
         private const val TASK_POST_REQUEST = "post_request_task.json"
+        private const val TASK_DELETE_REQUEST = "delete_request_task.json"
     }
 
     private lateinit var objectUnderTest: TaskRepositoryImpl
@@ -132,7 +133,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when post request send check for successful creation`() {
+    fun `when post task request send check for successful creation`() {
         val json = getJsonString<TaskResponseItem>(TASK_POST_REQUEST)
         val gson = Gson()
         val expectedTask: TaskResponseItem = gson.fromJson(json, TaskResponseItem::class.java)
@@ -145,6 +146,21 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             val taskReq = TaskResponseItem()
             val actualTask = objectUnderTest.createTask(taskReq).extractData
             assertEquals(expectedTask, actualTask)
+        }
+    }
+
+    @Test
+    fun `when delete task request check for successful removal`() {
+        val expectedMessage = "Task with id: 15 was successful deleted"
+
+        mockWebServer.apply {
+            enqueue(MockResponse().setBody(FileReader(TASK_DELETE_REQUEST).content))
+        }
+
+        runBlocking {
+            val actualMessage = objectUnderTest.deleteTask("15").extractData
+
+            assertEquals(expectedMessage, actualMessage)
         }
     }
 }
