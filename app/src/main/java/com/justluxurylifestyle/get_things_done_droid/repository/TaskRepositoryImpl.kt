@@ -36,10 +36,10 @@ class TaskRepositoryImpl @Inject constructor(
         var result: ViewState<TaskResponseItem>
         try {
             val response = taskApiService.createTask(task)
-            response.let { result = ViewState.Success(it) }
+            response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
-            return ViewState.Error(error)
+            return handleException(error.code())
         }
         return result
     }
@@ -48,10 +48,10 @@ class TaskRepositoryImpl @Inject constructor(
         var result: ViewState<String>
         try {
             val response = taskApiService.deleteTask(id)
-            response.let { result = ViewState.Success(it) }
+            response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
-            return ViewState.Error(error)
+            return handleException(error.code())
         }
         return result
     }
@@ -60,10 +60,10 @@ class TaskRepositoryImpl @Inject constructor(
         var result: ViewState<TaskResponseItem>
         try {
             val response = taskApiService.updateTaskWithId(task.id.toString(), task)
-            response.let { result = ViewState.Success(it) }
+            response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
-            return ViewState.Error(error)
+            return handleException(error.code())
         }
         return result
     }
