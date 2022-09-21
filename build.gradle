@@ -25,7 +25,7 @@ ext {
     fragment_ktx_version = '1.2.5'
     lifecycle_extensions_version = '2.2.0'
     hilt_version = "2.41"
-    navigation_component_version = "2.5.1"
+    navigation_component_version = "2.5.2"
     timber_version = '4.7.1'
     core_testing_version = '2.1.0'
     truth_version = '1.0.1'

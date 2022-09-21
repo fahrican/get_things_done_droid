@@ -1,0 +1,12 @@
+{
+  "id": 605,
+  "description": "Buy Halawa Al Jibn",
+  "isReminderSet": false,
+  "isTaskOpen": true,
+  "createdOn": "2022-08-25T18:51:53.43022",
+  "startedOn": "2022-08-29T18:51:53.43022",
+  "finishedOn": "2022-08-30T18:51:53.43022",
+  "timeInterval": "2 days",
+  "timeTaken": 4,
+  "priority": "HIGH"
+}

@@ -36,6 +36,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         private const val ERROR_RESPONSE = "error_task_response.json"
         private const val TASK_POST_REQUEST = "post_request_task.json"
         private const val TASK_DELETE_REQUEST = "delete_request_task.json"
+        private const val TASK_PUT_REQUEST = "put_request_task.json"
     }
 
     private lateinit var objectUnderTest: TaskRepositoryImpl
@@ -161,6 +162,22 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             val actualMessage = objectUnderTest.deleteTask("15").extractData
 
             assertEquals(expectedMessage, actualMessage)
+        }
+    }
+
+    @Test
+    fun `when put task request check for successful update`() {
+        val expectedTask = getDataClass<TaskResponseItem>(TASK_PUT_REQUEST)
+
+        mockWebServer.apply {
+            enqueue(MockResponse().setBody(FileReader(TASK_PUT_REQUEST).content))
+        }
+
+        runBlocking {
+            val task = TaskResponseItem(description = "test test", startedOn = "2020.09.09")
+            val actualTask = objectUnderTest.updateTask(task).extractData
+
+            assertEquals(expectedTask, actualTask)
         }
     }
 }
