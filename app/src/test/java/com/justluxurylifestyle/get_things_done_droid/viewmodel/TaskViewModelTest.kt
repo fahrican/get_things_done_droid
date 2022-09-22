@@ -146,4 +146,49 @@ internal class TaskViewModelTest {
         }
         confirmVerified(responseObserver)
     }
+
+    @Test
+    fun `when calling delete task then return loading`() {
+        coEvery { mockRepo.deleteTask(any()) } returns ViewState.Loading
+
+        objectUnderTest.deleteTaskText.observeForever(responseObserverText)
+
+        objectUnderTest.deleteTask("15")
+
+        verify { responseObserverText.onChanged(ViewState.Loading) }
+        confirmVerified(responseObserverText)
+    }
+
+    @Test
+    fun `when calling delete task is ok then return a response successfully`() {
+        val id = "15"
+        coEvery { mockRepo.deleteTask(any()) } returns ViewState.Success(id)
+
+        objectUnderTest.deleteTaskText.observeForever(responseObserverText)
+
+        objectUnderTest.deleteTask(id)
+
+        verifyOrder {
+            responseObserverText.onChanged(ViewState.Loading)
+            responseObserverText.onChanged(ViewState.Success(id))
+        }
+        confirmVerified(responseObserverText)
+    }
+
+    @Test
+    fun `when calling delete task fails then return an error`() {
+        val exception = mockk<HttpException>()
+
+        coEvery { mockRepo.deleteTask(any()) } returns ViewState.Error(exception)
+
+        objectUnderTest.deleteTaskText.observeForever(responseObserverText)
+
+        objectUnderTest.deleteTask("15")
+
+        coVerify {
+            responseObserverText.onChanged(ViewState.Loading)
+            responseObserverText.onChanged(ViewState.Error(exception))
+        }
+        confirmVerified(responseObserverText)
+    }
 }
