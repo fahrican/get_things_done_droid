@@ -154,7 +154,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             val myTask = MyTask(task)
                             myTask.onClick =
-                                View.OnClickListener { navigateToTaskEditScreen(task) }
+                                View.OnClickListener { navigateToTaskDetailScreen(task) }
                             this.myTasks.add(myTask)
                         }
                         this.controller.setTasks(myTasks)
@@ -172,6 +172,11 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private fun navigateToTaskEditScreen(task: TaskResponseItem) {
         val action = OpenTaskFragmentDirections.actionOpenTaskToEdittask(task)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToTaskDetailScreen(task: TaskResponseItem) {
+        val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
         findNavController().navigate(action)
     }
 
