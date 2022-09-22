@@ -111,9 +111,11 @@ class TaskViewModel @Inject constructor(
                         Timber.d("success block: $response")
                     }
                     is ViewState.Error -> {
+                        _task.postValue(data)
                         Timber.d("error block: $response")
                     }
                     else -> {
+                        _task.postValue(data)
                         Timber.d("else block: $response")
                     }
                 }
