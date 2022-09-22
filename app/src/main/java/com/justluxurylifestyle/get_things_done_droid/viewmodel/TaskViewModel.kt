@@ -55,6 +55,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun createTask(task: TaskResponseItem) {
+        _task.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.createTask(task)
             response.let { data ->
@@ -75,6 +76,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun deleteTask(id: String) {
+        _deleteTaskText.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.deleteTask(id)
             response.let { data ->
@@ -95,6 +97,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun updateTask(task: TaskResponseItem) {
+        _task.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.updateTask(task)
             response.let { data ->
