@@ -11,7 +11,10 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.ALL_TASKS
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -39,12 +43,17 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         private const val TASK_PUT_REQUEST = "put_request_task.json"
     }
 
+    @RelaxedMockK
+    private lateinit var httpException: HttpException
+
     private lateinit var objectUnderTest: TaskRepositoryImpl
 
     private lateinit var taskApi: TaskApi
 
     @Before
     override fun setUp() {
+        MockKAnnotations.init(this)
+
         taskApi = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(ScalarsConverterFactory.create()) //important
@@ -115,17 +124,18 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `given response failure when fetching results then return exception`() {
+    fun `given api when fetching all tasks then return exception`() {
         mockWebServer.apply {
             enqueue(MockResponse().setResponseCode(GENERAL_ERROR_CODE))
         }
 
+        every { httpException.message } returns SOMETHING_WRONG
+
         runBlocking {
             val apiResponse = objectUnderTest.getTasks(ALL_TASKS)
-
             Assert.assertNotNull(apiResponse)
+            val expectedValue = ViewState.Error(httpException)
 
-            val expectedValue = ViewState.Error(Exception(SOMETHING_WRONG))
             assertEquals(
                 expectedValue.exception.message,
                 (apiResponse as ViewState.Error).exception.message
@@ -151,6 +161,27 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
+    fun `given post task request then return exception`() {
+        mockWebServer.apply {
+            enqueue(MockResponse().setResponseCode(GENERAL_ERROR_CODE))
+        }
+
+        every { httpException.message } returns SOMETHING_WRONG
+
+        runBlocking {
+            val taskReq = TaskResponseItem()
+            val apiResponse = objectUnderTest.createTask(taskReq)
+            Assert.assertNotNull(apiResponse)
+            val expectedValue = ViewState.Error(httpException)
+
+            assertEquals(
+                expectedValue.exception.message,
+                (apiResponse as ViewState.Error).exception.message
+            )
+        }
+    }
+
+    @Test
     fun `when delete task request check for successful removal`() {
         val expectedMessage = "Task with id: 15 was successful deleted"
 
@@ -160,8 +191,27 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
         runBlocking {
             val actualMessage = objectUnderTest.deleteTask("15").extractData
-
             assertEquals(expectedMessage, actualMessage)
+        }
+    }
+
+    @Test
+    fun `given delete task request then return exception`() {
+        mockWebServer.apply {
+            enqueue(MockResponse().setResponseCode(GENERAL_ERROR_CODE))
+        }
+
+        every { httpException.message } returns SOMETHING_WRONG
+
+        runBlocking {
+            val apiResponse = objectUnderTest.deleteTask("15")
+            Assert.assertNotNull(apiResponse)
+            val expectedValue = ViewState.Error(httpException)
+
+            assertEquals(
+                expectedValue.exception.message,
+                (apiResponse as ViewState.Error).exception.message
+            )
         }
     }
 
@@ -176,8 +226,28 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val task = TaskResponseItem(description = "test test", startedOn = "2020.09.09")
             val actualTask = objectUnderTest.updateTask(task).extractData
-
             assertEquals(expectedTask, actualTask)
+        }
+    }
+
+    @Test
+    fun `given put task request then return exception`() {
+        mockWebServer.apply {
+            enqueue(MockResponse().setResponseCode(GENERAL_ERROR_CODE))
+        }
+
+        every { httpException.message } returns SOMETHING_WRONG
+
+        runBlocking {
+            val task = TaskResponseItem(description = "test test", startedOn = "2020.09.09")
+            val apiResponse = objectUnderTest.updateTask(task)
+            Assert.assertNotNull(apiResponse)
+            val expectedValue = ViewState.Error(httpException)
+
+            assertEquals(
+                expectedValue.exception.message,
+                (apiResponse as ViewState.Error).exception.message
+            )
         }
     }
 }
