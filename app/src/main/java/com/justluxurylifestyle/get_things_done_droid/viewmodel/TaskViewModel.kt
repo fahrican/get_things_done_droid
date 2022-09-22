@@ -88,9 +88,11 @@ class TaskViewModel @Inject constructor(
                         Timber.d("deleteTask success block: $response")
                     }
                     is ViewState.Error -> {
+                        _deleteTaskText.postValue(data)
                         Timber.d("deleteTask error block: $response")
                     }
                     else -> {
+                        _deleteTaskText.postValue(data)
                         Timber.d("deleteTask else block: $response")
                     }
                 }
