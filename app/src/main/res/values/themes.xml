@@ -21,4 +21,8 @@
     <style name="Button.Delete" parent="ShapeAppearanceOverlay.Material3.Button">
         <item name="backgroundTint">@color/red_dark</item>
     </style>
+
+    <style name="DefaultBackground">
+        <item name="background">@color/white</item>
+    </style>
 </resources>

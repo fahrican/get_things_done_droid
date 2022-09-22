@@ -24,9 +24,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/task_card"
+            style="@style/DefaultBackground"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/task_priority_and_reminder"
