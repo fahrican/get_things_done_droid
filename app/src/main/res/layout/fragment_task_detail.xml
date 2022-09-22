@@ -12,7 +12,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="24dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,11 +21,11 @@
 
             <TextView
                 android:id="@+id/task_id"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_id(task.id)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="id: 134" />
@@ -41,11 +42,11 @@
 
             <TextView
                 android:id="@+id/task_description"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_description(task.description)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_id_line"
                 tools:text="description: Feed the cat" />
@@ -62,11 +63,11 @@
 
             <TextView
                 android:id="@+id/task_reminder_set"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_reminder_set(task.isReminderSet)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_description_line"
                 tools:text="isReminderSet: Feed the cat" />
@@ -83,11 +84,11 @@
 
             <TextView
                 android:id="@+id/task_task_open"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_task_open(task.isTaskOpen)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_reminder_set_line"
                 tools:text="isTaskOpen: true" />
@@ -104,11 +105,11 @@
 
             <TextView
                 android:id="@+id/task_created_on"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_created_on(task.createdOn)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_task_open_line"
                 tools:text="createdOn: 2022-07-28T19:12:05" />
@@ -125,11 +126,11 @@
 
             <TextView
                 android:id="@+id/task_started_on"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_started_on(task.startedOn)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_created_on_line"
                 tools:text="startedOn: 2022-07-28T19:12:05" />
@@ -146,11 +147,11 @@
 
             <TextView
                 android:id="@+id/task_finished_on"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_finished_on(task.finishedOn)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_started_on_line"
                 tools:text="finishedOn: 2022-07-28T19:12:05" />
@@ -167,11 +168,11 @@
 
             <TextView
                 android:id="@+id/task_time_interval"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_time_interval(task.timeInterval)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_finished_on_line"
                 tools:text="timeInterval: 14days" />
@@ -188,11 +189,11 @@
 
             <TextView
                 android:id="@+id/task_time_taken"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_time_taken(task.timeTaken)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_time_interval_line"
                 tools:text="timeTaken: 15" />
@@ -209,11 +210,11 @@
 
             <TextView
                 android:id="@+id/task_priority"
+                style="@style/NightModeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@{@string/task_detail_priority(task.priority)}"
-                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_ime_taken_line"
                 tools:text="priority: HIGH" />
