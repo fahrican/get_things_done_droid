@@ -191,4 +191,51 @@ internal class TaskViewModelTest {
         }
         confirmVerified(responseObserverText)
     }
+
+    @Test
+    fun `when calling update task then return loading`() {
+        coEvery { mockRepo.updateTask(any()) } returns ViewState.Loading
+
+        objectUnderTest.task.observeForever(responseObserver)
+
+        val task = TaskResponseItem()
+        objectUnderTest.updateTask(task)
+
+        verify { responseObserver.onChanged(ViewState.Loading) }
+        confirmVerified(responseObserver)
+    }
+
+    @Test
+    fun `when calling update task is ok then return a response successfully`() {
+        val task = TaskResponseItem()
+        coEvery { mockRepo.updateTask(any()) } returns ViewState.Success(task)
+
+        objectUnderTest.task.observeForever(responseObserver)
+
+        objectUnderTest.updateTask(task)
+
+        verifyOrder {
+            responseObserver.onChanged(ViewState.Loading)
+            responseObserver.onChanged(ViewState.Success(task))
+        }
+        confirmVerified(responseObserver)
+    }
+
+    @Test
+    fun `when calling update task fails then return an error`() {
+        val exception = mockk<HttpException>()
+
+        coEvery { mockRepo.updateTask(any()) } returns ViewState.Error(exception)
+
+        objectUnderTest.task.observeForever(responseObserver)
+
+        val task = TaskResponseItem()
+        objectUnderTest.updateTask(task)
+
+        coVerify {
+            responseObserver.onChanged(ViewState.Loading)
+            responseObserver.onChanged(ViewState.Error(exception))
+        }
+        confirmVerified(responseObserver)
+    }
 }
