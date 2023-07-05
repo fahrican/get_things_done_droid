@@ -7,7 +7,7 @@
 
         <variable
             name="task"
-            type="com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem" />
+            type="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -124,7 +124,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_created_on" />
 
-            <TextView
+<!--            <TextView
                 android:id="@+id/task_started_on"
                 style="@style/NightModeText"
                 android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
                 android:text="@{@string/task_detail_finished_on(task.finishedOn)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_started_on_line"
-                tools:text="finishedOn: 2022-07-28T19:12:05" />
+                tools:text="finishedOn: 2022-07-28T19:12:05" />-->
 
             <View
                 android:id="@+id/task_finished_on_line"
@@ -164,8 +164,9 @@
                 android:background="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/task_finished_on" />
+                app:layout_constraintTop_toBottomOf="@id/task_created_on_line" />
 
+<!--
             <TextView
                 android:id="@+id/task_time_interval"
                 style="@style/NightModeText"
@@ -197,6 +198,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_time_interval_line"
                 tools:text="timeTaken: 15" />
+-->
 
             <View
                 android:id="@+id/task_ime_taken_line"
@@ -206,7 +208,7 @@
                 android:background="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/task_time_taken" />
+                app:layout_constraintTop_toBottomOf="@id/task_finished_on_line" />
 
             <TextView
                 android:id="@+id/task_priority"

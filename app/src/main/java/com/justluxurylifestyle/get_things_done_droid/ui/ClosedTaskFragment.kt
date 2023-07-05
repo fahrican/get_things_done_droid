@@ -15,8 +15,8 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.MyTask
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private val viewModel by viewModels<TaskViewModel>()
     private lateinit var controller: TaskController
-    private val myTasks = mutableListOf<MyTask>()
+    private val myTasks = mutableListOf<TaskFetchResponse>()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -80,7 +80,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun callViewModel() {
-        viewModel.fetchTasks(TaskApi.CLOSED_TASKS)
+        viewModel.fetchTasks(TaskStatus.CLOSED.toString())
     }
 
     private fun setUpSwipeRefresh() {
@@ -118,13 +118,12 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            val myTask = MyTask(task)
-                            myTask.onClick = View.OnClickListener {
+                            task.onClick = View.OnClickListener {
                                 val action =
                                     ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task)
                                 findNavController().navigate(action)
                             }
-                            this.myTasks.add(myTask)
+                            this.myTasks.add(task)
                         }
                         this.controller.setTasks(myTasks)
                     }

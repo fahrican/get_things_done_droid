@@ -8,7 +8,7 @@ import com.justluxurylifestyle.get_things_done_droid.FileReader
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository.Companion.GENERAL_ERROR_CODE
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository.Companion.SOMETHING_WRONG
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.ALL_TASKS
 import io.mockk.MockKAnnotations
@@ -71,10 +71,10 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
         }
 
-        var actualResult: List<TaskResponseItem>?
+        var actualResult: List<TaskFetchResponse>?
         runBlocking {
             coEvery { objectUnderTest.getTasks(ALL_TASKS) } returns ViewState.Loading
-            val actualResponse: ViewState<List<TaskResponseItem>> =
+            val actualResponse: ViewState<List<TaskFetchResponse>> =
                 objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
@@ -84,18 +84,18 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     @Test
     fun `given api when fetching all tasks then check success response`() {
         // given
-        val jsonArray = getJsonString<List<TaskResponseItem>>(SUCCESS_RESPONSE)
+        val jsonArray = getJsonString<List<TaskFetchResponse>>(SUCCESS_RESPONSE)
         val gson = GsonBuilder().create()
-        val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
-        val expectedItems = gson.fromJson<List<TaskResponseItem>>(jsonArray, listType)
+        val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
+        val expectedItems = gson.fromJson<List<TaskFetchResponse>>(jsonArray, listType)
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
         }
 
-        var actualResult: List<TaskResponseItem>?
+        var actualResult: List<TaskFetchResponse>?
         runBlocking {
-            val actualResponse: ViewState<List<TaskResponseItem>> =
+            val actualResponse: ViewState<List<TaskFetchResponse>> =
                 objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
@@ -105,18 +105,18 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     @Test
     fun `given api when fetching all tasks then get error response`() {
         // given
-        val expectedResponse = getJsonString<List<TaskResponseItem>>(ERROR_RESPONSE)
+        val expectedResponse = getJsonString<List<TaskFetchResponse>>(ERROR_RESPONSE)
         val gson = GsonBuilder().create()
-        val listType = object : TypeToken<ArrayList<TaskResponseItem?>?>() {}.type
-        val expectedItems = gson.fromJson<List<TaskResponseItem>>(expectedResponse, listType)
+        val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
+        val expectedItems = gson.fromJson<List<TaskFetchResponse>>(expectedResponse, listType)
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(ERROR_RESPONSE).content))
         }
 
-        var actualResult: List<TaskResponseItem>?
+        var actualResult: List<TaskFetchResponse>?
         runBlocking {
-            val actualResponse: ViewState<List<TaskResponseItem>> =
+            val actualResponse: ViewState<List<TaskFetchResponse>> =
                 objectUnderTest.getTasks(ALL_TASKS)
             actualResult = actualResponse.extractData
         }
@@ -145,16 +145,16 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when post task request send check for successful creation`() {
-        val json = getJsonString<TaskResponseItem>(TASK_POST_REQUEST)
+        val json = getJsonString<TaskFetchResponse>(TASK_POST_REQUEST)
         val gson = Gson()
-        val expectedTask: TaskResponseItem = gson.fromJson(json, TaskResponseItem::class.java)
+        val expectedTask: TaskFetchResponse = gson.fromJson(json, TaskFetchResponse::class.java)
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(TASK_POST_REQUEST).content))
         }
 
         runBlocking {
-            val taskReq = TaskResponseItem()
+            val taskReq = TaskFetchResponse()
             val actualTask = objectUnderTest.createTask(taskReq).extractData
             assertEquals(expectedTask, actualTask)
         }
@@ -169,7 +169,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         every { httpException.message } returns SOMETHING_WRONG
 
         runBlocking {
-            val taskReq = TaskResponseItem()
+            val taskReq = TaskFetchResponse()
             val apiResponse = objectUnderTest.createTask(taskReq)
             Assert.assertNotNull(apiResponse)
             val expectedValue = ViewState.Error(httpException)
@@ -217,14 +217,14 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when put task request check for successful update`() {
-        val expectedTask = getDataClass<TaskResponseItem>(TASK_PUT_REQUEST)
+        val expectedTask = getDataClass<TaskFetchResponse>(TASK_PUT_REQUEST)
 
         mockWebServer.apply {
             enqueue(MockResponse().setBody(FileReader(TASK_PUT_REQUEST).content))
         }
 
         runBlocking {
-            val task = TaskResponseItem(description = "test test", startedOn = "2020.09.09")
+            val task = TaskFetchResponse(description = "test test", startedOn = "2020.09.09")
             val actualTask = objectUnderTest.updateTask(task).extractData
             assertEquals(expectedTask, actualTask)
         }
@@ -239,7 +239,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         every { httpException.message } returns SOMETHING_WRONG
 
         runBlocking {
-            val task = TaskResponseItem(description = "test test", startedOn = "2020.09.09")
+            val task = TaskFetchResponse(description = "test test", startedOn = "2020.09.09")
             val apiResponse = objectUnderTest.updateTask(task)
             Assert.assertNotNull(apiResponse)
             val expectedValue = ViewState.Error(httpException)

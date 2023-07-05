@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,19 +20,19 @@ class TaskViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
 
-    private val _tasks = MutableLiveData<ViewState<List<TaskResponseItem>>>()
-    val tasks: LiveData<ViewState<List<TaskResponseItem>>>
+    private val _tasks = MutableLiveData<ViewState<List<TaskFetchResponse>>>()
+    val tasks: LiveData<ViewState<List<TaskFetchResponse>>>
         get() = _tasks
 
-    private val _task = MutableLiveData<ViewState<TaskResponseItem>>()
-    val task: LiveData<ViewState<TaskResponseItem>>
+    private val _task = MutableLiveData<ViewState<TaskFetchResponse>>()
+    val task: LiveData<ViewState<TaskFetchResponse>>
         get() = _task
 
-    private val _deleteTaskText = MutableLiveData<ViewState<String>>()
-    val deleteTaskText: LiveData<ViewState<String>>
+    private val _deleteTaskText = MutableLiveData<ViewState<Unit>>()
+    val deleteTaskText: LiveData<ViewState<Unit>>
         get() = _deleteTaskText
 
-    fun fetchTasks(endpoint: String) {
+    fun fetchTasks(endpoint: String?) {
         _tasks.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.getTasks(endpoint)
@@ -54,7 +54,7 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun createTask(task: TaskResponseItem) {
+    fun createTask(task: TaskFetchResponse) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.createTask(task)
@@ -100,7 +100,7 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTask(task: TaskResponseItem) {
+    fun updateTask(task: TaskFetchResponse) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.updateTask(task)

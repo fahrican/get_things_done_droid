@@ -11,13 +11,14 @@ import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -37,17 +38,13 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
         setUpTwoWayDataBinding()
         binding.editTaskBtn.setOnClickListener {
-            val task = TaskResponseItem(
+            val task = TaskFetchResponse(
                 id = args.taskItem.id,
                 description = binding.editTaskDescriptionInput.text.toString(),
-                timeInterval = binding.editTaskTimeIntervalInput.text.toString(),
-                timeTaken = Integer.parseInt(binding.editTaskTimeTakenInput.text.toString()),
                 priority = userPriority,
                 isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
-                createdOn = binding.editTaskCreatedOnInput.text.toString(),
+                createdOn = LocalDateTime.now().toString(),
                 isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
-                finishedOn = binding.editTaskFinishedOnInput.text.toString(),
-                startedOn = binding.editTaskStartedOnInput.text.toString(),
             )
             lifecycleScope.launch(Dispatchers.Main) {
                 async { viewModel.updateTask(task) }
@@ -59,7 +56,7 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
     private fun setUpTwoWayDataBinding() {
         binding.task = args.taskItem
         userPriority = args.taskItem.priority ?: Priority.LOW
-        args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
+/*        args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
         args.taskItem.isReminderSet?.let { isReminderSet ->
             binding.editTaskSetReminderCheckBox.isChecked = isReminderSet
         }
@@ -76,6 +73,6 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
                 binding.priorityHigh.isChecked = true
                 userPriority = Priority.HIGH
             }
-        }
+        }*/
     }
 }

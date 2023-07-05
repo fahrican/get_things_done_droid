@@ -1,33 +1,35 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
-import retrofit2.http.*
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface TaskApi {
     companion object {
-        const val TASK_API_BASE_URL = "https://justluxurylifestyle.com/"
-        const val OPEN_TASKS = "open-tasks"
-        const val ALL_TASKS = "all-tasks"
-        const val CLOSED_TASKS = "closed-tasks"
+        const val TASK_API_BASE_URL = "https://backend4frontend.onrender.com/"
+        const val TASK_API_TASKS_ENDPOINT = "api/v1/tasks"
+        const val TASK_API_TASK_ID_ENDPOINT = "api/v1/tasks/{id}"
         const val REQUEST_SUCCESS = "Request was successful!"
         const val REQUEST_FAILURE = "Request couldn't be processed!"
     }
 
-    @GET("api/{endpoint}")
-    suspend fun getTasks(@Path("endpoint") endpoint: String): List<TaskResponseItem>
+    @GET(TASK_API_TASKS_ENDPOINT)
+    suspend fun getTasks(@Query("status") status: String?): List<TaskFetchResponse>
 
-    @POST("api/create")
-    suspend fun createTask(@Body task: TaskResponseItem): TaskResponseItem
+    @POST(TASK_API_TASKS_ENDPOINT)
+    suspend fun createTask(@Body task: TaskFetchResponse): TaskFetchResponse
 
-    @DELETE("api/delete/{id}")
-    suspend fun deleteTask(@Path("id") id: String): String
+    @DELETE(TASK_API_TASK_ID_ENDPOINT)
+    suspend fun deleteTask(@Path("id") id: String): Unit
 
-    @PUT("api/update")
-    suspend fun updateTask(@Body task: TaskResponseItem): TaskResponseItem
-
-    @PUT("api/update/{id}")
+    @PATCH(TASK_API_TASK_ID_ENDPOINT)
     suspend fun updateTaskWithId(
         @Path("id") id: String,
-        @Body task: TaskResponseItem
-    ): TaskResponseItem
+        @Body task: TaskFetchResponse
+    ): TaskFetchResponse
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="task"
-            type="com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem" />
+            type="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -37,7 +37,7 @@
                     android:text="@{task.description}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+  <!--          <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_task_time_interval_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,24 +75,7 @@
                     android:text="@{task.timeTaken.toString()}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_created_on_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_task_created_on"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_time_taken_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_created_on_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="text"
-                    android:text="@{task.createdOn}" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_task_finished_on_layout"
@@ -113,15 +96,7 @@
                     android:text="@{task.finishedOn}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/edit_task_is_task_open_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/edit_task_is_task_open"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_finished_on_layout" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_task_started_on_layout"
@@ -143,6 +118,35 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+
+
+
+         -->
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/edit_task_is_task_open_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/edit_task_is_task_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout" />
+
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/edit_task_set_reminder_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/create_task_set_reminder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_task_is_task_open_box" />
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/create_task_priority_line"
                 android:layout_width="wrap_content"
@@ -153,7 +157,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_started_on_layout" />
+                app:layout_constraintTop_toBottomOf="@id/edit_task_set_reminder_check_box" />
 
             <RadioGroup
                 android:id="@+id/edit_task_priority_radio_group"
@@ -184,16 +188,6 @@
                     android:text="@string/create_task_priority_high" />
             </RadioGroup>
 
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/edit_task_set_reminder_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/create_task_set_reminder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_priority_radio_group" />
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/edit_task_btn"
                 android:layout_width="match_parent"
@@ -204,7 +198,7 @@
                 app:iconGravity="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_set_reminder_check_box" />
+                app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -17,9 +17,8 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.MyTask
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
@@ -37,7 +36,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private val viewModel by viewModels<TaskViewModel>()
     private lateinit var controller: TaskController
-    private val myTasks = mutableListOf<MyTask>()
+    private val myTasks = mutableListOf<TaskFetchResponse>()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -50,7 +49,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         val swipeGestures = object : SwipeGestures(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
-                myTask.task?.let { task ->
+                myTask.let { task ->
                     when (direction) {
                         ItemTouchHelper.LEFT -> {
                             displayAlertDialog(
@@ -61,6 +60,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                             )
                             controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
                         }
+
                         ItemTouchHelper.RIGHT -> {
                             navigateToTaskEditScreen(task)
                         }
@@ -114,7 +114,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun callViewModel() {
-        viewModel.fetchTasks(TaskApi.OPEN_TASKS)
+        viewModel.fetchTasks(TaskStatus.OPEN.toString())
     }
 
     private fun setUpSwipeRefresh() {
@@ -143,6 +143,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     binding.recyclerView.visibility = View.GONE
                     binding.shimmerFrame.startShimmerAnimation()
                 }
+
                 is ViewState.Success -> {
                     this.myTasks.clear()
                     if (response.data.isEmpty()) {
@@ -152,10 +153,9 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            val myTask = MyTask(task)
-                            myTask.onClick =
+                            task.onClick =
                                 View.OnClickListener { navigateToTaskDetailScreen(task) }
-                            this.myTasks.add(myTask)
+                            this.myTasks.add(task)
                         }
                         this.controller.setTasks(myTasks)
                     }
@@ -163,6 +163,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     binding.shimmerFrame.visibility = View.GONE
                     binding.swipeRefresh.isRefreshing = false
                 }
+
                 is ViewState.Error -> {
                     showEmptyScreen()
                 }
@@ -170,12 +171,12 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         }
     }
 
-    private fun navigateToTaskEditScreen(task: TaskResponseItem) {
+    private fun navigateToTaskEditScreen(task: TaskFetchResponse) {
         val action = OpenTaskFragmentDirections.actionOpenTaskToEdittask(task)
         findNavController().navigate(action)
     }
 
-    private fun navigateToTaskDetailScreen(task: TaskResponseItem) {
+    private fun navigateToTaskDetailScreen(task: TaskFetchResponse) {
         val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
         findNavController().navigate(action)
     }

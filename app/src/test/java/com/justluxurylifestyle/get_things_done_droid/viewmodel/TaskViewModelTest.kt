@@ -8,7 +8,7 @@ import org.junit.Rule
 import org.junit.rules.TestRule
 import androidx.lifecycle.Observer
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.ALL_TASKS
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import io.mockk.*
@@ -30,10 +30,10 @@ internal class TaskViewModelTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @RelaxedMockK
-    private lateinit var responseObserver: Observer<ViewState<TaskResponseItem>>
+    private lateinit var responseObserver: Observer<ViewState<TaskFetchResponse>>
 
     @RelaxedMockK
-    private lateinit var responseObservers: Observer<ViewState<List<TaskResponseItem>>>
+    private lateinit var responseObservers: Observer<ViewState<List<TaskFetchResponse>>>
 
     @RelaxedMockK
     private lateinit var responseObserverText: Observer<ViewState<String>>
@@ -70,7 +70,7 @@ internal class TaskViewModelTest {
 
     @Test
     fun `when fetching task list is ok then return a response successfully`() {
-        val expectedResponse = ArrayList<TaskResponseItem>()
+        val expectedResponse = ArrayList<TaskFetchResponse>()
 
         coEvery { mockRepo.getTasks(ALL_TASKS) } returns ViewState.Success(expectedResponse)
 
@@ -108,7 +108,7 @@ internal class TaskViewModelTest {
 
         objectUnderTest.task.observeForever(responseObserver)
 
-        objectUnderTest.createTask(TaskResponseItem())
+        objectUnderTest.createTask(TaskFetchResponse())
 
         verify { responseObserver.onChanged(ViewState.Loading) }
         confirmVerified(responseObserver)
@@ -116,7 +116,7 @@ internal class TaskViewModelTest {
 
     @Test
     fun `when calling create task is ok then return a response successfully`() {
-        val task = TaskResponseItem()
+        val task = TaskFetchResponse()
         coEvery { mockRepo.createTask(any()) } returns ViewState.Success(task)
 
         objectUnderTest.task.observeForever(responseObserver)
@@ -138,7 +138,7 @@ internal class TaskViewModelTest {
 
         objectUnderTest.task.observeForever(responseObserver)
 
-        objectUnderTest.createTask(TaskResponseItem())
+        objectUnderTest.createTask(TaskFetchResponse())
 
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
@@ -198,7 +198,7 @@ internal class TaskViewModelTest {
 
         objectUnderTest.task.observeForever(responseObserver)
 
-        val task = TaskResponseItem()
+        val task = TaskFetchResponse()
         objectUnderTest.updateTask(task)
 
         verify { responseObserver.onChanged(ViewState.Loading) }
@@ -207,7 +207,7 @@ internal class TaskViewModelTest {
 
     @Test
     fun `when calling update task is ok then return a response successfully`() {
-        val task = TaskResponseItem()
+        val task = TaskFetchResponse()
         coEvery { mockRepo.updateTask(any()) } returns ViewState.Success(task)
 
         objectUnderTest.task.observeForever(responseObserver)
@@ -229,7 +229,7 @@ internal class TaskViewModelTest {
 
         objectUnderTest.task.observeForever(responseObserver)
 
-        val task = TaskResponseItem()
+        val task = TaskFetchResponse()
         objectUnderTest.updateTask(task)
 
         coVerify {

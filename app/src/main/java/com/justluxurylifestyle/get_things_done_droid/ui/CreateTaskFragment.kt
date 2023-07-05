@@ -12,7 +12,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +42,7 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
         }
     }
 
-    private fun createTaskItem(): TaskResponseItem {
+    private fun createTaskItem(): TaskFetchResponse {
         val description = binding.createTaskDescriptionInput.text.toString()
         val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
         val timeTaken: Int = Integer.parseInt(binding.createTaskTimeTakenInput.text.toString())
@@ -59,13 +59,12 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
         } else {
             Priority.HIGH
         }
-        return TaskResponseItem(
+        return TaskFetchResponse(
+            id = 123,
             description = description,
-            timeInterval = timeInterval,
-            timeTaken = timeTaken,
             priority = priority,
             isReminderSet = isSetReminderSet,
-            createdOn = createdOn,
+            createdOn = LocalDateTime.now().toString(),
             isTaskOpen = true
         )
     }

@@ -2,7 +2,8 @@ package com.justluxurylifestyle.get_things_done_droid.repository
 
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
-import com.justluxurylifestyle.get_things_done_droid.model.TaskResponseItem
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import retrofit2.HttpException
 import timber.log.Timber
@@ -16,13 +17,13 @@ class TaskRepositoryImpl @Inject constructor(
         const val HTTP_EXCEPTION = "HttpException"
     }
 
-    override suspend fun getTasks(endpoint: String): ViewState<List<TaskResponseItem>> {
-        var result: ViewState<List<TaskResponseItem>>
+    override suspend fun getTasks(endpoint: String?): ViewState<List<TaskFetchResponse>> {
+        var result: ViewState<List<TaskFetchResponse>>
         try {
             val response = when (endpoint) {
-                TaskApi.OPEN_TASKS -> taskApiService.getTasks(TaskApi.OPEN_TASKS)
-                TaskApi.CLOSED_TASKS -> taskApiService.getTasks(TaskApi.CLOSED_TASKS)
-                else -> taskApiService.getTasks(TaskApi.ALL_TASKS)
+                TaskStatus.OPEN.toString() -> taskApiService.getTasks(TaskStatus.OPEN.toString())
+                TaskStatus.CLOSED.toString() -> taskApiService.getTasks(TaskStatus.CLOSED.toString())
+                else -> taskApiService.getTasks(null)
             }
             response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
@@ -32,8 +33,8 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun createTask(task: TaskResponseItem): ViewState<TaskResponseItem> {
-        var result: ViewState<TaskResponseItem>
+    override suspend fun createTask(task: TaskFetchResponse): ViewState<TaskFetchResponse> {
+        var result: ViewState<TaskFetchResponse>
         try {
             val response = taskApiService.createTask(task)
             response.let { result = handleSuccess(it) }
@@ -44,8 +45,8 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun deleteTask(id: String): ViewState<String> {
-        var result: ViewState<String>
+    override suspend fun deleteTask(id: String): ViewState<Unit> {
+        var result: ViewState<Unit>
         try {
             val response = taskApiService.deleteTask(id)
             response.let { result = handleSuccess(it) }
@@ -56,8 +57,8 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun updateTask(task: TaskResponseItem): ViewState<TaskResponseItem> {
-        var result: ViewState<TaskResponseItem>
+    override suspend fun updateTask(task: TaskFetchResponse): ViewState<TaskFetchResponse> {
+        var result: ViewState<TaskFetchResponse>
         try {
             val response = taskApiService.updateTaskWithId(task.id.toString(), task)
             response.let { result = handleSuccess(it) }
