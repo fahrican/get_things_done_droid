@@ -88,6 +88,13 @@
         <argument
             android:name="task_item"
             app:argType="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
+
+        <action
+            android:id="@+id/action_edit_task_to_task_detail"
+            app:destination="@+id/task_detail"
+            app:popUpTo="@id/edit_task"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 </navigation>

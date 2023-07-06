@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,14 +38,24 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
         setUpTwoWayDataBinding()
         binding.editTaskBtn.setOnClickListener {
-            val task = TaskUpdateRequest(
+            val updateRequest = TaskUpdateRequest(
                 description = binding.editTaskDescriptionInput.text.toString(),
                 priority = userPriority,
                 isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
                 isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
             )
             lifecycleScope.launch(Dispatchers.Main) {
-                async { viewModel.updateTask(args.taskItem.id.toString(), task) }
+                async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }
+                val fetchResponse = TaskFetchResponse(
+                    args.taskItem.id,
+                    description = updateRequest.description ?: args.taskItem.description,
+                    updateRequest.isReminderSet,
+                    updateRequest.isTaskOpen,
+                    args.taskItem.createdOn,
+                    updateRequest.priority
+                )
+                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(fetchResponse)
+                findNavController().navigate(action)
                 findNavController().popBackStack()
             }
         }

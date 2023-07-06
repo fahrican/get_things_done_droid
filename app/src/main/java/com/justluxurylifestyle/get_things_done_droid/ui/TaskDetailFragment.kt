@@ -24,6 +24,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModel>()
+    private lateinit var id: String
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -33,10 +34,12 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.task = args.taskItem
-        val id: String = args.taskItem.id.toString()
+        id = args.taskItem.id.toString()
 
         observeDeleteTaskLiveData()
+    }
 
+    override fun onResume() {
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(
                 id,
@@ -50,6 +53,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
             val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(args.taskItem)
             findNavController().navigate(action)
         }
+        super.onResume()
     }
 
     private fun observeDeleteTaskLiveData() {
@@ -64,6 +68,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                     ).show()
                     findNavController().popBackStack()
                 }
+
                 is ViewState.Error -> {
                     Toast.makeText(
                         requireContext(),
