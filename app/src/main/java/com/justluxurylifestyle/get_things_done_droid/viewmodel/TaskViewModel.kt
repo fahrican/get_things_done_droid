@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,10 +55,10 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun createTask(task: TaskFetchResponse) {
+    fun createTask(taskRequest: TaskCreateRequest) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.createTask(task)
+            val response = repository.createTask(taskRequest)
             response.let { data ->
                 when (data) {
                     is ViewState.Success -> {

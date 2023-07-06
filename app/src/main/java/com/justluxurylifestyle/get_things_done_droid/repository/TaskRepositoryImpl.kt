@@ -2,6 +2,7 @@ package com.justluxurylifestyle.get_things_done_droid.repository
 
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
@@ -33,10 +34,10 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun createTask(task: TaskFetchResponse): ViewState<TaskFetchResponse> {
+    override suspend fun createTask(taskRequest: TaskCreateRequest): ViewState<TaskFetchResponse> {
         var result: ViewState<TaskFetchResponse>
         try {
-            val response = taskApiService.createTask(task)
+            val response = taskApiService.createTask(taskRequest)
             response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
