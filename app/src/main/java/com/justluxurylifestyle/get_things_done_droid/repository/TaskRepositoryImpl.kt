@@ -5,6 +5,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
+import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import retrofit2.HttpException
 import timber.log.Timber
@@ -34,10 +35,10 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun createTask(taskRequest: TaskCreateRequest): ViewState<TaskFetchResponse> {
+    override suspend fun createTask(createRequest: TaskCreateRequest): ViewState<TaskFetchResponse> {
         var result: ViewState<TaskFetchResponse>
         try {
-            val response = taskApiService.createTask(taskRequest)
+            val response = taskApiService.createTask(createRequest)
             response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
@@ -58,10 +59,13 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun updateTask(task: TaskFetchResponse): ViewState<TaskFetchResponse> {
+    override suspend fun updateTask(
+        id: String,
+        updateRequest: TaskUpdateRequest
+    ): ViewState<TaskFetchResponse> {
         var result: ViewState<TaskFetchResponse>
         try {
-            val response = taskApiService.updateTaskWithId(task.id.toString(), task)
+            val response = taskApiService.updateTaskWithId(id, updateRequest)
             response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")

@@ -11,14 +11,13 @@ import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -38,16 +37,14 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
         setUpTwoWayDataBinding()
         binding.editTaskBtn.setOnClickListener {
-            val task = TaskFetchResponse(
-                id = args.taskItem.id,
+            val task = TaskUpdateRequest(
                 description = binding.editTaskDescriptionInput.text.toString(),
                 priority = userPriority,
                 isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
-                createdOn = LocalDateTime.now().toString(),
                 isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
             )
             lifecycleScope.launch(Dispatchers.Main) {
-                async { viewModel.updateTask(task) }
+                async { viewModel.updateTask(args.taskItem.id.toString(), task) }
                 findNavController().popBackStack()
             }
         }
@@ -56,7 +53,7 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
     private fun setUpTwoWayDataBinding() {
         binding.task = args.taskItem
         userPriority = args.taskItem.priority ?: Priority.LOW
-/*        args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
+        args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
         args.taskItem.isReminderSet?.let { isReminderSet ->
             binding.editTaskSetReminderCheckBox.isChecked = isReminderSet
         }
@@ -65,14 +62,16 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
                 binding.priorityLow.isChecked = true
                 userPriority = Priority.LOW
             }
+
             Priority.MEDIUM -> {
                 binding.priorityMedium.isChecked = true
                 userPriority = Priority.MEDIUM
             }
+
             else -> {
                 binding.priorityHigh.isChecked = true
                 userPriority = Priority.HIGH
             }
-        }*/
+        }
     }
 }

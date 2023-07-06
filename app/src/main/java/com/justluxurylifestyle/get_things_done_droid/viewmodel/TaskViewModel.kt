@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,10 +43,12 @@ class TaskViewModel @Inject constructor(
                     is ViewState.Success -> {
                         _tasks.postValue(data)
                     }
+
                     is ViewState.Error -> {
                         _tasks.postValue(data)
                         Timber.d("error block: $response")
                     }
+
                     else -> {
                         _tasks.postValue(data)
                         Timber.d("else block: $response")
@@ -55,20 +58,22 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun createTask(taskRequest: TaskCreateRequest) {
+    fun createTask(createRequest: TaskCreateRequest) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.createTask(taskRequest)
+            val response = repository.createTask(createRequest)
             response.let { data ->
                 when (data) {
                     is ViewState.Success -> {
                         _task.postValue(data)
                         Timber.d("success block: $response")
                     }
+
                     is ViewState.Error -> {
                         _task.postValue(data)
                         Timber.d("error block: $response")
                     }
+
                     else -> {
                         _task.postValue(data)
                         Timber.d("else block: $response")
@@ -88,10 +93,12 @@ class TaskViewModel @Inject constructor(
                         _deleteTaskText.postValue(data)
                         Timber.d("deleteTask success block: $response")
                     }
+
                     is ViewState.Error -> {
                         _deleteTaskText.postValue(data)
                         Timber.d("deleteTask error block: $response")
                     }
+
                     else -> {
                         _deleteTaskText.postValue(data)
                         Timber.d("deleteTask else block: $response")
@@ -101,20 +108,25 @@ class TaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTask(task: TaskFetchResponse) {
+    fun updateTask(
+        id: String,
+        updateRequest: TaskUpdateRequest
+    ) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.updateTask(task)
+            val response = repository.updateTask(id, updateRequest)
             response.let { data ->
                 when (data) {
                     is ViewState.Success -> {
                         _task.postValue(data)
                         Timber.d("success block: $response")
                     }
+
                     is ViewState.Error -> {
                         _task.postValue(data)
                         Timber.d("error block: $response")
                     }
+
                     else -> {
                         _task.postValue(data)
                         Timber.d("else block: $response")

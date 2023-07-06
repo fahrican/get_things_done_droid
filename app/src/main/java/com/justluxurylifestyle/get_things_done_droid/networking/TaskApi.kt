@@ -2,6 +2,7 @@ package com.justluxurylifestyle.get_things_done_droid.networking
 
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -23,7 +24,7 @@ interface TaskApi {
     suspend fun getTasks(@Query("status") status: String?): List<TaskFetchResponse>
 
     @POST(TASK_API_TASKS_ENDPOINT)
-    suspend fun createTask(@Body taskRequest: TaskCreateRequest): TaskFetchResponse
+    suspend fun createTask(@Body createRequest: TaskCreateRequest): TaskFetchResponse
 
     @DELETE(TASK_API_TASK_ID_ENDPOINT)
     suspend fun deleteTask(@Path("id") id: String): Unit
@@ -31,6 +32,6 @@ interface TaskApi {
     @PATCH(TASK_API_TASK_ID_ENDPOINT)
     suspend fun updateTaskWithId(
         @Path("id") id: String,
-        @Body task: TaskFetchResponse
+        @Body updateRequest: TaskUpdateRequest
     ): TaskFetchResponse
 }

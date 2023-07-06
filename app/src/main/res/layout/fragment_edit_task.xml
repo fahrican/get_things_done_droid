@@ -37,93 +37,93 @@
                     android:text="@{task.description}" />
             </com.google.android.material.textfield.TextInputLayout>
 
-  <!--          <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_time_interval_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/create_task_time_interval"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout">
+            <!--          <com.google.android.material.textfield.TextInputLayout
+                          android:id="@+id/edit_task_time_interval_layout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="@string/create_task_time_interval"
+                          app:endIconMode="clear_text"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_time_interval_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="text"
-                    android:text="@{task.timeInterval}" />
-            </com.google.android.material.textfield.TextInputLayout>
+                          <com.google.android.material.textfield.TextInputEditText
+                              android:id="@+id/edit_task_time_interval_input"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="16dp"
+                              android:inputType="text"
+                              android:text="@{task.timeInterval}" />
+                      </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_time_taken_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_task_time_taken"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_time_interval_layout">
+                      <com.google.android.material.textfield.TextInputLayout
+                          android:id="@+id/edit_task_time_taken_layout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="@string/edit_task_time_taken"
+                          app:endIconMode="clear_text"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@id/edit_task_time_interval_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_time_taken_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="number"
-                    android:text="@{task.timeTaken.toString()}" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_finished_on_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_task_finished_on"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_created_on_layout">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_finished_on_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="text"
-                    android:text="@{task.finishedOn}" />
-            </com.google.android.material.textfield.TextInputLayout>
+                          <com.google.android.material.textfield.TextInputEditText
+                              android:id="@+id/edit_task_time_taken_input"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="16dp"
+                              android:inputType="number"
+                              android:text="@{task.timeTaken.toString()}" />
+                      </com.google.android.material.textfield.TextInputLayout>
 
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_task_started_on_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_task_started_on"
-                app:endIconMode="clear_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_is_task_open_box">
+                      <com.google.android.material.textfield.TextInputLayout
+                          android:id="@+id/edit_task_finished_on_layout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="@string/edit_task_finished_on"
+                          app:endIconMode="clear_text"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@id/edit_task_created_on_layout">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_task_started_on_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="text"
-                    android:text="@{task.startedOn}" />
-            </com.google.android.material.textfield.TextInputLayout>
+                          <com.google.android.material.textfield.TextInputEditText
+                              android:id="@+id/edit_task_finished_on_input"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="16dp"
+                              android:inputType="text"
+                              android:text="@{task.finishedOn}" />
+                      </com.google.android.material.textfield.TextInputLayout>
 
 
+
+                      <com.google.android.material.textfield.TextInputLayout
+                          android:id="@+id/edit_task_started_on_layout"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:hint="@string/edit_task_started_on"
+                          app:endIconMode="clear_text"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@id/edit_task_is_task_open_box">
+
+                          <com.google.android.material.textfield.TextInputEditText
+                              android:id="@+id/edit_task_started_on_input"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="16dp"
+                              android:inputType="text"
+                              android:text="@{task.startedOn}" />
+                      </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
 
-         -->
+
+
+                   -->
 
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/edit_task_is_task_open_box"
@@ -192,13 +192,14 @@
                 android:id="@+id/edit_task_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/edit_task_save_task"
                 app:icon="@drawable/ic_save_24"
                 app:iconGravity="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout" />
+                app:layout_constraintTop_toBottomOf="@id/edit_task_priority_radio_group" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
