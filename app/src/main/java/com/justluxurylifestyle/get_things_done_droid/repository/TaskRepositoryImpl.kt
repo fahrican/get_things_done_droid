@@ -8,6 +8,7 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import retrofit2.HttpException
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class TaskRepositoryImpl @Inject constructor(
 
     companion object {
         const val HTTP_EXCEPTION = "HttpException"
+        const val SUCCESS_NO_CONTENT: Int = 204
     }
 
     override suspend fun getTasks(endpoint: String?): ViewState<List<TaskFetchResponse>> {
@@ -47,16 +49,21 @@ class TaskRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun deleteTask(id: String): ViewState<Unit> {
-        var result: ViewState<Unit>
-        try {
+    override suspend fun deleteTask(id: String): ViewState<Response<Unit>> {
+        return try {
             val response = taskApiService.deleteTask(id)
-            response.let { result = handleSuccess(it) }
+            if (response.code() == SUCCESS_NO_CONTENT) {
+                handleSuccess(response)
+            } else {
+                handleException(response.code()) // This will handle non-204 HTTP statuses
+            }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")
-            return handleException(error.code())
+            handleException(error.code())
+        } catch (error: Exception) {
+            Timber.e("Unknown exception: ${error.message}")
+            ViewState.Error(error)
         }
-        return result
     }
 
     override suspend fun updateTask(

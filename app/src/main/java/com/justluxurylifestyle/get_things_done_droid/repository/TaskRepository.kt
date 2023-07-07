@@ -4,8 +4,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
-import retrofit2.http.Body
-import retrofit2.http.Path
+import retrofit2.Response
 
 interface TaskRepository {
 
@@ -13,7 +12,7 @@ interface TaskRepository {
 
     suspend fun createTask(createRequest: TaskCreateRequest): ViewState<TaskFetchResponse>
 
-    suspend fun deleteTask(id: String): ViewState<Unit>
+    suspend fun deleteTask(id: String): ViewState<Response<Unit>>
 
     suspend fun updateTask(
         id: String,

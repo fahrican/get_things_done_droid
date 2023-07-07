@@ -12,6 +12,7 @@ import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,8 +31,8 @@ class TaskViewModel @Inject constructor(
     val task: LiveData<ViewState<TaskFetchResponse>>
         get() = _task
 
-    private val _deleteTaskText = MutableLiveData<ViewState<Unit>>()
-    val deleteTaskText: LiveData<ViewState<Unit>>
+    private val _deleteTaskText = MutableLiveData<ViewState<Response<Unit>>>()
+    val deleteTaskText: LiveData<ViewState<Response<Unit>>>
         get() = _deleteTaskText
 
     fun fetchTasks(endpoint: String?) {
