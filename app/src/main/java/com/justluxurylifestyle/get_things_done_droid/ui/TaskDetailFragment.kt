@@ -76,6 +76,14 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
+                else -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Unknown delete state",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

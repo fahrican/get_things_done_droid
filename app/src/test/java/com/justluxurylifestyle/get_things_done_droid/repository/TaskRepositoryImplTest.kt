@@ -8,9 +8,11 @@ import com.justluxurylifestyle.get_things_done_droid.FileReader
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository.Companion.GENERAL_ERROR_CODE
 import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository.Companion.SOMETHING_WRONG
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.model.Priority
+import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.ALL_TASKS
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -73,9 +75,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
         var actualResult: List<TaskFetchResponse>?
         runBlocking {
-            coEvery { objectUnderTest.getTasks(ALL_TASKS) } returns ViewState.Loading
+            coEvery { objectUnderTest.getTasks(null) } returns ViewState.Loading
             val actualResponse: ViewState<List<TaskFetchResponse>> =
-                objectUnderTest.getTasks(ALL_TASKS)
+                objectUnderTest.getTasks(null)
             actualResult = actualResponse.extractData
         }
         assertEquals(null, actualResult)
@@ -96,7 +98,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         var actualResult: List<TaskFetchResponse>?
         runBlocking {
             val actualResponse: ViewState<List<TaskFetchResponse>> =
-                objectUnderTest.getTasks(ALL_TASKS)
+                objectUnderTest.getTasks(null)
             actualResult = actualResponse.extractData
         }
         assertEquals(expectedItems, actualResult)
@@ -117,7 +119,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         var actualResult: List<TaskFetchResponse>?
         runBlocking {
             val actualResponse: ViewState<List<TaskFetchResponse>> =
-                objectUnderTest.getTasks(ALL_TASKS)
+                objectUnderTest.getTasks(null)
             actualResult = actualResponse.extractData
         }
         assertEquals(expectedItems, actualResult)
@@ -132,7 +134,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         every { httpException.message } returns SOMETHING_WRONG
 
         runBlocking {
-            val apiResponse = objectUnderTest.getTasks(ALL_TASKS)
+            val apiResponse = objectUnderTest.getTasks(null)
             Assert.assertNotNull(apiResponse)
             val expectedValue = ViewState.Error(httpException)
 
@@ -154,7 +156,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         }
 
         runBlocking {
-            val taskReq = TaskFetchResponse()
+            val taskReq = TaskCreateRequest("test data", true, true, Priority.LOW)
             val actualTask = objectUnderTest.createTask(taskReq).extractData
             assertEquals(expectedTask, actualTask)
         }
@@ -169,7 +171,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         every { httpException.message } returns SOMETHING_WRONG
 
         runBlocking {
-            val taskReq = TaskFetchResponse()
+            val taskReq = TaskCreateRequest("test data", true, true, Priority.LOW)
             val apiResponse = objectUnderTest.createTask(taskReq)
             Assert.assertNotNull(apiResponse)
             val expectedValue = ViewState.Error(httpException)
@@ -216,7 +218,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when put task request check for successful update`() {
+    fun `when patch task request check for successful update`() {
         val expectedTask = getDataClass<TaskFetchResponse>(TASK_PUT_REQUEST)
 
         mockWebServer.apply {
@@ -224,8 +226,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         }
 
         runBlocking {
-            val task = TaskFetchResponse(description = "test test", startedOn = "2020.09.09")
-            val actualTask = objectUnderTest.updateTask(task).extractData
+            val task = TaskUpdateRequest(description = "test test", null, null, null)
+            val actualTask = objectUnderTest.updateTask("2", task).extractData
             assertEquals(expectedTask, actualTask)
         }
     }
@@ -239,8 +241,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         every { httpException.message } returns SOMETHING_WRONG
 
         runBlocking {
-            val task = TaskFetchResponse(description = "test test", startedOn = "2020.09.09")
-            val apiResponse = objectUnderTest.updateTask(task)
+            val task = TaskUpdateRequest(description = "test test", null, null, null)
+            val apiResponse = objectUnderTest.updateTask("1", task)
             Assert.assertNotNull(apiResponse)
             val expectedValue = ViewState.Error(httpException)
 
