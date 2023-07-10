@@ -47,11 +47,6 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
         val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
         val timeTaken: Int = Integer.parseInt(binding.createTaskTimeTakenInput.text.toString())
         val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
-        val createdOn: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now().toString()
-        } else {
-            "2022-08-28T23:12:53"
-        }
         val priority = if (binding.priorityLow.isChecked) {
             Priority.LOW
         } else if (binding.priorityMedium.isChecked) {
