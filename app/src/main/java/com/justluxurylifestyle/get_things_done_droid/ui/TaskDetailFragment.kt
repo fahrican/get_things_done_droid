@@ -14,7 +14,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -23,7 +23,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
-    private val viewModel by viewModels<TaskViewModel>()
+    private val viewModel by viewModels<TaskViewModelImpl>()
     private lateinit var id: String
 
     override fun createBinding(

@@ -24,7 +24,7 @@ import java.util.ArrayList
 
 
 @ExperimentalCoroutinesApi
-internal class TaskViewModelTest {
+internal class TaskViewModelImplTest {
 
     @get:Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
@@ -48,7 +48,7 @@ internal class TaskViewModelTest {
     private lateinit var mockRepo: TaskRepository
 
     @InjectMockKs
-    private lateinit var objectUnderTest: TaskViewModel
+    private lateinit var objectUnderTest: TaskViewModelImpl
 
     private val createRequest = TaskCreateRequest(
         "test data",

@@ -18,7 +18,7 @@ import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBin
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
 
-    private val viewModel by viewModels<TaskViewModel>()
+    private val viewModel by viewModels<TaskViewModelImpl>()
     private lateinit var controller: TaskController
     private val myTasks = mutableListOf<TaskFetchResponse>()
 

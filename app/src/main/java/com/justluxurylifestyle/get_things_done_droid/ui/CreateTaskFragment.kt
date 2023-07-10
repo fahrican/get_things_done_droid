@@ -14,7 +14,7 @@ import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateT
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.time.LocalDateTime
@@ -24,7 +24,7 @@ import java.time.LocalDateTime
 @AndroidEntryPoint
 class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
-    private val viewModel by viewModels<TaskViewModel>()
+    private val viewModel by viewModels<TaskViewModelImpl>()
 
     override fun createBinding(
         inflater: LayoutInflater,

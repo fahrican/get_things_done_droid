@@ -13,7 +13,7 @@ import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTas
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,7 +26,7 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
     private val args: EditTaskFragmentArgs by navArgs()
     private lateinit var userPriority: Priority
-    private val viewModel by viewModels<TaskViewModel>()
+    private val viewModel by viewModels<TaskViewModelImpl>()
 
     override fun createBinding(
         inflater: LayoutInflater,

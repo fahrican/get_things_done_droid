@@ -3,12 +3,12 @@ package com.justluxurylifestyle.get_things_done_droid.ui.dialog
 import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
-import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModel
+import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun displayAlertDialog(id: String, context: Context, message: String, viewModel: TaskViewModel) {
+fun displayAlertDialog(id: String, context: Context, message: String, viewModel: TaskViewModelImpl) {
     val builder = AlertDialog.Builder(context)
     builder.setMessage(message)
         .setPositiveButton(
