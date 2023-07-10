@@ -54,7 +54,7 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
                     args.taskItem.createdOn,
                     updateRequest.priority
                 )
-                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(fetchResponse)
+                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(fetchResponse.id)
                 findNavController().navigate(action)
                 findNavController().popBackStack()
             }

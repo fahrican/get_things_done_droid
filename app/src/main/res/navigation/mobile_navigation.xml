@@ -62,15 +62,15 @@
         android:label="@string/task_detail"
         tools:layout="@layout/fragment_task_detail">
 
-        <argument
-            android:name="task_item"
-            app:argType="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
-
         <action
             android:id="@+id/action_task_detail_to_edit_task"
             app:destination="@+id/edit_task"
             app:popUpTo="@id/task_detail"
             app:popUpToInclusive="false" />
+
+        <argument
+            android:name="task_id"
+            app:argType="long" />
     </fragment>
 
     <fragment

@@ -177,7 +177,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun navigateToTaskDetailScreen(task: TaskFetchResponse) {
-        val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task)
+        val action = OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task.id)
         findNavController().navigate(action)
     }
 

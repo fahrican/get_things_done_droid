@@ -120,7 +120,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             task.onClick = View.OnClickListener {
                                 val action =
-                                    ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task)
+                                    ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
                                 findNavController().navigate(action)
                             }
                             this.myTasks.add(task)

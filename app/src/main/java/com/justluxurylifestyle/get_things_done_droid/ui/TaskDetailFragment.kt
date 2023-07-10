@@ -12,6 +12,7 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
+import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
@@ -24,6 +25,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
+    private lateinit var fetchResponse: TaskFetchResponse
     private lateinit var id: String
 
     override fun createBinding(
@@ -33,13 +35,13 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.task = args.taskItem
-        id = args.taskItem.id.toString()
+
+        viewModel.fetchTaskById(args.taskId.toString())
+
+        observeLiveData()
 
         observeDeleteTaskLiveData()
-    }
 
-    override fun onResume() {
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(
                 id,
@@ -50,16 +52,38 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         }
 
         binding.editTaskBtn.setOnClickListener {
-            val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(args.taskItem)
+            val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(fetchResponse)
             findNavController().navigate(action)
         }
-        super.onResume()
+    }
+
+    private fun observeLiveData() {
+        viewModel.task.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is ViewState.Loading -> {
+                    binding.shimmerFrame.startShimmerAnimation()
+                }
+
+                is ViewState.Success -> {
+                    response.data.let { task ->
+                        fetchResponse = task
+                        binding.task = task
+
+                    }
+                    binding.shimmerFrame.stopShimmerAnimation()
+                    binding.shimmerFrame.visibility = View.GONE
+                }
+
+                is ViewState.Error -> {
+                    showEmptyScreen()
+                }
+            }
+        }
     }
 
     private fun observeDeleteTaskLiveData() {
         viewModel.deleteTaskText.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ViewState.Loading -> {}
                 is ViewState.Success -> {
                     Toast.makeText(
                         requireContext(),
@@ -86,5 +110,11 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 }
             }
         }
+    }
+
+    private fun showEmptyScreen() {
+        binding.shimmerFrame.stopShimmerAnimation()
+        binding.shimmerFrame.visibility = View.GONE
+        binding.taskDetailErrorText.visibility = View.VISIBLE
     }
 }

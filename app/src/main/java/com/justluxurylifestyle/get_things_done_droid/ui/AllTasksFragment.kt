@@ -119,7 +119,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         tasks.forEach { task ->
                             task.onClick = View.OnClickListener {
                                 val action =
-                                    AllTasksFragmentDirections.actionAllTasksToTaskDetail(task)
+                                    AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
                                 findNavController().navigate(action)
                             }
                             this.myTasks.add(task)
