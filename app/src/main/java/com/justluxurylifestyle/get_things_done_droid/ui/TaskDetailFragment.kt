@@ -12,12 +12,14 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
+import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -25,8 +27,12 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
-    private lateinit var fetchResponse: TaskFetchResponse
-    private lateinit var id: String
+    private var fetchResponse = TaskFetchResponse(123, "new test", true, true, "2023", Priority.LOW)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.fetchTaskById(args.taskId.toString())
+    }
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -36,15 +42,17 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchTaskById(args.taskId.toString())
-
         observeLiveData()
 
         observeDeleteTaskLiveData()
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         binding.deleteTaskBtn.setOnClickListener {
             displayAlertDialog(
-                id,
+                fetchResponse.id.toString(),
                 requireContext(),
                 getString(R.string.delete_task_headline),
                 viewModel
@@ -67,9 +75,9 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 is ViewState.Success -> {
                     response.data.let { task ->
                         fetchResponse = task
-                        binding.task = task
-
+                        fetchResponse.onClick = null
                     }
+                    binding.task = fetchResponse
                     binding.shimmerFrame.stopShimmerAnimation()
                     binding.shimmerFrame.visibility = View.GONE
                 }
