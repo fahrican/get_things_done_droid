@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskViewModelImpl @Inject constructor(
     private val repository: TaskRepository
-) : ViewModel() {
+) : ViewModel(), TaskViewModel {
 
     private val _tasks = MutableLiveData<ViewState<List<TaskFetchResponse>>>()
     val tasks: LiveData<ViewState<List<TaskFetchResponse>>>
@@ -35,7 +35,7 @@ class TaskViewModelImpl @Inject constructor(
     val deleteTaskText: LiveData<ViewState<Response<Unit>>>
         get() = _deleteTaskText
 
-    fun fetchTasks(endpoint: String?) {
+    override fun fetchTasks(endpoint: String?) {
         _tasks.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.getTasks(endpoint)
@@ -59,7 +59,7 @@ class TaskViewModelImpl @Inject constructor(
         }
     }
 
-    fun createTask(createRequest: TaskCreateRequest) {
+    override fun createTask(createRequest: TaskCreateRequest) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.createTask(createRequest)
@@ -84,7 +84,7 @@ class TaskViewModelImpl @Inject constructor(
         }
     }
 
-    fun deleteTask(id: String) {
+    override fun deleteTask(id: String) {
         _deleteTaskText.postValue(ViewState.Loading)
         viewModelScope.launch {
             val response = repository.deleteTask(id)
@@ -109,7 +109,7 @@ class TaskViewModelImpl @Inject constructor(
         }
     }
 
-    fun updateTask(
+    override fun updateTask(
         id: String,
         updateRequest: TaskUpdateRequest
     ) {
