@@ -5,7 +5,9 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 
 interface TaskViewModel {
 
-    fun fetchTasks(endpoint: String?)
+    fun fetchTasks(status: String?)
+
+    fun fetchTaskById(id: String)
 
     fun createTask(createRequest: TaskCreateRequest)
 

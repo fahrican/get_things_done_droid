@@ -21,14 +21,26 @@ class TaskRepositoryImpl @Inject constructor(
         const val SUCCESS_NO_CONTENT: Int = 204
     }
 
-    override suspend fun getTasks(endpoint: String?): ViewState<List<TaskFetchResponse>> {
+    override suspend fun getTasks(status: String?): ViewState<List<TaskFetchResponse>> {
         var result: ViewState<List<TaskFetchResponse>>
         try {
-            val response = when (endpoint) {
+            val response = when (status) {
                 TaskStatus.OPEN.toString() -> taskApiService.getTasks(TaskStatus.OPEN.toString())
                 TaskStatus.CLOSED.toString() -> taskApiService.getTasks(TaskStatus.CLOSED.toString())
                 else -> taskApiService.getTasks(null)
             }
+            response.let { result = handleSuccess(it) }
+        } catch (error: HttpException) {
+            Timber.e("$HTTP_EXCEPTION: ${error.message}")
+            return handleException(error.code())
+        }
+        return result
+    }
+
+    override suspend fun getTaskById(id: String): ViewState<TaskFetchResponse> {
+        var result: ViewState<TaskFetchResponse>
+        try {
+            val response = taskApiService.getTaskById(id)
             response.let { result = handleSuccess(it) }
         } catch (error: HttpException) {
             Timber.e("$HTTP_EXCEPTION: ${error.message}")

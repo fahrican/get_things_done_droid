@@ -8,7 +8,9 @@ import retrofit2.Response
 
 interface TaskRepository {
 
-    suspend fun getTasks(endpoint: String?): ViewState<List<TaskFetchResponse>>
+    suspend fun getTasks(status: String?): ViewState<List<TaskFetchResponse>>
+
+    suspend fun getTaskById(id: String): ViewState<TaskFetchResponse>
 
     suspend fun createTask(createRequest: TaskCreateRequest): ViewState<TaskFetchResponse>
 

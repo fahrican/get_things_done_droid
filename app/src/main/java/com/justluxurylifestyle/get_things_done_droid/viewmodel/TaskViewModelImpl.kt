@@ -35,10 +35,10 @@ class TaskViewModelImpl @Inject constructor(
     val deleteTaskText: LiveData<ViewState<Response<Unit>>>
         get() = _deleteTaskText
 
-    override fun fetchTasks(endpoint: String?) {
+    override fun fetchTasks(status: String?) {
         _tasks.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.getTasks(endpoint)
+            val response = repository.getTasks(status)
             response.let { data ->
                 when (data) {
                     is ViewState.Success -> {
@@ -52,6 +52,31 @@ class TaskViewModelImpl @Inject constructor(
 
                     else -> {
                         _tasks.postValue(data)
+                        Timber.d("else block: $response")
+                    }
+                }
+            }
+        }
+    }
+
+    override fun fetchTaskById(id: String) {
+        _task.postValue(ViewState.Loading)
+        viewModelScope.launch {
+            val response = repository.getTaskById(id)
+            response.let { data ->
+                when (data) {
+                    is ViewState.Success -> {
+                        _task.postValue(data)
+                        Timber.d("success block: $response")
+                    }
+
+                    is ViewState.Error -> {
+                        _task.postValue(data)
+                        Timber.d("error block: $response")
+                    }
+
+                    else -> {
+                        _task.postValue(data)
                         Timber.d("else block: $response")
                     }
                 }

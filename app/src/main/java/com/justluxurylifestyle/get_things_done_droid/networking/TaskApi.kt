@@ -24,6 +24,9 @@ interface TaskApi {
     @GET(TASK_API_TASKS_ENDPOINT)
     suspend fun getTasks(@Query("status") status: String?): List<TaskFetchResponse>
 
+    @GET(TASK_API_TASK_ID_ENDPOINT)
+    suspend fun getTaskById(@Path("id") id: String): TaskFetchResponse
+
     @POST(TASK_API_TASKS_ENDPOINT)
     suspend fun createTask(@Body createRequest: TaskCreateRequest): TaskFetchResponse
 
