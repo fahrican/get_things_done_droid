@@ -17,6 +17,7 @@ import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialo
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -76,7 +77,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 }
 
                 else -> {
-                    showToastMessage(getString(R.string.task_detail_unknown_state))
+                    Timber.d("Delete status: ${response.extractData}")
                 }
             }
         }
