@@ -43,4 +43,6 @@
     <string name="edit_task_save_task">save task</string>
     <string name="edit_task_time_taken">Time taken</string>
     <string name="task_detail_error_text">Couldn\'t fetch tasks</string>
+    <string name="task_request_success_message">Request success</string>
+    <string name="task_request_failure_message">Request failure</string>
 </resources>

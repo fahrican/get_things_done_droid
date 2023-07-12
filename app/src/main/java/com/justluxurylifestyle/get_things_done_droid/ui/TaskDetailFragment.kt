@@ -13,7 +13,6 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +24,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
-    private lateinit var fetchResponse: TaskFetchResponse
+    private var fetchResponse: TaskFetchResponse? = null
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -41,38 +40,24 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
         observeDeleteTaskLiveData()
 
-        binding.taskDetailDeleteTaskBtn.setOnClickListener {
-            displayAlertDialog(
-                fetchResponse.id.toString(),
-                requireContext(),
-                getString(R.string.delete_task_headline),
-                viewModel
-            )
-        }
+        setUpDeleteTask()
 
-        binding.taskDetailEditTaskBtn.setOnClickListener {
-            val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(fetchResponse)
-            findNavController().navigate(action)
-        }
+        setUpEditTask()
     }
 
     private fun observeLiveData() {
         viewModel.task.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Loading -> {
-                    binding.shimmerFrame.startShimmerAnimation()
+                    showLoadingState()
                 }
 
                 is ViewState.Success -> {
-                    fetchResponse = response.data
-                    fetchResponse.onClick = null
-                    binding.task = fetchResponse
-                    binding.shimmerFrame.stopShimmerAnimation()
-                    binding.taskDetailErrorText.visibility = View.GONE
+                    handleSuccessState(response.data)
                 }
 
                 is ViewState.Error -> {
-                    showEmptyScreen()
+                    handleErrorState(response.exception.message.toString())
                 }
             }
         }
@@ -82,36 +67,62 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         viewModel.deleteTaskText.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Success -> {
-                    Toast.makeText(
-                        requireContext(),
-                        TaskApi.REQUEST_SUCCESS,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToastMessage(getString(R.string.task_request_success_message))
                     findNavController().popBackStack()
                 }
 
                 is ViewState.Error -> {
-                    Toast.makeText(
-                        requireContext(),
-                        TaskApi.REQUEST_FAILURE,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToastMessage(getString(R.string.task_request_failure_message))
                 }
 
                 else -> {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.task_detail_unknown_state),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToastMessage(getString(R.string.task_detail_unknown_state))
                 }
             }
         }
     }
 
-    private fun showEmptyScreen() {
+    private fun showLoadingState() {
+        binding.shimmerFrame.startShimmerAnimation()
+    }
+
+    private fun handleSuccessState(taskFetchResponse: TaskFetchResponse) {
+        fetchResponse = taskFetchResponse.apply { onClick = null }
+        binding.task = fetchResponse
+        binding.shimmerFrame.stopShimmerAnimation()
+        binding.taskDetailErrorText.visibility = View.GONE
+    }
+
+    private fun handleErrorState(errorMessage: String) {
         binding.shimmerFrame.stopShimmerAnimation()
         binding.shimmerFrame.visibility = View.GONE
+        binding.taskDetailErrorText.text = errorMessage
         binding.taskDetailErrorText.visibility = View.VISIBLE
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setUpEditTask() {
+        binding.taskDetailEditTaskBtn.setOnClickListener {
+            fetchResponse?.let {
+                val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(it)
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    private fun setUpDeleteTask() {
+        binding.taskDetailDeleteTaskBtn.setOnClickListener {
+            fetchResponse?.let {
+                displayAlertDialog(
+                    it.id.toString(),
+                    requireContext(),
+                    getString(R.string.delete_task_headline),
+                    viewModel
+                )
+            }
+        }
     }
 }
