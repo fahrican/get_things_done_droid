@@ -34,14 +34,14 @@
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"
                     android:text="Couldn't fetch tasks"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/task_id"
+                    android:id="@+id/task_detail_id"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,98 +52,98 @@
                     tools:text="id: 134" />
 
                 <View
-                    android:id="@+id/task_id_line"
+                    android:id="@+id/task_detail_id_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_id" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_id" />
 
                 <TextView
-                    android:id="@+id/task_description"
+                    android:id="@+id/task_detail_description"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_description(task.description)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_id_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_id_line"
                     tools:text="description: Feed the cat" />
 
                 <View
-                    android:id="@+id/task_description_line"
+                    android:id="@+id/task_detail_description_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_description" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_description" />
 
                 <TextView
-                    android:id="@+id/task_reminder_set"
+                    android:id="@+id/task_detail_reminder_set"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_reminder_set(task.isReminderSet)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_description_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_description_line"
                     tools:text="isReminderSet: Feed the cat" />
 
                 <View
-                    android:id="@+id/task_reminder_set_line"
+                    android:id="@+id/task_detail_reminder_set_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_reminder_set" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_reminder_set" />
 
                 <TextView
-                    android:id="@+id/task_task_open"
+                    android:id="@+id/task_detail_is_open"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_task_open(task.isTaskOpen)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_reminder_set_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_reminder_set_line"
                     tools:text="isTaskOpen: true" />
 
                 <View
-                    android:id="@+id/task_task_open_line"
+                    android:id="@+id/task_detail_open_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_task_open" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_is_open" />
 
                 <TextView
-                    android:id="@+id/task_created_on"
+                    android:id="@+id/task_detail_created_on"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_created_on(task.createdOn)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_task_open_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_open_line"
                     tools:text="createdOn: 2022-07-28T19:12:05" />
 
                 <View
-                    android:id="@+id/task_created_on_line"
+                    android:id="@+id/task_created_detail_on_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_created_on" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_created_on" />
 
                 <!--            <TextView
                                 android:id="@+id/task_started_on"
@@ -232,28 +232,28 @@
                                 app:layout_constraintTop_toBottomOf="@id/task_finished_on_line" /> -->
 
                 <TextView
-                    android:id="@+id/task_priority"
+                    android:id="@+id/task_detail_priority"
                     style="@style/NightModeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_priority(task.priority)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_created_on_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_created_detail_on_line"
                     tools:text="priority: HIGH" />
 
                 <View
-                    android:id="@+id/task_priority_line"
+                    android:id="@+id/task_detail_priority_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="8dp"
                     android:background="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_priority" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_priority" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_task_btn"
+                    android:id="@+id/task_detail_edit_task_btn"
                     style="@style/Button.Edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -263,10 +263,10 @@
                     app:iconGravity="textStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_priority_line" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_priority_line" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/delete_task_btn"
+                    android:id="@+id/task_detail_delete_task_btn"
                     style="@style/Button.Delete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
                     app:iconGravity="textStart"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edit_task_btn" />
+                    app:layout_constraintTop_toBottomOf="@id/task_detail_edit_task_btn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

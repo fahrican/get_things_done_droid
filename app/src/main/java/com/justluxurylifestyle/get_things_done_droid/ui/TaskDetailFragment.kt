@@ -12,14 +12,12 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
-import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -27,7 +25,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
-    private var fetchResponse = TaskFetchResponse(123, "new test", true, true, "2023", Priority.LOW)
+    private lateinit var fetchResponse: TaskFetchResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +43,8 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         observeLiveData()
 
         observeDeleteTaskLiveData()
-    }
 
-    override fun onResume() {
-        super.onResume()
-
-        binding.deleteTaskBtn.setOnClickListener {
+        binding.taskDetailDeleteTaskBtn.setOnClickListener {
             displayAlertDialog(
                 fetchResponse.id.toString(),
                 requireContext(),
@@ -59,7 +53,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
             )
         }
 
-        binding.editTaskBtn.setOnClickListener {
+        binding.taskDetailEditTaskBtn.setOnClickListener {
             val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(fetchResponse)
             findNavController().navigate(action)
         }
@@ -79,7 +73,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                     }
                     binding.task = fetchResponse
                     binding.shimmerFrame.stopShimmerAnimation()
-                    binding.shimmerFrame.visibility = View.GONE
+                    binding.taskDetailErrorText.visibility = View.GONE
                 }
 
                 is ViewState.Error -> {
