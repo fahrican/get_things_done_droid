@@ -35,8 +35,6 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.fetchTaskById(args.taskId.toString())
-
         observeLiveData()
 
         observeDeleteTaskLiveData()
@@ -44,6 +42,11 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         setUpDeleteTask()
 
         setUpEditTask()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchTaskById(args.taskId.toString())
     }
 
     private fun observeLiveData() {
