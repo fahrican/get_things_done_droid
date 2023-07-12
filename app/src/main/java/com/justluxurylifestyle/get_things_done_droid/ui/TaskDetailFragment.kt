@@ -27,11 +27,6 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     private val viewModel by viewModels<TaskViewModelImpl>()
     private lateinit var fetchResponse: TaskFetchResponse
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.fetchTaskById(args.taskId.toString())
-    }
-
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -39,6 +34,8 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.fetchTaskById(args.taskId.toString())
 
         observeLiveData()
 
@@ -67,10 +64,8 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 }
 
                 is ViewState.Success -> {
-                    response.data.let { task ->
-                        fetchResponse = task
-                        fetchResponse.onClick = null
-                    }
+                    fetchResponse = response.data
+                    fetchResponse.onClick = null
                     binding.task = fetchResponse
                     binding.shimmerFrame.stopShimmerAnimation()
                     binding.taskDetailErrorText.visibility = View.GONE
@@ -106,7 +101,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 else -> {
                     Toast.makeText(
                         requireContext(),
-                        "Unknown delete state",
+                        getString(R.string.task_detail_unknown_state),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
