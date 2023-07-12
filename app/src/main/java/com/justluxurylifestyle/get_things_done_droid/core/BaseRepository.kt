@@ -8,7 +8,6 @@ abstract class BaseRepository {
         private const val UNAUTHORIZED = "Unauthorized"
         private const val NOT_FOUND = "Not found"
         const val SOMETHING_WRONG = "Something went wrong"
-        const val TASK = "task"
 
 
         fun <T : Any> handleSuccess(data: T): ViewState<T> {
