@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,23 +38,21 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
         setUpTwoWayDataBinding()
         binding.editTaskBtn.setOnClickListener {
+            val selectedPriority = when (binding.editTaskPriorityRadioGroup.checkedRadioButtonId) {
+                R.id.priority_low -> Priority.LOW
+                R.id.priority_medium -> Priority.MEDIUM
+                R.id.priority_high -> Priority.HIGH
+                else -> Priority.LOW // You can define a default value here, for when none of the radio buttons are selected.
+            }
             val updateRequest = TaskUpdateRequest(
                 description = binding.editTaskDescriptionInput.text.toString(),
-                priority = userPriority,
+                priority = selectedPriority,
                 isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
                 isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
             )
             lifecycleScope.launch(Dispatchers.Main) {
-                async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }
-                val fetchResponse = TaskFetchResponse(
-                    args.taskItem.id,
-                    description = updateRequest.description ?: args.taskItem.description,
-                    updateRequest.isReminderSet,
-                    updateRequest.isTaskOpen,
-                    args.taskItem.createdOn,
-                    updateRequest.priority
-                )
-                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(fetchResponse.id)
+                async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }.await()
+                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(args.taskItem.id)
                 findNavController().navigate(action)
                 findNavController().popBackStack()
             }
