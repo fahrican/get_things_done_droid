@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
     private val args: EditTaskFragmentArgs by navArgs()
-    private lateinit var userPriority: Priority
     private val viewModel by viewModels<TaskViewModelImpl>()
 
     override fun createBinding(
@@ -37,49 +36,40 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTwoWayDataBinding()
-        binding.editTaskBtn.setOnClickListener {
-            val selectedPriority = when (binding.editTaskPriorityRadioGroup.checkedRadioButtonId) {
-                R.id.priority_low -> Priority.LOW
-                R.id.priority_medium -> Priority.MEDIUM
-                R.id.priority_high -> Priority.HIGH
-                else -> Priority.LOW // You can define a default value here, for when none of the radio buttons are selected.
-            }
-            val updateRequest = TaskUpdateRequest(
-                description = binding.editTaskDescriptionInput.text.toString(),
-                priority = selectedPriority,
-                isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
-                isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
-            )
-            lifecycleScope.launch(Dispatchers.Main) {
-                async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }.await()
-                val action = EditTaskFragmentDirections.actionEditTaskToTaskDetail(args.taskItem.id)
-                findNavController().navigate(action)
-                findNavController().popBackStack()
-            }
-        }
+
+        setUpTaskUpdate()
     }
 
     private fun setUpTwoWayDataBinding() {
         binding.task = args.taskItem
-        userPriority = args.taskItem.priority ?: Priority.LOW
         args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
         args.taskItem.isReminderSet?.let { isReminderSet ->
             binding.editTaskSetReminderCheckBox.isChecked = isReminderSet
         }
         when (args.taskItem.priority) {
-            Priority.LOW -> {
-                binding.priorityLow.isChecked = true
-                userPriority = Priority.LOW
-            }
+            Priority.LOW -> binding.priorityLow.isChecked = true
+            Priority.MEDIUM -> binding.priorityMedium.isChecked = true
+            else -> binding.priorityHigh.isChecked = true
+        }
+    }
 
-            Priority.MEDIUM -> {
-                binding.priorityMedium.isChecked = true
-                userPriority = Priority.MEDIUM
+    private fun setUpTaskUpdate() {
+        binding.editTaskBtn.setOnClickListener {
+            val selectedPriority = when (binding.editTaskPriorityRadioGroup.checkedRadioButtonId) {
+                R.id.priority_low -> Priority.LOW
+                R.id.priority_medium -> Priority.MEDIUM
+                R.id.priority_high -> Priority.HIGH
+                else -> Priority.LOW
             }
-
-            else -> {
-                binding.priorityHigh.isChecked = true
-                userPriority = Priority.HIGH
+            val updateRequest = TaskUpdateRequest(
+                description = binding.editTaskDescriptionInput.text.toString(),
+                isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
+                isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
+                priority = selectedPriority,
+            )
+            lifecycleScope.launch(Dispatchers.Main) {
+                async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }.await()
+                findNavController().popBackStack()
             }
         }
     }
