@@ -33,7 +33,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private val viewModel by viewModels<TaskViewModelImpl>()
     private lateinit var controller: TaskController
-    private val myTasks = mutableListOf<TaskFetchResponse>()
+    private val tasks = mutableListOf<TaskFetchResponse>()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -54,10 +54,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         observeLiveData()
 
         clickOnRetry()
-    }
 
-    override fun onResume() {
-        super.onResume()
         setUpSwipeRefresh()
     }
 
@@ -67,11 +64,6 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.clearAnimation()
         binding.swipeRefresh.clearFocus()
         binding.swipeRefresh.setOnRefreshListener(null)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.retryFetchButton.setOnClickListener(null)
     }
 
     //From SwipeRefreshLayout
@@ -87,10 +79,6 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.let {
             it.setOnRefreshListener(this)
             it.setColorSchemeResources(R.color.purple_200)
-            it.setOnRefreshListener {
-                it.isRefreshing = false
-                callViewModel()
-            }
         }
     }
 
@@ -109,8 +97,9 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     binding.recyclerView.visibility = View.GONE
                     binding.shimmerFrame.startShimmerAnimation()
                 }
+
                 is ViewState.Success -> {
-                    this.myTasks.clear()
+                    this.tasks.clear()
                     if (response.data.isEmpty()) {
                         showEmptyScreen()
                     } else {
@@ -123,14 +112,22 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                                     ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
                                 findNavController().navigate(action)
                             }
-                            this.myTasks.add(task)
+                            this.tasks.add(task)
                         }
-                        this.controller.setTasks(myTasks)
+                        this.controller.setTasks(this.tasks)
+
+                        if (controller.getNumberOfMyTasks() == 0) {
+                            Snackbar.make(
+                                requireView(),
+                                "No, tasks found",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                     binding.shimmerFrame.stopShimmerAnimation()
                     binding.shimmerFrame.visibility = View.GONE
-                    binding.swipeRefresh.isRefreshing = false
                 }
+
                 is ViewState.Error -> {
                     showEmptyScreen()
                 }
@@ -139,18 +136,22 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun showEmptyScreen() {
+        with(binding) {
+            shimmerFrame.stopShimmerAnimation()
+            shimmerFrame.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            emptyText.visibility = View.VISIBLE
+            retryFetchButton.visibility = View.VISIBLE
+        }
         controller.setTasks(emptyList())
-        binding.shimmerFrame.stopShimmerAnimation()
-        binding.shimmerFrame.visibility = View.GONE
-        binding.recyclerView.visibility = View.GONE
-        binding.emptyText.visibility = View.VISIBLE
-        binding.retryFetchButton.visibility = View.VISIBLE
     }
 
     private fun showArticlesOnScreen() {
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.emptyText.visibility = View.GONE
-        binding.retryFetchButton.visibility = View.GONE
+        with(binding) {
+            recyclerView.visibility = View.VISIBLE
+            emptyText.visibility = View.GONE
+            retryFetchButton.visibility = View.GONE
+        }
     }
 
     private fun clickOnRetry() {
@@ -158,17 +159,8 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             binding.emptyText.visibility = View.GONE
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
-            lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { callViewModel() }
-                response.await()
-                if (controller.getNumberOfMyTasks() == 0) {
-                    Snackbar.make(
-                        it,
-                        "No, tasks found",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
+
+            lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
         }
     }
 }
