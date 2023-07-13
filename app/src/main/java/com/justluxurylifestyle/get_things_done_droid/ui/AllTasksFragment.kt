@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,10 +18,7 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -53,12 +49,10 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         observeLiveData()
 
         clickOnRetry()
-    }
 
-    override fun onResume() {
-        super.onResume()
         setUpSwipeRefresh()
     }
+
 
     override fun onPause() {
         super.onPause()
@@ -68,13 +62,14 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.setOnRefreshListener(null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
         binding.retryFetchButton.setOnClickListener(null)
     }
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
+        binding.swipeRefresh.isRefreshing = false
         callViewModel()
     }
 
@@ -86,10 +81,6 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.let {
             it.setOnRefreshListener(this)
             it.setColorSchemeResources(R.color.purple_200)
-            it.setOnRefreshListener {
-                it.isRefreshing = false
-                callViewModel()
-            }
         }
     }
 
@@ -108,6 +99,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     binding.recyclerView.visibility = View.GONE
                     binding.shimmerFrame.startShimmerAnimation()
                 }
+
                 is ViewState.Success -> {
                     this.myTasks.clear()
                     if (response.data.isEmpty()) {
@@ -130,6 +122,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     binding.shimmerFrame.visibility = View.GONE
                     binding.swipeRefresh.isRefreshing = false
                 }
+
                 is ViewState.Error -> {
                     showEmptyScreen()
                 }
@@ -138,18 +131,22 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun showEmptyScreen() {
+        with(binding) {
+            shimmerFrame.stopShimmerAnimation()
+            shimmerFrame.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+            emptyText.visibility = View.VISIBLE
+            retryFetchButton.visibility = View.VISIBLE
+        }
         controller.setTasks(emptyList())
-        binding.shimmerFrame.stopShimmerAnimation()
-        binding.shimmerFrame.visibility = View.GONE
-        binding.recyclerView.visibility = View.GONE
-        binding.emptyText.visibility = View.VISIBLE
-        binding.retryFetchButton.visibility = View.VISIBLE
     }
 
     private fun showArticlesOnScreen() {
-        binding.recyclerView.visibility = View.VISIBLE
-        binding.emptyText.visibility = View.GONE
-        binding.retryFetchButton.visibility = View.GONE
+        with(binding) {
+            recyclerView.visibility = View.VISIBLE
+            emptyText.visibility = View.GONE
+            retryFetchButton.visibility = View.GONE
+        }
     }
 
     private fun clickOnRetry() {
@@ -157,16 +154,13 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
             binding.emptyText.visibility = View.GONE
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
-            lifecycleScope.launch(Dispatchers.Main) {
-                val response = async { callViewModel() }
-                response.await()
-                if (controller.getNumberOfMyTasks() == 0) {
-                    Snackbar.make(
-                        it,
-                        "No, tasks found",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+            callViewModel()
+            if (controller.getNumberOfMyTasks() == 0) {
+                Snackbar.make(
+                    it,
+                    "No, tasks found",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
