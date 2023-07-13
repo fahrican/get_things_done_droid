@@ -98,10 +98,16 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     }
 
     private fun handleErrorState(errorMessage: String) {
-        binding.shimmerFrame.stopShimmerAnimation()
-        binding.shimmerFrame.visibility = View.GONE
-        binding.taskDetailErrorText.text = errorMessage
-        binding.taskDetailErrorText.visibility = View.VISIBLE
+        with(binding) {
+            shimmerFrame.apply {
+                stopShimmerAnimation()
+                visibility = View.GONE
+            }
+            taskDetailErrorText.apply {
+                text = errorMessage
+                visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun showToastMessage(message: String) {
