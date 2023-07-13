@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,7 +19,10 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -51,8 +55,6 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         clickOnRetry()
 
         setUpSwipeRefresh()
-
-        setUpRetryButton()
     }
 
 
@@ -62,11 +64,6 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.clearAnimation()
         binding.swipeRefresh.clearFocus()
         binding.swipeRefresh.setOnRefreshListener(null)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        binding.retryFetchButton.setOnClickListener(null)
     }
 
     //From SwipeRefreshLayout
@@ -114,18 +111,18 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                                 val action =
                                     AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
                                 findNavController().navigate(action)
-                                // Check for no tasks after data is loaded.
-                                if (controller.getNumberOfMyTasks() == 0) {
-                                    Snackbar.make(
-                                        requireView(),
-                                        "No, tasks found",
-                                        Snackbar.LENGTH_SHORT
-                                    ).show()
-                                }
                             }
                             this.myTasks.add(task)
                         }
                         this.controller.setTasks(myTasks)
+
+                        if (controller.getNumberOfMyTasks() == 0) {
+                            Snackbar.make(
+                                requireView(),
+                                "No, tasks found",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
 
@@ -160,23 +157,8 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
             binding.emptyText.visibility = View.GONE
             it.visibility = View.GONE
             binding.shimmerFrame.startShimmerAnimation()
-            callViewModel()
-            if (controller.getNumberOfMyTasks() == 0) {
-                Snackbar.make(
-                    it,
-                    "No, tasks found",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
 
-    private fun setUpRetryButton() {
-        binding.retryFetchButton.setOnClickListener {
-            binding.emptyText.visibility = View.GONE
-            it.visibility = View.GONE
-            binding.shimmerFrame.startShimmerAnimation()
-            callViewModel()
+            lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
         }
     }
 }
