@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.justluxurylifestyle.get_things_done_droid"
         minSdk 26
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
