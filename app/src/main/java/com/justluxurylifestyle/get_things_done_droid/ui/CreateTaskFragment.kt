@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +12,19 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.time.LocalDateTime
 
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
+
+    companion object {
+        private const val REQUEST_SUCCESS = "Request was successful!"
+        private const val REQUEST_FAILURE = "Request couldn't be processed!"
+    }
 
     private val viewModel by viewModels<TaskViewModelImpl>()
 
@@ -68,13 +70,14 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 is ViewState.Loading -> {}
                 is ViewState.Success -> {
                     Toast.makeText(
-                        requireContext(), TaskApi.REQUEST_SUCCESS, Toast.LENGTH_SHORT
+                        requireContext(), REQUEST_SUCCESS, Toast.LENGTH_SHORT
                     ).show()
                     findNavController().popBackStack()
                 }
+
                 is ViewState.Error -> {
                     Toast.makeText(
-                        requireContext(), TaskApi.REQUEST_FAILURE, Toast.LENGTH_SHORT
+                        requireContext(), REQUEST_FAILURE, Toast.LENGTH_SHORT
                     ).show()
                 }
             }

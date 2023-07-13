@@ -1,7 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
 import com.google.gson.GsonBuilder
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.TASK_API_BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,6 +9,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object TaskApiWebService {
+
+    private const val TASK_API_BASE_URL = "https://backend4frontend.onrender.com/"
+
     private fun createOkHttpClient(): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()

@@ -14,11 +14,8 @@ import retrofit2.http.Query
 
 interface TaskApi {
     companion object {
-        const val TASK_API_BASE_URL = "https://backend4frontend.onrender.com/"
-        const val TASK_API_TASKS_ENDPOINT = "api/v1/tasks"
-        const val TASK_API_TASK_ID_ENDPOINT = "api/v1/tasks/{id}"
-        const val REQUEST_SUCCESS = "Request was successful!"
-        const val REQUEST_FAILURE = "Request couldn't be processed!"
+        private const val TASK_API_TASKS_ENDPOINT = "api/v1/tasks"
+        private const val TASK_API_TASK_ID_ENDPOINT = "api/v1/tasks/{id}"
     }
 
     @GET(TASK_API_TASKS_ENDPOINT)
