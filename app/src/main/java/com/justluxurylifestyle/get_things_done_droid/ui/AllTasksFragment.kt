@@ -51,6 +51,8 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         clickOnRetry()
 
         setUpSwipeRefresh()
+
+        setUpRetryButton()
     }
 
 
@@ -69,7 +71,6 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     //From SwipeRefreshLayout
     override fun onRefresh() {
-        binding.swipeRefresh.isRefreshing = false
         callViewModel()
     }
 
@@ -113,14 +114,19 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                                 val action =
                                     AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
                                 findNavController().navigate(action)
+                                // Check for no tasks after data is loaded.
+                                if (controller.getNumberOfMyTasks() == 0) {
+                                    Snackbar.make(
+                                        requireView(),
+                                        "No, tasks found",
+                                        Snackbar.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                             this.myTasks.add(task)
                         }
                         this.controller.setTasks(myTasks)
                     }
-                    binding.shimmerFrame.stopShimmerAnimation()
-                    binding.shimmerFrame.visibility = View.GONE
-                    binding.swipeRefresh.isRefreshing = false
                 }
 
                 is ViewState.Error -> {
@@ -162,6 +168,15 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
+        }
+    }
+
+    private fun setUpRetryButton() {
+        binding.retryFetchButton.setOnClickListener {
+            binding.emptyText.visibility = View.GONE
+            it.visibility = View.GONE
+            binding.shimmerFrame.startShimmerAnimation()
+            callViewModel()
         }
     }
 }
