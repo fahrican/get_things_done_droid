@@ -6,10 +6,10 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 
 class TaskController(private val cardBgColor: Int) : EpoxyController() {
 
-    private val myTasks = mutableListOf<TaskFetchResponse>()
+    private val tasks = mutableListOf<TaskFetchResponse>()
 
     override fun buildModels() {
-        myTasks.forEachIndexed { _, model ->
+        tasks.forEachIndexed { _, model ->
             itemTask {
                 id(model.id)
                 myTask(model)
@@ -19,22 +19,12 @@ class TaskController(private val cardBgColor: Int) : EpoxyController() {
     }
 
     fun setTasks(taskItems: List<TaskFetchResponse>) {
-        this.myTasks.clear()
-        this.myTasks.addAll(taskItems)
+        this.tasks.clear()
+        this.tasks.addAll(taskItems)
         requestModelBuild()
     }
 
-    fun getNumberOfMyTasks(): Int = myTasks.size
+    fun getNumberOfMyTasks(): Int = tasks.size
 
-    fun deleteItem(index: Int) {
-        myTasks.removeAt(index)
-        requestModelBuild()
-    }
-
-    fun addItem(index: Int, myTask: TaskFetchResponse) {
-        myTasks.add(index, myTask)
-        requestModelBuild()
-    }
-
-    fun getTaskById(index: Int): TaskFetchResponse = myTasks[index]
+    fun getTaskById(index: Int): TaskFetchResponse = tasks[index]
 }
