@@ -35,102 +35,43 @@ class TaskViewModelImpl @Inject constructor(
     val deleteTaskText: LiveData<ViewState<Response<Unit>>>
         get() = _deleteTaskText
 
+    private fun <T : Any> handleResponse(
+        liveData: MutableLiveData<ViewState<T>>,
+        response: ViewState<T>
+    ) {
+        liveData.postValue(response)
+        when (response) {
+            is ViewState.Success -> Timber.d("success block: $response")
+            is ViewState.Error -> Timber.d("error block: $response")
+            else -> Timber.d("else block: $response")
+        }
+    }
+
     override fun fetchTasks(status: String?) {
         _tasks.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.getTasks(status)
-            response.let { data ->
-                when (data) {
-                    is ViewState.Success -> {
-                        _tasks.postValue(data)
-                    }
-
-                    is ViewState.Error -> {
-                        _tasks.postValue(data)
-                        Timber.d("error block: $response")
-                    }
-
-                    else -> {
-                        _tasks.postValue(data)
-                        Timber.d("else block: $response")
-                    }
-                }
-            }
+            handleResponse(_tasks, repository.getTasks(status))
         }
     }
 
     override fun fetchTaskById(id: String) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.getTaskById(id)
-            response.let { data ->
-                when (data) {
-                    is ViewState.Success -> {
-                        _task.postValue(data)
-                        Timber.d("success block: $response")
-                    }
-
-                    is ViewState.Error -> {
-                        _task.postValue(data)
-                        Timber.d("error block: $response")
-                    }
-
-                    else -> {
-                        _task.postValue(data)
-                        Timber.d("else block: $response")
-                    }
-                }
-            }
+            handleResponse(_task, repository.getTaskById(id))
         }
     }
 
     override fun createTask(createRequest: TaskCreateRequest) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.createTask(createRequest)
-            response.let { data ->
-                when (data) {
-                    is ViewState.Success -> {
-                        _task.postValue(data)
-                        Timber.d("success block: $response")
-                    }
-
-                    is ViewState.Error -> {
-                        _task.postValue(data)
-                        Timber.d("error block: $response")
-                    }
-
-                    else -> {
-                        _task.postValue(data)
-                        Timber.d("else block: $response")
-                    }
-                }
-            }
+            handleResponse(_task, repository.createTask(createRequest))
         }
     }
 
     override fun deleteTask(id: String) {
         _deleteTaskText.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.deleteTask(id)
-            response.let { data ->
-                when (data) {
-                    is ViewState.Success -> {
-                        _deleteTaskText.postValue(data)
-                        Timber.d("deleteTask success block: $response")
-                    }
-
-                    is ViewState.Error -> {
-                        _deleteTaskText.postValue(data)
-                        Timber.d("deleteTask error block: $response")
-                    }
-
-                    else -> {
-                        _deleteTaskText.postValue(data)
-                        Timber.d("deleteTask else block: $response")
-                    }
-                }
-            }
+            handleResponse(_deleteTaskText, repository.deleteTask(id))
         }
     }
 
@@ -140,25 +81,7 @@ class TaskViewModelImpl @Inject constructor(
     ) {
         _task.postValue(ViewState.Loading)
         viewModelScope.launch {
-            val response = repository.updateTask(id, updateRequest)
-            response.let { data ->
-                when (data) {
-                    is ViewState.Success -> {
-                        _task.postValue(data)
-                        Timber.d("success block: $response")
-                    }
-
-                    is ViewState.Error -> {
-                        _task.postValue(data)
-                        Timber.d("error block: $response")
-                    }
-
-                    else -> {
-                        _task.postValue(data)
-                        Timber.d("else block: $response")
-                    }
-                }
-            }
+            handleResponse(_task, repository.updateTask(id, updateRequest))
         }
     }
 }
