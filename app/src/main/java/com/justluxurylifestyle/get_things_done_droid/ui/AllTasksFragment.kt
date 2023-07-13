@@ -32,7 +32,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private val viewModel by viewModels<TaskViewModelImpl>()
     private lateinit var controller: TaskController
-    private val myTasks = mutableListOf<TaskFetchResponse>()
+    private val tasks = mutableListOf<TaskFetchResponse>()
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -99,7 +99,7 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                 }
 
                 is ViewState.Success -> {
-                    this.myTasks.clear()
+                    this.tasks.clear()
                     if (response.data.isEmpty()) {
                         showEmptyScreen()
                     } else {
@@ -112,9 +112,9 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                                     AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
                                 findNavController().navigate(action)
                             }
-                            this.myTasks.add(task)
+                            this.tasks.add(task)
                         }
-                        this.controller.setTasks(myTasks)
+                        this.controller.setTasks(this.tasks)
 
                         if (controller.getNumberOfMyTasks() == 0) {
                             Snackbar.make(
