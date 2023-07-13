@@ -41,22 +41,28 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
         binding.createTaskBtn.setOnClickListener {
             val task = createTaskItem()
-            viewModel.createTask(task)
+            task?.let { viewModel.createTask(it) }
         }
     }
 
-    private fun createTaskItem(): TaskCreateRequest {
+    private fun createTaskItem(): TaskCreateRequest? {
         val description = binding.createTaskDescriptionInput.text.toString()
         val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
         val timeTaken: Int = Integer.parseInt(binding.createTaskTimeTakenInput.text.toString())
         val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
-        val priority = if (binding.priorityLow.isChecked) {
-            Priority.LOW
-        } else if (binding.priorityMedium.isChecked) {
-            Priority.MEDIUM
-        } else {
-            Priority.HIGH
+
+        if (description.isEmpty()) {
+            Toast.makeText(requireContext(), "Please enter a description", Toast.LENGTH_SHORT)
+                .show()
+            return null
         }
+
+        val priority = when {
+            binding.priorityLow.isChecked -> Priority.LOW
+            binding.priorityMedium.isChecked -> Priority.MEDIUM
+            else -> Priority.HIGH
+        }
+
         return TaskCreateRequest(
             description = description,
             priority = priority,
@@ -71,6 +77,7 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 is ViewState.Loading -> {
                     Timber.d("data is loading ${response.extractData}")
                 }
+
                 is ViewState.Success -> {
                     Toast.makeText(
                         requireContext(), REQUEST_SUCCESS, Toast.LENGTH_SHORT
@@ -79,8 +86,10 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 }
 
                 is ViewState.Error -> {
+                    // Assuming the ViewState.Error has a message property
+                    val errorMessage = response.exception.message ?: REQUEST_FAILURE
                     Toast.makeText(
-                        requireContext(), REQUEST_FAILURE, Toast.LENGTH_SHORT
+                        requireContext(), errorMessage, Toast.LENGTH_SHORT
                     ).show()
                 }
             }
