@@ -15,6 +15,7 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 
 @ExperimentalCoroutinesApi
@@ -67,7 +68,9 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
     private fun observeCreateTaskLiveData() {
         viewModel.task.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ViewState.Loading -> {}
+                is ViewState.Loading -> {
+                    Timber.d("data is loading ${response.extractData}")
+                }
                 is ViewState.Success -> {
                     Toast.makeText(
                         requireContext(), REQUEST_SUCCESS, Toast.LENGTH_SHORT
