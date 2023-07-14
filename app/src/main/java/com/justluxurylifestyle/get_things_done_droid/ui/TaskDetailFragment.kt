@@ -68,20 +68,13 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     }
 
     private fun observeDeleteTaskLiveData() {
-        viewModel.deleteTaskText.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ViewState.Success -> {
-                    showToastMessage(getString(R.string.task_request_success_message))
-                    findNavController().popBackStack()
-                }
-
-                is ViewState.Error -> {
-                    showToastMessage(getString(R.string.task_request_failure_message))
-                }
-
-                else -> {
-                    Timber.d("Delete status: ${response.extractData}")
-                }
+        viewModel.isDeleteSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                showToastMessage(getString(R.string.task_request_success_message))
+                findNavController().popBackStack()
+            } else {
+                showToastMessage(getString(R.string.task_request_failure_message))
+                Timber.d("Delete status: $isSuccessful")
             }
         }
     }

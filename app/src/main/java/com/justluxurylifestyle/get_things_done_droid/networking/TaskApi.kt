@@ -28,7 +28,7 @@ interface TaskApi {
     suspend fun createTask(@Body createRequest: TaskCreateRequest): TaskFetchResponse
 
     @DELETE(TASK_API_TASK_ID_ENDPOINT)
-    suspend fun deleteTask(@Path("id") id: String): Response<Unit>
+    suspend fun canDeleteTask(@Path("id") id: String): Response<Boolean>
 
     @PATCH(TASK_API_TASK_ID_ENDPOINT)
     suspend fun updateTaskWithId(

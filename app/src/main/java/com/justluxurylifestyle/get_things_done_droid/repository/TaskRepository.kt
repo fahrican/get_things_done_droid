@@ -14,7 +14,7 @@ interface TaskRepository {
 
     suspend fun createTask(createRequest: TaskCreateRequest): ViewState<TaskFetchResponse>
 
-    suspend fun deleteTask(id: String): ViewState<Response<Unit>>
+    suspend fun canDeleteTask(id: String): ViewState<Response<Boolean>>
 
     suspend fun updateTask(
         id: String,

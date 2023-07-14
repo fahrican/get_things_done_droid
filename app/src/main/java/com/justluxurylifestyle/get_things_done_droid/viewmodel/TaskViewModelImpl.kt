@@ -31,9 +31,9 @@ class TaskViewModelImpl @Inject constructor(
     val task: LiveData<ViewState<TaskFetchResponse>>
         get() = _task
 
-    private val _deleteTaskText = MutableLiveData<ViewState<Response<Unit>>>()
-    val deleteTaskText: LiveData<ViewState<Response<Unit>>>
-        get() = _deleteTaskText
+    private val _isDeleteSuccessful = MutableLiveData<Boolean>()
+    val isDeleteSuccessful: LiveData<Boolean>
+        get() = _isDeleteSuccessful
 
     private fun <T : Any> handleResponse(
         liveData: MutableLiveData<ViewState<T>>,
@@ -69,9 +69,18 @@ class TaskViewModelImpl @Inject constructor(
     }
 
     override fun deleteTask(id: String) {
-        _deleteTaskText.postValue(ViewState.Loading)
         viewModelScope.launch {
-            handleResponse(_deleteTaskText, repository.deleteTask(id))
+            when (repository.canDeleteTask(id)) {
+                is ViewState.Success -> {
+                    _isDeleteSuccessful.postValue(true)
+                }
+
+                is ViewState.Error -> {
+                    _isDeleteSuccessful.postValue(false)
+                }
+
+                else -> {Timber.d("ViewModel delete task process")}
+            }
         }
     }
 

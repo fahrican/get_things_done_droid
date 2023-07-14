@@ -32,8 +32,8 @@ class TaskRepositoryImpl @Inject constructor(
         taskApiService.createTask(createRequest)
     }
 
-    override suspend fun deleteTask(id: String) = safeApiCall {
-        val response = taskApiService.deleteTask(id)
+    override suspend fun canDeleteTask(id: String) = safeApiCall {
+        val response = taskApiService.canDeleteTask(id)
         if (response.code() != SUCCESS_NO_CONTENT) throw HttpException(response)
         response
     }

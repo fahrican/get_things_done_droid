@@ -82,7 +82,7 @@ internal class TaskViewModelImplTest {
     fun tearDown() {
         objectUnderTest.task.removeObserver(responseObserver)
         objectUnderTest.tasks.removeObserver(responseObservers)
-        objectUnderTest.deleteTaskText.removeObserver(responseObserverUnit)
+        objectUnderTest.isDeleteSuccessful.removeObserver(responseObserverUnit)
     }
 
     @Test
@@ -179,7 +179,7 @@ internal class TaskViewModelImplTest {
     fun `when calling delete task then return loading`() {
         coEvery { mockRepo.deleteTask(any()) } returns ViewState.Loading
 
-        objectUnderTest.deleteTaskText.observeForever(responseObserverUnit)
+        objectUnderTest.isDeleteSuccessful.observeForever(responseObserverUnit)
 
         objectUnderTest.deleteTask("15")
 
@@ -193,7 +193,7 @@ internal class TaskViewModelImplTest {
 
         coEvery { mockRepo.deleteTask(any()) } returns ViewState.Error(exception)
 
-        objectUnderTest.deleteTaskText.observeForever(responseObserverUnit)
+        objectUnderTest.isDeleteSuccessful.observeForever(responseObserverUnit)
 
         objectUnderTest.deleteTask("15")
 
