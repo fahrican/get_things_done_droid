@@ -52,6 +52,14 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         observeDeleteTaskLiveData()
         clickOnRetry()
         setUpSwipeRefresh()
+        setUpCreateTaskButton()
+    }
+
+    private fun setUpCreateTaskButton() {
+        binding.fabBtn.setOnClickListener {
+            val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupSwipeGestures() {
@@ -87,7 +95,6 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     private fun initializeController() {
         val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
         controller = TaskController(color)
-        binding.fabLayout.visibility = View.GONE
     }
 
     override fun onPause() {
