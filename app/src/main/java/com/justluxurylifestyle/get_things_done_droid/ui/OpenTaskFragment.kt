@@ -98,7 +98,6 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.setOnRefreshListener(null)
     }
 
-    //From SwipeRefreshLayout
     override fun onRefresh() {
         callViewModel()
     }
