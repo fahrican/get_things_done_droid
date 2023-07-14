@@ -146,6 +146,8 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private fun showArticlesOnScreen() {
         with(binding) {
+            shimmerFrame.stopShimmerAnimation()
+            shimmerFrame.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
             retryFetchButton.visibility = View.GONE
