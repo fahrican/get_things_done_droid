@@ -138,9 +138,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            task.onClick = View.OnClickListener {
-                                navigateToTaskEditScreen(task)
-                            }
+                            task.onClick = View.OnClickListener { navigateToTaskEditScreen(task) }
                             this.tasks.add(task)
                         }
                         this.controller.setTasks(this.tasks)
