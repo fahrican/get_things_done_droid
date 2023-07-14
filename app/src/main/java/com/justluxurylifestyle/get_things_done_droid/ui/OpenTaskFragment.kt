@@ -193,7 +193,7 @@ class OpenTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private fun navigateToTaskEditScreen(task: TaskFetchResponse) {
         val action =
-            OpenTaskFragmentDirections.actionOpenTaskToEdittask(task)
+            OpenTaskFragmentDirections.actionOpenTaskToEditTask(task)
         findNavController().navigate(action)
     }
 }
