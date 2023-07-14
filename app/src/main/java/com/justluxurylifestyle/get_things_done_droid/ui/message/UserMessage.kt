@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.dialog
+package com.justluxurylifestyle.get_things_done_droid.ui.message
 
 import android.app.AlertDialog
 import android.content.Context
@@ -25,4 +25,8 @@ fun displayAlertDialog(id: String, context: Context, message: String, viewModel:
         }
         create()
     }.show()
+}
+
+fun showToastMessage(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

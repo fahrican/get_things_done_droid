@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +12,8 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
+import com.justluxurylifestyle.get_things_done_droid.ui.message.displayAlertDialog
+import com.justluxurylifestyle.get_things_done_droid.ui.message.showToastMessage
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -70,10 +70,10 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     private fun observeDeleteTaskLiveData() {
         viewModel.isDeleteSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                showToastMessage(getString(R.string.task_request_success_message))
+                showToastMessage(requireContext(), getString(R.string.task_request_success_message))
                 findNavController().popBackStack()
             } else {
-                showToastMessage(getString(R.string.task_request_failure_message))
+                showToastMessage(requireContext(), getString(R.string.task_request_failure_message))
                 Timber.d("Delete status: $isSuccessful")
             }
         }
@@ -101,10 +101,6 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
                 visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun showToastMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setUpEditTask() {

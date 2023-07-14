@@ -18,12 +18,14 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
-import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
+import com.justluxurylifestyle.get_things_done_droid.ui.message.displayAlertDialog
+import com.justluxurylifestyle.get_things_done_droid.ui.message.showToastMessage
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 
 @ExperimentalCoroutinesApi
@@ -47,7 +49,8 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         initializeController()
         callViewModel()
         setUpRecyclerView()
-        observeLiveData()
+        observeTaskLiveData()
+        observeDeleteTaskLiveData()
         clickOnRetry()
         setUpSwipeRefresh()
     }
@@ -121,7 +124,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         }
     }
 
-    private fun observeLiveData() {
+    private fun observeTaskLiveData() {
         viewModel.tasks.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Loading -> {
@@ -182,6 +185,18 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
             retryFetchButton.visibility = View.GONE
             swipeRefresh.isRefreshing = false
             recyclerView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun observeDeleteTaskLiveData() {
+        viewModel.isDeleteSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                showToastMessage(requireContext(), getString(R.string.task_request_success_message))
+                callViewModel()
+            } else {
+                showToastMessage(requireContext(), getString(R.string.task_request_failure_message))
+                Timber.d("Delete status: $isSuccessful")
+            }
         }
     }
 
