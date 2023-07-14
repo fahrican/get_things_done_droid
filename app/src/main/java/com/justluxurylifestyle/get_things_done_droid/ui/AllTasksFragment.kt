@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,10 +22,7 @@ import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -93,10 +89,12 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     override fun onPause() {
         super.onPause()
-        binding.swipeRefresh.isRefreshing = false
-        binding.swipeRefresh.clearAnimation()
-        binding.swipeRefresh.clearFocus()
-        binding.swipeRefresh.setOnRefreshListener(null)
+        with(binding) {
+            swipeRefresh.isRefreshing = false
+            swipeRefresh.clearAnimation()
+            swipeRefresh.clearFocus()
+            swipeRefresh.setOnRefreshListener(null)
+        }
     }
 
     override fun onRefresh() {
@@ -137,24 +135,23 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     } else {
                         showArticlesOnScreen()
                     }
-                    response.data.let { tasks ->
-                        tasks.forEach { task ->
-                            task.onClick = View.OnClickListener {
-                                val action =
-                                    AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
-                                findNavController().navigate(action)
-                            }
-                            this.tasks.add(task)
+                    val fetchedTasks = response.data.map { task ->
+                        task.onClick = View.OnClickListener {
+                            val action =
+                                AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
+                            findNavController().navigate(action)
                         }
-                        this.controller.setTasks(this.tasks)
+                        task
+                    }
+                    this.tasks.addAll(fetchedTasks)
+                    this.controller.setTasks(this.tasks)
 
-                        if (controller.getNumberOfMyTasks() == 0) {
-                            Snackbar.make(
-                                requireView(),
-                                "No, tasks found",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
+                    if (controller.getNumberOfMyTasks() == 0) {
+                        Snackbar.make(
+                            requireView(),
+                            getString(R.string.no_tasks_found),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
@@ -188,12 +185,15 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun clickOnRetry() {
-        binding.retryFetchButton.setOnClickListener {
-            binding.emptyText.visibility = View.GONE
-            it.visibility = View.GONE
-            binding.shimmerFrame.startShimmerAnimation()
+        with(binding) {
+            retryFetchButton.setOnClickListener { button ->
+                button.visibility = View.GONE
+                emptyText.visibility = View.GONE
+                shimmerFrame.startShimmerAnimation()
+                shimmerFrame.visibility = View.VISIBLE
 
-            lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
+                callViewModel()
+            }
         }
     }
 }
