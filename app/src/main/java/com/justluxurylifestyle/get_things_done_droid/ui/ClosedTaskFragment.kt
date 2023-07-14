@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.justluxurylifestyle.get_things_done_droid.R
@@ -17,6 +19,8 @@ import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
+import com.justluxurylifestyle.get_things_done_droid.ui.dialog.displayAlertDialog
+import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,19 +47,47 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupSwipeGestures()
+        initializeController()
+        callViewModel()
+        setUpRecyclerView()
+        observeLiveData()
+        clickOnRetry()
+        setUpSwipeRefresh()
+    }
+
+    private fun setupSwipeGestures() {
+        val swipeGestures = object : SwipeGestures(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
+                myTask.let { task ->
+                    when (direction) {
+                        ItemTouchHelper.LEFT -> {
+                            displayAlertDialog(
+                                task.id.toString(),
+                                requireContext(),
+                                getString(R.string.delete_task_headline),
+                                viewModel
+                            )
+                            controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
+                        }
+
+                        ItemTouchHelper.RIGHT -> {
+                            navigateToTaskEditScreen(task)
+                        }
+                    }
+                }
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGestures)
+        touchHelper.attachToRecyclerView(binding.recyclerView)
+    }
+
+    private fun initializeController() {
         val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
         controller = TaskController(color)
         binding.fabLayout.visibility = View.GONE
-
-        callViewModel()
-
-        setUpRecyclerView()
-
-        observeLiveData()
-
-        clickOnRetry()
-
-        setUpSwipeRefresh()
     }
 
     override fun onPause() {
@@ -66,7 +98,6 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         binding.swipeRefresh.setOnRefreshListener(null)
     }
 
-    //From SwipeRefreshLayout
     override fun onRefresh() {
         callViewModel()
     }
@@ -107,11 +138,7 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            task.onClick = View.OnClickListener {
-                                val action =
-                                    ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
-                                findNavController().navigate(action)
-                            }
+                            task.onClick = View.OnClickListener { navigateToTaskEditScreen(task) }
                             this.tasks.add(task)
                         }
                         this.controller.setTasks(this.tasks)
@@ -162,5 +189,11 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
             lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
         }
+    }
+
+    private fun navigateToTaskEditScreen(task: TaskFetchResponse) {
+        val action =
+            ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
+        findNavController().navigate(action)
     }
 }
