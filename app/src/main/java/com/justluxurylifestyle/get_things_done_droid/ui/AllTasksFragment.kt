@@ -174,9 +174,10 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
         with(binding) {
             shimmerFrame.stopShimmerAnimation()
             shimmerFrame.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
             retryFetchButton.visibility = View.GONE
+            swipeRefresh.isRefreshing = false
+            recyclerView.visibility = View.VISIBLE
         }
     }
 
