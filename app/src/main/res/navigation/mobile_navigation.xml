@@ -60,6 +60,12 @@
             app:destination="@+id/task_detail"
             app:popUpTo="@id/all_tasks"
             app:popUpToInclusive="false" />
+
+        <action
+            android:id="@+id/action_all_tasks_to_edit_task"
+            app:destination="@+id/edit_task"
+            app:popUpTo="@id/all_tasks"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment

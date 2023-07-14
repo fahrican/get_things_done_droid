@@ -72,7 +72,9 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                         }
 
                         ItemTouchHelper.RIGHT -> {
-                            navigateToTaskEditScreen(task)
+                            val action =
+                                AllTasksFragmentDirections.actionAllTasksToEditTask(task)
+                            findNavController().navigate(action)
                         }
                     }
                 }
@@ -137,7 +139,11 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                     response.data.let { tasks ->
                         tasks.forEach { task ->
-                            task.onClick = View.OnClickListener { navigateToTaskEditScreen(task) }
+                            task.onClick = View.OnClickListener {
+                                val action =
+                                    AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
+                                findNavController().navigate(action)
+                            }
                             this.tasks.add(task)
                         }
                         this.controller.setTasks(this.tasks)
@@ -189,11 +195,5 @@ class AllTasksFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
             lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
         }
-    }
-
-    private fun navigateToTaskEditScreen(task: TaskFetchResponse) {
-        val action =
-            AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
-        findNavController().navigate(action)
     }
 }
