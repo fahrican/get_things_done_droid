@@ -173,8 +173,8 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     private fun showArticlesOnScreen() {
         with(binding) {
-            binding.shimmerFrame.stopShimmerAnimation()
-            binding.shimmerFrame.visibility = View.GONE
+            shimmerFrame.stopShimmerAnimation()
+            shimmerFrame.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
             retryFetchButton.visibility = View.GONE
@@ -182,12 +182,14 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun clickOnRetry() {
-        binding.retryFetchButton.setOnClickListener {
-            binding.emptyText.visibility = View.GONE
-            it.visibility = View.GONE
-            binding.shimmerFrame.startShimmerAnimation()
+        with(binding) {
+            retryFetchButton.setOnClickListener {
+                emptyText.visibility = View.GONE
+                it.visibility = View.GONE
+                shimmerFrame.startShimmerAnimation()
 
-            lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
+                lifecycleScope.launch(Dispatchers.Main) { async { callViewModel() }.await() }
+            }
         }
     }
 
