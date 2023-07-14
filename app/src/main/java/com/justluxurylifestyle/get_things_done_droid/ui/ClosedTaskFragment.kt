@@ -92,10 +92,12 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     override fun onPause() {
         super.onPause()
-        binding.swipeRefresh.isRefreshing = false
-        binding.swipeRefresh.clearAnimation()
-        binding.swipeRefresh.clearFocus()
-        binding.swipeRefresh.setOnRefreshListener(null)
+        with(binding) {
+            swipeRefresh.isRefreshing = false
+            swipeRefresh.clearAnimation()
+            swipeRefresh.clearFocus()
+            swipeRefresh.setOnRefreshListener(null)
+        }
     }
 
     override fun onRefresh() {
@@ -175,9 +177,10 @@ class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         with(binding) {
             shimmerFrame.stopShimmerAnimation()
             shimmerFrame.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
             retryFetchButton.visibility = View.GONE
+            swipeRefresh.isRefreshing = false
+            recyclerView.visibility = View.VISIBLE
         }
     }
 
