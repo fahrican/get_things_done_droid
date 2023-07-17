@@ -12,7 +12,6 @@ import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
