@@ -13,7 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class OpenTaskFragment : TaskFragment(), ButtonHandler {
+class OpenTaskFragment : TaskFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,7 +27,6 @@ class OpenTaskFragment : TaskFragment(), ButtonHandler {
 
     override fun callViewModel() {
         viewModel.fetchTasks(TaskStatus.OPEN.toString())
-
     }
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
@@ -42,15 +41,10 @@ class OpenTaskFragment : TaskFragment(), ButtonHandler {
         findNavController().navigate(action)
     }
 
-    override fun setUpCreateTaskButton() {
+    private fun setUpCreateTaskButton() {
         binding.fabBtn.setOnClickListener {
             val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
             findNavController().navigate(action)
         }
     }
 }
-
-interface ButtonHandler {
-    fun setUpCreateTaskButton()
-}
-
