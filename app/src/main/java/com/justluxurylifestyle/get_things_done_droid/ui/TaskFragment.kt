@@ -31,7 +31,7 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
     protected val viewModel by viewModels<TaskViewModelImpl>()
     protected lateinit var controller: TaskController
-    protected val tasks = mutableListOf<TaskFetchResponse>()
+    private val tasks = mutableListOf<TaskFetchResponse>()
 
     protected abstract fun initializeController() // make it abstract as it differs
     protected abstract fun callViewModel() // make it abstract as it differs

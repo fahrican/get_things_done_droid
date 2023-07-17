@@ -9,7 +9,6 @@ import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskControlle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class AllTasksFragment : TaskFragment() {
