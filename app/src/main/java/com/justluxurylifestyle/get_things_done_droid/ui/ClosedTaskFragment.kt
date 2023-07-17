@@ -30,186 +30,28 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ClosedTaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
-    SwipeRefreshLayout.OnRefreshListener {
+class ClosedTaskFragment : TaskFragment() {
 
-    private val viewModel by viewModels<TaskViewModelImpl>()
-    private lateinit var controller: TaskController
-    private val tasks = mutableListOf<TaskFetchResponse>()
-
-    override fun createBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentTaskBinding = FragmentTaskBinding.inflate(inflater)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupSwipeGestures()
-        initializeController()
-        callViewModel()
-        setUpRecyclerView()
-        observeTaskLiveData()
-        observeDeleteTaskLiveData()
-        clickOnRetry()
-        setUpSwipeRefresh()
-    }
-
-    private fun setupSwipeGestures() {
-        val swipeGestures = object : SwipeGestures(requireContext()) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val myTask = controller.getTaskById(viewHolder.absoluteAdapterPosition)
-                myTask.let { task ->
-                    when (direction) {
-                        ItemTouchHelper.LEFT -> {
-                            displayAlertDialog(
-                                task.id.toString(),
-                                requireContext(),
-                                getString(R.string.delete_task_headline),
-                                viewModel
-                            )
-                            controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
-                        }
-
-                        ItemTouchHelper.RIGHT -> {
-                            val action =
-                                ClosedTaskFragmentDirections.actionClosedTaskToEditTask(task)
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-            }
-        }
-
-        val touchHelper = ItemTouchHelper(swipeGestures)
-        touchHelper.attachToRecyclerView(binding.recyclerView)
-    }
-
-    private fun initializeController() {
+    override fun initializeController() {
         val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
         controller = TaskController(color)
         binding.fabLayout.visibility = View.GONE
     }
 
-    override fun onPause() {
-        super.onPause()
-        with(binding) {
-            swipeRefresh.isRefreshing = false
-            swipeRefresh.clearAnimation()
-            swipeRefresh.clearFocus()
-            swipeRefresh.setOnRefreshListener(null)
-        }
-    }
-
-    override fun onRefresh() {
-        callViewModel()
-    }
-
-    private fun callViewModel() {
+    override fun callViewModel() {
         viewModel.fetchTasks(TaskStatus.CLOSED.toString())
     }
 
-    private fun setUpSwipeRefresh() {
-        binding.swipeRefresh.let {
-            it.setOnRefreshListener(this)
-            it.setColorSchemeResources(R.color.purple_200)
-        }
+    override fun navigateToEditTask(task: TaskFetchResponse) {
+        val action =
+            ClosedTaskFragmentDirections.actionClosedTaskToEditTask(task)
+        findNavController().navigate(action)
     }
 
-    private fun setUpRecyclerView() {
-        binding.recyclerView.apply {
-            this.setHasFixedSize(true)
-            this.itemAnimator = DefaultItemAnimator()
-            this.adapter = controller.adapter
-        }
+    override fun navigateToTaskDetail(task: TaskFetchResponse) {
+        val action =
+            ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
+        findNavController().navigate(action)
     }
 
-    private fun observeTaskLiveData() {
-        viewModel.tasks.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is ViewState.Loading -> {
-                    binding.recyclerView.visibility = View.GONE
-                    binding.shimmerFrame.startShimmerAnimation()
-                }
-
-                is ViewState.Success -> {
-                    this.tasks.clear()
-                    if (response.data.isEmpty()) {
-                        showEmptyScreen()
-                    } else {
-                        showArticlesOnScreen()
-                    }
-                    val fetchedTasks = response.data.map { task ->
-                        task.onClick = View.OnClickListener {
-                            val action =
-                                ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
-                            findNavController().navigate(action)
-                        }
-                        task
-                    }
-                    this.tasks.addAll(fetchedTasks)
-                    this.controller.setTasks(this.tasks)
-
-                    if (controller.getNumberOfMyTasks() == 0) {
-                        Snackbar.make(
-                            requireView(),
-                            getString(R.string.no_tasks_found),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                is ViewState.Error -> {
-                    showEmptyScreen()
-                }
-            }
-        }
-    }
-
-    private fun showEmptyScreen() {
-        with(binding) {
-            shimmerFrame.stopShimmerAnimation()
-            shimmerFrame.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            emptyText.visibility = View.VISIBLE
-            retryFetchButton.visibility = View.VISIBLE
-        }
-        controller.setTasks(emptyList())
-    }
-
-    private fun showArticlesOnScreen() {
-        with(binding) {
-            shimmerFrame.stopShimmerAnimation()
-            shimmerFrame.visibility = View.GONE
-            emptyText.visibility = View.GONE
-            retryFetchButton.visibility = View.GONE
-            swipeRefresh.isRefreshing = false
-            recyclerView.visibility = View.VISIBLE
-        }
-    }
-
-    private fun observeDeleteTaskLiveData() {
-        viewModel.isDeleteSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
-                showToastMessage(requireContext(), getString(R.string.task_request_success_message))
-                callViewModel()
-            } else {
-                showToastMessage(requireContext(), getString(R.string.task_request_failure_message))
-                Timber.d("Delete status: $isSuccessful")
-            }
-        }
-    }
-
-    private fun clickOnRetry() {
-        with(binding) {
-            retryFetchButton.setOnClickListener { button ->
-                button.visibility = View.GONE
-                emptyText.visibility = View.GONE
-                shimmerFrame.startShimmerAnimation()
-                shimmerFrame.visibility = View.VISIBLE
-
-                callViewModel()
-            }
-        }
-    }
 }
