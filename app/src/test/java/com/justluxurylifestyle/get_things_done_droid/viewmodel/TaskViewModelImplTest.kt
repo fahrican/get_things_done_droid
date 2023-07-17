@@ -25,6 +25,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import retrofit2.HttpException
+import retrofit2.Response
 
 
 @ExperimentalCoroutinesApi
@@ -262,6 +263,37 @@ internal class TaskViewModelImplTest {
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Error(exception))
+        }
+        confirmVerified(responseObserver)
+    }
+
+    @Test
+    fun `when calling delete task is ok then return a response successfully`() {
+        val isSuccess = Response.success(true)
+        coEvery { mockRepo.canDeleteTask("4") } returns ViewState.Success(isSuccess)
+
+        objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
+
+        objectUnderTest.deleteTask("4")
+
+        verifyOrder {
+            responseObserverDelete.onChanged(true)
+        }
+        confirmVerified(responseObserverDelete)
+    }
+
+    @Test
+    fun `when calling delete task fails then return an error`() {
+        val exception = mockk<HttpException>()
+
+        coEvery { mockRepo.canDeleteTask(any()) } returns ViewState.Error(exception)
+
+        objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
+
+        objectUnderTest.deleteTask("4")
+
+        coVerify {
+            responseObserverDelete.onChanged(false)
         }
         confirmVerified(responseObserver)
     }
