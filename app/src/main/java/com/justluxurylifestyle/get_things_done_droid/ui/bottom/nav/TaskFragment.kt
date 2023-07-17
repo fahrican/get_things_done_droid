@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui
+package com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -5,7 +5,7 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context=".ui.OpenTaskFragment">
+    tools:context=".ui.bottom.nav.OpenTaskFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

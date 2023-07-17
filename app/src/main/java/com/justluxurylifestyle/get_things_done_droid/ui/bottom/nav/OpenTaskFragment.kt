@@ -1,5 +1,6 @@
-package com.justluxurylifestyle.get_things_done_droid.ui
+package com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav
 
+import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -12,27 +13,38 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class ClosedTaskFragment : TaskFragment() {
+class OpenTaskFragment : TaskFragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpCreateTaskButton()
+    }
 
     override fun initializeController() {
-        val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
+        val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
         controller = TaskController(color)
-        binding.fabLayout.visibility = View.GONE
     }
 
     override fun callViewModel() {
-        viewModel.fetchTasks(TaskStatus.CLOSED.toString())
+        viewModel.fetchTasks(TaskStatus.OPEN.toString())
     }
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            ClosedTaskFragmentDirections.actionClosedTaskToEditTask(task)
+            OpenTaskFragmentDirections.actionOpenTaskToEditTask(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
+            OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task.id)
         findNavController().navigate(action)
+    }
+
+    private fun setUpCreateTaskButton() {
+        binding.fabBtn.setOnClickListener {
+            val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
+            findNavController().navigate(action)
+        }
     }
 }

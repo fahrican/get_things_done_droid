@@ -1,37 +1,38 @@
-package com.justluxurylifestyle.get_things_done_droid.ui
+package com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav
 
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class AllTasksFragment : TaskFragment() {
+class ClosedTaskFragment : TaskFragment() {
 
     override fun initializeController() {
-        val color = ContextCompat.getColor(requireActivity(), R.color.black)
+        val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
         controller = TaskController(color)
         binding.fabLayout.visibility = View.GONE
     }
 
     override fun callViewModel() {
-        viewModel.fetchTasks(null)
+        viewModel.fetchTasks(TaskStatus.CLOSED.toString())
     }
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            AllTasksFragmentDirections.actionAllTasksToEditTask(task)
+            ClosedTaskFragmentDirections.actionClosedTaskToEditTask(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            AllTasksFragmentDirections.actionAllTasksToTaskDetail(task.id)
+            ClosedTaskFragmentDirections.actionClosedTaskToTaskDetail(task.id)
         findNavController().navigate(action)
     }
 }
