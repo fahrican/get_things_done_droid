@@ -1,7 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.networking
 
 import com.google.gson.GsonBuilder
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi.Companion.TASK_API_BASE_URL
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.unmockkAll
@@ -18,9 +17,12 @@ import java.util.concurrent.TimeUnit
 
 
 internal class TaskApiWebServiceTest {
+    companion object {
+        private const val TASK_API_BASE_URL = "https://backend4frontend.onrender.com/"
+    }
 
     @MockK
-    lateinit var objectUnderTest: TaskApiWebService
+    lateinit var objectUnderTest: TaskApi
 
     @Before
     fun setUp() {
@@ -63,6 +65,6 @@ internal class TaskApiWebServiceTest {
             .create(TaskApi::class.java)
 
         //then
-        Assert.assertNotEquals(objectUnderTest, actualClient)
+        Assert.assertNotSame(objectUnderTest, actualClient)
     }
 }
