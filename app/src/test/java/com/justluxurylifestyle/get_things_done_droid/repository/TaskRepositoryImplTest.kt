@@ -43,7 +43,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     private lateinit var taskApi: TaskApi
+    private val mockTaskApi: TaskApi = mockk<TaskApi>()
     private lateinit var objectUnderTest: TaskRepository
+    private lateinit var mockTaskRepository: TaskRepository
 
 
     @Before
@@ -58,6 +60,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             .create(TaskApi::class.java)
 
         objectUnderTest = TaskRepositoryImpl(taskApi)
+        mockTaskRepository = TaskRepositoryImpl(mockTaskApi)
     }
 
     @Test
@@ -147,7 +150,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `given fetch request for a specific task then check for exception`() {
+    fun `given fetch request for a specific task then check for http exception`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(INTERNAL_SERVER_ERROR))
 
 
@@ -159,6 +162,24 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
         }
     }
+
+    @Test
+    fun `given fetch request for a specific task then check for unknown exception`() {
+        // Define the exception
+        val exception = Exception("mock exception")
+
+        // Mock taskApiService to throw the exception when getTaskById is called
+        coEvery { mockTaskRepository.getTaskById(any()) } throws exception
+
+        runBlocking {
+            val actualResult = mockTaskRepository.getTaskById("825")
+
+            // Check the actualResult is ViewState.Error and contains correct exception
+            assertTrue(actualResult is ViewState.Error)
+            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+        }
+    }
+
 
     @Test
     fun `when post task request send check for successful creation`() {
@@ -238,27 +259,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             assertEquals(expectedTask, actualTask)
         }
     }
-
-    /*    @Test
-        fun `given put task request then return exception`() {
-            mockWebServer.apply {
-                enqueue(MockResponse().setResponseCode(GENERAL_ERROR_CODE))
-            }
-
-            every { httpException.message } returns SOMETHING_WRONG
-
-            runBlocking {
-                val task = TaskUpdateRequest(description = "test test", null, null, null)
-                val apiResponse = objectUnderTest.updateTask("1", task)
-                Assert.assertNotNull(apiResponse)
-                val expectedValue = ViewState.Error(httpException)
-
-                assertEquals(
-                    expectedValue.exception.message,
-                    (apiResponse as ViewState.Error).exception.message
-                )
-            }
-        }*/
 
     @Test
     fun `when patch task request, should handle HttpException`() {
