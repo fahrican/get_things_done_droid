@@ -34,7 +34,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     companion object {
-        private const val SUCCESS_RESPONSE = "successful_task_response.json"
+        private const val TASKS_RESPONSE = "tasks_response.json"
+        private const val TASK_BY_ID_RESPONSE = "get_task_by_id_response.json"
         private const val ERROR_RESPONSE = "error_task_response.json"
         private const val TASK_POST_REQUEST = "post_request_task.json"
         private const val TASK_PUT_REQUEST = "put_request_task.json"
