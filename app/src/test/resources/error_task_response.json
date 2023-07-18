@@ -4,6 +4,6 @@
     "status": 404,
     "error": "Not Found",
     "message": "No message available",
-    "path": "/api/all-tasks2"
+    "path": "/api/v1/tasks"
   }
 ]

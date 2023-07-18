@@ -4,7 +4,6 @@ package com.justluxurylifestyle.get_things_done_droid.core
 abstract class BaseRepository {
 
     companion object {
-        const val GENERAL_ERROR_CODE = 499
         private const val BAD_REQUEST = "Bad Request"
         private const val UNAUTHORIZED = "Unauthorized"
         private const val NOT_FOUND = "Not found"
