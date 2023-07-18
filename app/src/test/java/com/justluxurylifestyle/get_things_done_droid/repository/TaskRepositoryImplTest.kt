@@ -42,6 +42,21 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         private const val INTERNAL_SERVER_ERROR: Int = 500
     }
 
+    private val gson = GsonBuilder().create()
+    private val createRequest = TaskCreateRequest(
+        description = "test data",
+        isReminderSet = true,
+        isTaskOpen = true,
+        priority = Priority.LOW
+    )
+    private val updateRequest = TaskUpdateRequest(
+        description = "test test",
+        isReminderSet = null,
+        isTaskOpen = null,
+        priority = null
+    )
+    private val exception = Exception("mock exception")
+
     private lateinit var taskApi: TaskApi
     private val mockTaskApi: TaskApi = mockk()
     private lateinit var objectUnderTest: TaskRepository
@@ -64,23 +79,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when fetching all tasks then check for loading is null`() {
-        val objectUnderTest = mockk<TaskRepository>()
-        mockWebServer.enqueue(MockResponse().setBody(FileReader(TASKS_RESPONSE).content))
-
-        var actualResult: List<TaskFetchResponse>?
-        runBlocking {
-            coEvery { objectUnderTest.getTasks(null) } returns ViewState.Loading
-            actualResult = objectUnderTest.getTasks(null).extractData
-        }
-        assertEquals(null, actualResult)
-    }
-
-    @Test
     fun `when fetching all tasks then check for success response`() {
-        // given
         val jsonArray = getJsonString<List<TaskFetchResponse>>(TASKS_RESPONSE)
-        val gson = GsonBuilder().create()
         val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
         val expectedItems = gson.fromJson<List<TaskFetchResponse>>(jsonArray, listType)
 
@@ -95,9 +95,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when fetching all tasks then check for error response`() {
-        // given
         val expectedResponse = getJsonString<List<TaskFetchResponse>>(ERROR_RESPONSE)
-        val gson = GsonBuilder().create()
         val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
         val expectedItems = gson.fromJson<List<TaskFetchResponse>>(expectedResponse, listType)
 
@@ -117,7 +115,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.getTasks(null)
 
-            // Check the actualResult is ViewState.Error and contains correct status code
             assertTrue(actualResult is ViewState.Error)
             assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
         }
@@ -125,8 +122,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when fetching all tasks then then check for unknown exception`() {
-        val exception = Exception("mock exception")
-
         coEvery { mockTaskRepository.getTasks(null) } throws exception
 
 
@@ -160,7 +155,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.getTaskById("825")
 
-            // Check the actualResult is ViewState.Error and contains correct status code
             assertTrue(actualResult is ViewState.Error)
             assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
         }
@@ -168,8 +162,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when fetch request for a specific task then check for unknown exception`() {
-        val exception = Exception("mock exception")
-
         coEvery { mockTaskRepository.getTaskById(any()) } throws exception
 
         runBlocking {
@@ -189,12 +181,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_POST_REQUEST).content))
 
         runBlocking {
-            val createRequest = TaskCreateRequest(
-                description = "test data",
-                isReminderSet = true,
-                isTaskOpen = true,
-                priority = Priority.LOW
-            )
             val actualTask = objectUnderTest.createTask(createRequest).extractData
             assertEquals(expectedTask, actualTask)
         }
@@ -205,12 +191,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         mockWebServer.enqueue(MockResponse().setResponseCode(INTERNAL_SERVER_ERROR))
 
         runBlocking {
-            val createRequest = TaskCreateRequest(
-                description = "test data",
-                isReminderSet = true,
-                isTaskOpen = true,
-                priority = Priority.LOW
-            )
             val actualResult = objectUnderTest.createTask(createRequest)
 
             assertTrue(actualResult is ViewState.Error)
@@ -220,17 +200,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when post task request sent then check for unknown exception`() {
-        val exception = Exception("mock exception")
-
         coEvery { mockTaskRepository.createTask(any()) } throws exception
 
         runBlocking {
-            val createRequest = TaskCreateRequest(
-                description = "test data",
-                isReminderSet = true,
-                isTaskOpen = true,
-                priority = Priority.LOW
-            )
             val actualResult = mockTaskRepository.createTask(createRequest)
 
             assertTrue(actualResult is ViewState.Error)
@@ -263,7 +235,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when delete task request sent then check for unknown exception`() {
-        val exception = Exception("mock exception")
 
         coEvery { mockTaskRepository.canDeleteTask(any()) } throws exception
 
@@ -282,7 +253,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_PUT_REQUEST).content))
 
         runBlocking {
-            val updateRequest = TaskUpdateRequest(description = "test test", null, null, null)
             val actualTask = objectUnderTest.updateTask("2", updateRequest).extractData
             assertEquals(expectedTask, actualTask)
         }
@@ -293,9 +263,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         mockWebServer.enqueue(MockResponse().setResponseCode(INTERNAL_SERVER_ERROR))
 
         runBlocking {
-            val task = TaskUpdateRequest(description = "test test", null, null, null)
-
-            val actualResult = objectUnderTest.updateTask("2", task)
+            val actualResult = objectUnderTest.updateTask("2", updateRequest)
 
             assertTrue(actualResult is ViewState.Error)
             assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
@@ -304,12 +272,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when patch task request sent  then check for unknown exception`() {
-        val exception = Exception("mock exception")
-
         coEvery { mockTaskRepository.updateTask(any(), any()) } throws exception
 
         runBlocking {
-            val updateRequest = TaskUpdateRequest(description = "test test", null, null, null)
             val actualResult = mockTaskRepository.updateTask("11", updateRequest)
 
             assertTrue(actualResult is ViewState.Error)
