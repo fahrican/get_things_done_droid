@@ -1,0 +1,12 @@
+{
+  "id": 825,
+  "description": "Buy Hummus",
+  "isReminderSet": false,
+  "isTaskOpen": true,
+  "createdOn": "2022-09-09T10:54:44",
+  "startedOn": null,
+  "finishedOn": null,
+  "timeInterval": "50 minutes",
+  "timeTaken": 45,
+  "priority": "HIGH"
+}

@@ -64,7 +64,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     fun `given repo when fetching all tasks then check loading is null`() {
         val objectUnderTest = mockk<TaskRepository>()
         mockWebServer.apply {
-            enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
+            enqueue(MockResponse().setBody(FileReader(TASKS_RESPONSE).content))
         }
 
         var actualResult: List<TaskFetchResponse>?
@@ -80,13 +80,13 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     @Test
     fun `given api when fetching all tasks then check success response`() {
         // given
-        val jsonArray = getJsonString<List<TaskFetchResponse>>(SUCCESS_RESPONSE)
+        val jsonArray = getJsonString<List<TaskFetchResponse>>(TASKS_RESPONSE)
         val gson = GsonBuilder().create()
         val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
         val expectedItems = gson.fromJson<List<TaskFetchResponse>>(jsonArray, listType)
 
         mockWebServer.apply {
-            enqueue(MockResponse().setBody(FileReader(SUCCESS_RESPONSE).content))
+            enqueue(MockResponse().setBody(FileReader(TASKS_RESPONSE).content))
         }
 
         var actualResult: List<TaskFetchResponse>?
@@ -125,6 +125,34 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
         runBlocking {
             val actualResult = objectUnderTest.getTasks(null)
+
+            // Check the actualResult is ViewState.Error and contains correct status code
+            assertTrue(actualResult is ViewState.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+        }
+    }
+
+    @Test
+    fun `given fetch request for a specific task then check success response`() {
+        val json = getJsonString<TaskFetchResponse>(TASK_BY_ID_RESPONSE)
+        val gson = Gson()
+        val expectedTask: TaskFetchResponse = gson.fromJson(json, TaskFetchResponse::class.java)
+
+        mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_BY_ID_RESPONSE).content))
+
+        runBlocking {
+            val actualTask = objectUnderTest.getTaskById("825").extractData
+            assertEquals(expectedTask, actualTask)
+        }
+    }
+
+    @Test
+    fun `given fetch request for a specific task then check for exception`() {
+        mockWebServer.enqueue(MockResponse().setResponseCode(INTERNAL_SERVER_ERROR))
+
+
+        runBlocking {
+            val actualResult = objectUnderTest.getTaskById("825")
 
             // Check the actualResult is ViewState.Error and contains correct status code
             assertTrue(actualResult is ViewState.Error)
