@@ -44,7 +44,7 @@ internal class TaskApiWebServiceTest {
     }
 
     @Test
-    fun `given two webservices then check if not equal`() {
+    fun `given two webservices then check if not equal to other one`() {
         //given
         val mockWebService1 = TaskApiWebService.getTaskApiClient()
         val mockWebService2 = TaskApiWebService.getTaskApiClient()
@@ -54,7 +54,7 @@ internal class TaskApiWebServiceTest {
     }
 
     @Test
-    fun `given web service and retrofit client then check if not equal`() {
+    fun `given retrofit client then check if not equal to mock service`() {
         //given
         val actualClient = Retrofit.Builder()
             .client(createOkHttpClient())
