@@ -91,27 +91,30 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling for task list then return loading`() {
+    fun `when calling for task list then expect loading state`() {
+        // given
         coEvery { mockRepo.getTasks(null) } returns ViewState.Loading
-
         objectUnderTest.tasks.observeForever(responseObservers)
 
+        // when
         objectUnderTest.fetchTasks(null)
 
+        // then
         verify { responseObservers.onChanged(ViewState.Loading) }
         confirmVerified(responseObservers)
     }
 
     @Test
-    fun `when fetching task list is ok then return a response successfully`() {
+    fun `when fetching task list then expect a successful response`() {
+        // given
         val expectedResponse = ArrayList<TaskFetchResponse>()
-
         coEvery { mockRepo.getTasks(null) } returns ViewState.Success(expectedResponse)
-
         objectUnderTest.tasks.observeForever(responseObservers)
 
+        // when
         objectUnderTest.fetchTasks(null)
 
+        // then
         verifyOrder {
             responseObservers.onChanged(ViewState.Loading)
             responseObservers.onChanged(ViewState.Success(expectedResponse))
@@ -120,14 +123,15 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when fetching task list fails then return an error`() {
-
+    fun `when fetching task list then expect an http exception`() {
+        // given
         coEvery { mockRepo.getTasks(null) } returns ViewState.Error(mockHttpException)
-
         objectUnderTest.tasks.observeForever(responseObservers)
 
+        // when
         objectUnderTest.fetchTasks(null)
 
+        // then
         coVerify {
             responseObservers.onChanged(ViewState.Loading)
             responseObservers.onChanged(ViewState.Error(mockHttpException))
@@ -136,25 +140,46 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling for a task with id then return loading`() {
+    fun `when calling for a task with id then expect loading state`() {
+        // given
         coEvery { mockRepo.getTaskById("1") } returns ViewState.Loading
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.fetchTaskById("1")
 
+        // then
         verify { responseObserver.onChanged(ViewState.Loading) }
         confirmVerified(responseObserver)
     }
 
     @Test
-    fun `when fetching for a task with id fails then return an error`() {
-        coEvery { mockRepo.getTaskById("2") } returns ViewState.Error(mockHttpException)
-
+    fun `when calling for a task with id then expect successful response`() {
+        // given
+        coEvery { mockRepo.getTaskById("1") } returns ViewState.Success(fetchResponse)
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
+        objectUnderTest.fetchTaskById("1")
+
+        // then
+        verify {
+            responseObserver.onChanged(ViewState.Loading)
+            responseObserver.onChanged(ViewState.Success(fetchResponse))
+        }
+        confirmVerified(responseObserver)
+    }
+
+    @Test
+    fun `when fetching for a task with id then expect an http exception`() {
+        // given
+        coEvery { mockRepo.getTaskById("2") } returns ViewState.Error(mockHttpException)
+        objectUnderTest.task.observeForever(responseObserver)
+
+        // when
         objectUnderTest.fetchTaskById("2")
 
+        // then
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Error(mockHttpException))
@@ -164,25 +189,29 @@ internal class TaskViewModelImplTest {
 
 
     @Test
-    fun `when calling create task then return loading`() {
+    fun `when calling create task then expect loading state`() {
+        // given
         coEvery { mockRepo.createTask(any()) } returns ViewState.Loading
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.createTask(createRequest)
 
+        // then
         verify { responseObserver.onChanged(ViewState.Loading) }
         confirmVerified(responseObserver)
     }
 
     @Test
-    fun `when calling create task is ok then return a response successfully`() {
+    fun `when calling create task then expect successful response`() {
+        // given
         coEvery { mockRepo.createTask(any()) } returns ViewState.Success(fetchResponse)
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.createTask(createRequest)
 
+        // then
         verifyOrder {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Success(fetchResponse))
@@ -191,13 +220,15 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling create task fails then return an error`() {
+    fun `when calling create task then expect an http exception`() {
+        // given
         coEvery { mockRepo.createTask(any()) } returns ViewState.Error(mockHttpException)
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.createTask(createRequest)
 
+        // then
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Error(mockHttpException))
@@ -206,25 +237,29 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling update task then return loading`() {
+    fun `when calling update task then expect loading state`() {
+        // given
         coEvery { mockRepo.updateTask(any(), any()) } returns ViewState.Loading
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.updateTask("3", updateRequest)
 
+        // then
         verify { responseObserver.onChanged(ViewState.Loading) }
         confirmVerified(responseObserver)
     }
 
     @Test
-    fun `when calling update task is ok then return a response successfully`() {
+    fun `when calling update task then expect successful response`() {
+        // given
         coEvery { mockRepo.updateTask(any(), any()) } returns ViewState.Success(fetchResponse)
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.updateTask("1", updateRequest)
 
+        // then
         verifyOrder {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Success(fetchResponse))
@@ -233,13 +268,15 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling update task fails then return an error`() {
+    fun `when calling update task then expect an http exception`() {
+        // given
         coEvery { mockRepo.updateTask(any(), any()) } returns ViewState.Error(mockHttpException)
-
         objectUnderTest.task.observeForever(responseObserver)
 
+        // when
         objectUnderTest.updateTask("1", updateRequest)
 
+        // then
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
             responseObserver.onChanged(ViewState.Error(mockHttpException))
@@ -248,35 +285,35 @@ internal class TaskViewModelImplTest {
     }
 
     @Test
-    fun `when calling delete task is ok then return a response successfully`() {
+    fun `when calling delete task then expect successful response`() {
+        // given
         val isSuccess = Response.success(true)
         coEvery { mockRepo.canDeleteTask("4") } returns ViewState.Success(isSuccess)
-
         objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
 
+        // when
         objectUnderTest.deleteTask("4")
 
-        verifyOrder {
-            responseObserverDelete.onChanged(true)
-        }
+
+        // then
+        verifyOrder { responseObserverDelete.onChanged(true) }
         confirmVerified(responseObserverDelete)
     }
 
     @Test
-    fun `when calling delete task fails then return an error`() {
-        // Given
+    fun `when calling delete task then expect http exception`() {
+        // given
         coEvery { mockRepo.canDeleteTask("4") } returns ViewState.Error(mockHttpException)
         objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
 
-        // When
+        // when
         objectUnderTest.deleteTask("4")
 
-        // Then
+        // then
         coVerify {
             responseObserverDelete.onChanged(false)
             mockRepo.canDeleteTask("4")
         }
         confirmVerified(responseObserverDelete)
     }
-
 }
