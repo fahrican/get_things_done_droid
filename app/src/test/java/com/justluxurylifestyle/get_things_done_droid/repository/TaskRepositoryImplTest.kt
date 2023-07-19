@@ -58,8 +58,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     private val exception = Exception("mock exception")
 
     private lateinit var taskApi: TaskApi
-    private val mockTaskApi: TaskApi = mockk()
     private lateinit var objectUnderTest: TaskRepository
+
+    private val mockTaskApi: TaskApi = mockk()
     private lateinit var mockTaskRepository: TaskRepository
 
 
