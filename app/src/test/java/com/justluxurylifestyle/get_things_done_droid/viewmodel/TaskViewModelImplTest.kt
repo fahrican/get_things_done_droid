@@ -55,14 +55,14 @@ internal class TaskViewModelImplTest {
     private lateinit var objectUnderTest: TaskViewModelImpl
 
     private val createRequest = TaskCreateRequest(
-        description = "test data",
+        description = "Buy Hummus",
         isReminderSet = true,
         isTaskOpen = true,
         priority = Priority.HIGH
     )
 
     private val updateRequest = TaskUpdateRequest(
-        description = "new update",
+        description = "Feed the cat",
         isReminderSet = false,
         isTaskOpen = false,
         priority = Priority.LOW
@@ -70,7 +70,7 @@ internal class TaskViewModelImplTest {
 
     private val fetchResponse = TaskFetchResponse(
         1,
-        "test data",
+        "Try new Shawarma place",
         null,
         null,
         null,
@@ -264,15 +264,19 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when calling delete task fails then return an error`() {
-        coEvery { mockRepo.canDeleteTask(any()) } returns ViewState.Error(mockHttpException)
-
+        // Given
+        coEvery { mockRepo.canDeleteTask("4") } returns ViewState.Error(mockHttpException)
         objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
 
+        // When
         objectUnderTest.deleteTask("4")
 
+        // Then
         coVerify {
             responseObserverDelete.onChanged(false)
+            mockRepo.canDeleteTask("4")
         }
-        confirmVerified(responseObserver)
+        confirmVerified(responseObserverDelete)
     }
+
 }
