@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/task_priority"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                     android:textStyle="bold"
                     tools:text="Priority: LOW" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/task_reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                     tools:text="Reminder: false" />
             </RelativeLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/task_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/task_description">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/task_created_on"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
