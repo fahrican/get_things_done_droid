@@ -15,7 +15,6 @@ import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,6 +37,9 @@ internal class TaskViewModelImplTest {
     val testCoroutineRule = TestCoroutineRule()
 
     @RelaxedMockK
+    private lateinit var mockHttpException: HttpException
+
+    @RelaxedMockK
     private lateinit var responseObserver: Observer<ViewState<TaskFetchResponse>>
 
     @RelaxedMockK
@@ -53,14 +55,14 @@ internal class TaskViewModelImplTest {
     private lateinit var objectUnderTest: TaskViewModelImpl
 
     private val createRequest = TaskCreateRequest(
-        "test data",
+        description = "test data",
         isReminderSet = true,
         isTaskOpen = true,
         priority = Priority.HIGH
     )
 
     private val updateRequest = TaskUpdateRequest(
-        "new update",
+        description = "new update",
         isReminderSet = false,
         isTaskOpen = false,
         priority = Priority.LOW
@@ -74,6 +76,7 @@ internal class TaskViewModelImplTest {
         null,
         null
     )
+
 
     @Before
     fun setUp() {
@@ -118,9 +121,8 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when fetching task list fails then return an error`() {
-        val exception = mockk<HttpException>()
 
-        coEvery { mockRepo.getTasks(null) } returns ViewState.Error(exception)
+        coEvery { mockRepo.getTasks(null) } returns ViewState.Error(mockHttpException)
 
         objectUnderTest.tasks.observeForever(responseObservers)
 
@@ -128,7 +130,7 @@ internal class TaskViewModelImplTest {
 
         coVerify {
             responseObservers.onChanged(ViewState.Loading)
-            responseObservers.onChanged(ViewState.Error(exception))
+            responseObservers.onChanged(ViewState.Error(mockHttpException))
         }
         confirmVerified(responseObservers)
     }
@@ -147,9 +149,7 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when fetching for a task with id fails then return an error`() {
-        val exception = mockk<HttpException>()
-
-        coEvery { mockRepo.getTaskById("2") } returns ViewState.Error(exception)
+        coEvery { mockRepo.getTaskById("2") } returns ViewState.Error(mockHttpException)
 
         objectUnderTest.task.observeForever(responseObserver)
 
@@ -157,7 +157,7 @@ internal class TaskViewModelImplTest {
 
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
-            responseObserver.onChanged(ViewState.Error(exception))
+            responseObserver.onChanged(ViewState.Error(mockHttpException))
         }
         confirmVerified(responseObserver)
     }
@@ -192,9 +192,7 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when calling create task fails then return an error`() {
-        val exception = mockk<HttpException>()
-
-        coEvery { mockRepo.createTask(any()) } returns ViewState.Error(exception)
+        coEvery { mockRepo.createTask(any()) } returns ViewState.Error(mockHttpException)
 
         objectUnderTest.task.observeForever(responseObserver)
 
@@ -202,26 +200,10 @@ internal class TaskViewModelImplTest {
 
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
-            responseObserver.onChanged(ViewState.Error(exception))
+            responseObserver.onChanged(ViewState.Error(mockHttpException))
         }
         confirmVerified(responseObserver)
     }
-
-    /* @Test
-     fun `when calling delete task fails then return an error`() {
-         val exception = mockk<HttpException>()
-
-         coEvery { mockRepo.canDeleteTask(any()) } returns ViewState.Error(exception)
-
-         objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
-
-         objectUnderTest.deleteTask("15")
-
-         coVerify {
-             responseObserverDelete.onChanged(true)
-         }
-         confirmVerified(responseObserverDelete)
-     }*/
 
     @Test
     fun `when calling update task then return loading`() {
@@ -252,9 +234,7 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when calling update task fails then return an error`() {
-        val exception = mockk<HttpException>()
-
-        coEvery { mockRepo.updateTask(any(), any()) } returns ViewState.Error(exception)
+        coEvery { mockRepo.updateTask(any(), any()) } returns ViewState.Error(mockHttpException)
 
         objectUnderTest.task.observeForever(responseObserver)
 
@@ -262,7 +242,7 @@ internal class TaskViewModelImplTest {
 
         coVerify {
             responseObserver.onChanged(ViewState.Loading)
-            responseObserver.onChanged(ViewState.Error(exception))
+            responseObserver.onChanged(ViewState.Error(mockHttpException))
         }
         confirmVerified(responseObserver)
     }
@@ -284,9 +264,7 @@ internal class TaskViewModelImplTest {
 
     @Test
     fun `when calling delete task fails then return an error`() {
-        val exception = mockk<HttpException>()
-
-        coEvery { mockRepo.canDeleteTask(any()) } returns ViewState.Error(exception)
+        coEvery { mockRepo.canDeleteTask(any()) } returns ViewState.Error(mockHttpException)
 
         objectUnderTest.isDeleteSuccessful.observeForever(responseObserverDelete)
 
