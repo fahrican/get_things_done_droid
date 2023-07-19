@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.message
+package com.justluxurylifestyle.get_things_done_droid.ui.util
 
 import android.app.AlertDialog
 import android.content.Context
