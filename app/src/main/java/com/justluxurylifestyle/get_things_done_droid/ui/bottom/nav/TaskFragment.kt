@@ -48,12 +48,16 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
 
         setupSwipeGestures()
         initializeController()
-        callViewModel()
         setUpRecyclerView()
         observeTaskLiveData()
         observeDeleteTaskLiveData()
         clickOnRetry()
         setUpSwipeRefresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callViewModel()
     }
 
     private fun setupSwipeGestures() {
