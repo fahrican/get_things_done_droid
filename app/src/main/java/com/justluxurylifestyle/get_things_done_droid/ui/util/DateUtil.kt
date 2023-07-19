@@ -7,6 +7,6 @@ object DateUtil {
     fun formatISO8601Date(dateString: String): String {
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.getDefault())
         val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-        return formatter.format(parser.parse(dateString))
+        return parser.parse(dateString)?.let { formatter.format(it) } ?: ""
     }
 }
