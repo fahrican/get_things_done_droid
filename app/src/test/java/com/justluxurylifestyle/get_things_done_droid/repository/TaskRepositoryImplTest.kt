@@ -15,22 +15,17 @@ import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
-@ExperimentalCoroutinesApi
-@RunWith(JUnit4::class)
 internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     companion object {

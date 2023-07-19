@@ -14,7 +14,7 @@ class TestCoroutineRule : TestRule {
 
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 
-    override fun apply(base: Statement, description: Description?) = object : Statement() {
+    override fun apply(base: Statement, description: Description): Statement = object : Statement() {
         @Throws(Throwable::class)
         override fun evaluate() {
             Dispatchers.setMain(testCoroutineDispatcher)
