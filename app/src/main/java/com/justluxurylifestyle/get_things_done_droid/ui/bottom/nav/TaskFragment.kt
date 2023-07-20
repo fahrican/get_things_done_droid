@@ -33,10 +33,10 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     protected lateinit var controller: TaskController
     private val tasks = mutableListOf<TaskFetchResponse>()
 
-    protected abstract fun initializeController() // make it abstract as it differs
-    protected abstract fun callViewModel() // make it abstract as it differs
-    protected abstract fun navigateToEditTask(task: TaskFetchResponse) // make it abstract as it differs
-    protected abstract fun navigateToTaskDetail(task: TaskFetchResponse) // make it abstract as it differs
+    protected abstract fun initializeController()
+    protected abstract fun callViewModel()
+    protected abstract fun navigateToEditTask(task: TaskFetchResponse)
+    protected abstract fun navigateToTaskDetail(task: TaskFetchResponse)
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -55,11 +55,6 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         setUpSwipeRefresh()
     }
 
-    override fun onResume() {
-        super.onResume()
-        callViewModel()
-    }
-
     private fun setupSwipeGestures() {
         val swipeGestures = object : SwipeGestures(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -76,7 +71,7 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                             controller.notifyModelChanged(viewHolder.absoluteAdapterPosition)
                         }
 
-                        ItemTouchHelper.RIGHT -> navigateToEditTask(task) // extracted to a method
+                        ItemTouchHelper.RIGHT -> navigateToEditTask(task)
                     }
                 }
             }

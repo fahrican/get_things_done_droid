@@ -14,6 +14,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ClosedTaskFragment : TaskFragment() {
 
+    override fun onResume() {
+        super.onResume()
+        callViewModel()
+    }
+
     override fun initializeController() {
         val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
         controller = TaskController(color)

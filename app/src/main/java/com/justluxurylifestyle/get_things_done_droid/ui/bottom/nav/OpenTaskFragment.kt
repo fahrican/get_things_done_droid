@@ -20,6 +20,11 @@ class OpenTaskFragment : TaskFragment() {
         setUpCreateTaskButton()
     }
 
+    override fun onResume() {
+        super.onResume()
+        callViewModel()
+    }
+
     override fun initializeController() {
         val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
         controller = TaskController(color)
