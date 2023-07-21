@@ -19,30 +19,30 @@ class TaskRepositoryImpl @Inject constructor(
         const val SUCCESS_NO_CONTENT: Int = 204
     }
 
-    override suspend fun getTasks(status: String?) = safeApiCall {
+    override suspend fun getTasks(status: String?) = executeSafeApiCall {
         val taskStatus = TaskStatus.values().find { it.name == status }?.toString()
         taskApiService.getTasks(taskStatus)
     }
 
-    override suspend fun getTaskById(id: String) = safeApiCall {
+    override suspend fun getTaskById(id: String) = executeSafeApiCall {
         taskApiService.getTaskById(id)
     }
 
-    override suspend fun createTask(createRequest: TaskCreateRequest) = safeApiCall {
+    override suspend fun createTask(createRequest: TaskCreateRequest) = executeSafeApiCall {
         taskApiService.createTask(createRequest)
     }
 
-    override suspend fun canDeleteTask(id: String) = safeApiCall {
+    override suspend fun canDeleteTask(id: String) = executeSafeApiCall {
         val response = taskApiService.canDeleteTask(id)
         if (response.code() != SUCCESS_NO_CONTENT) throw HttpException(response)
         response
     }
 
-    override suspend fun updateTask(id: String, updateRequest: TaskUpdateRequest) = safeApiCall {
+    override suspend fun updateTask(id: String, updateRequest: TaskUpdateRequest) = executeSafeApiCall {
         taskApiService.updateTaskWithId(id, updateRequest)
     }
 
-    private suspend fun <T : Any> safeApiCall(apiCall: suspend () -> T): ViewState<T> {
+    private suspend fun <T : Any> executeSafeApiCall(apiCall: suspend () -> T): ViewState<T> {
         return try {
             handleSuccess(apiCall.invoke())
         } catch (error: HttpException) {

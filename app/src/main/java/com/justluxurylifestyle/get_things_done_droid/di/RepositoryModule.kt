@@ -15,5 +15,5 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideNewsApiWebService(): TaskApi = TaskApiWebService.getTaskApiClient()
+    fun provideTaskApiWebService(): TaskApi = TaskApiWebService.getTaskApiClient()
 }
