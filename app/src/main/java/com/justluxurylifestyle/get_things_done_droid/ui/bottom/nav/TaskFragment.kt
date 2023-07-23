@@ -17,7 +17,7 @@ import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBin
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.util.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.ui.util.showToastMessage
-import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.SwipeGestures
+import com.justluxurylifestyle.get_things_done_droid.ui.view.SwipeGestures
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint

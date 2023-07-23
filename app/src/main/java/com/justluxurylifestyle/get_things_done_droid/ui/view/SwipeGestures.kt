@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy
+package com.justluxurylifestyle.get_things_done_droid.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
