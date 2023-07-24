@@ -8,12 +8,13 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    namespace 'com.justluxurylifestyle.get_things_done_droid'
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.justluxurylifestyle.get_things_done_droid"
         minSdk 26
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -39,15 +40,19 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes true
+}
+
 dependencies {
     // General
     implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "com.google.android.material:material:$material_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
 
     // Navigation
@@ -90,9 +95,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.7.2'
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
-    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    testImplementation "io.mockk:mockk:1.13.4"
 
     // Espresso
     androidTestImplementation "androidx.test.ext:junit:$android_test_junit_version"

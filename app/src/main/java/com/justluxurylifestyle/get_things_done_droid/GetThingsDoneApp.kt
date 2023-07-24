@@ -1,6 +1,7 @@
 package com.justluxurylifestyle.get_things_done_droid
 
 import android.app.Application
+import com.airbnb.epoxy.databinding.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
