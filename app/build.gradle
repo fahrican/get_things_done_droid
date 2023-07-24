@@ -54,6 +54,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_v4_version"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_component_version"
@@ -61,7 +62,6 @@ dependencies {
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.legacy:legacy-support-v4:$legacy_support_v4_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Timber Log
