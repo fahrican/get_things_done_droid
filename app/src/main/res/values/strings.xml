@@ -50,4 +50,5 @@
     <string name="pressed_cancel_delete">Pressed cancel</string>
     <string name="no_tasks_found">No, tasks found</string>
     <string name="skeleton_shimmer">skeleton shimmer</string>
+    <string name="enter_description">Please, enter a description</string>
 </resources>

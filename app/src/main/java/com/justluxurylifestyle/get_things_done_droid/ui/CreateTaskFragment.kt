@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.ui.util.showToastMessage
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,8 +53,7 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
         val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
 
         if (description.isEmpty()) {
-            Toast.makeText(requireContext(), "Please enter a description", Toast.LENGTH_SHORT)
-                .show()
+            showToastMessage(requireContext(), getString(R.string.enter_description))
             return null
         }
 
@@ -79,18 +79,13 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 }
 
                 is ViewState.Success -> {
-                    Toast.makeText(
-                        requireContext(), REQUEST_SUCCESS, Toast.LENGTH_SHORT
-                    ).show()
+                    showToastMessage(requireContext(), REQUEST_SUCCESS)
                     findNavController().popBackStack()
                 }
 
                 is ViewState.Error -> {
-                    // Assuming the ViewState.Error has a message property
                     val errorMessage = response.exception.message ?: REQUEST_FAILURE
-                    Toast.makeText(
-                        requireContext(), errorMessage, Toast.LENGTH_SHORT
-                    ).show()
+                    showToastMessage(requireContext(), errorMessage)
                 }
             }
         }
