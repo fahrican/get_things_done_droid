@@ -35,7 +35,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeLiveData()
+        observeTaskLiveData()
 
         observeDeleteTaskLiveData()
 
@@ -49,7 +49,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
         viewModel.fetchTaskById(args.taskId.toString())
     }
 
-    private fun observeLiveData() {
+    private fun observeTaskLiveData() {
         viewModel.task.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ViewState.Loading -> {
