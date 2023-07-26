@@ -13,6 +13,7 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
 import io.mockk.MockKAnnotations
+import io.mockk.MockKException
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -50,7 +52,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         isTaskOpen = null,
         priority = null
     )
-    private val exception = Exception("mock exception")
+    private val exception = Exception("triggered exception")
 
     private lateinit var taskApi: TaskApi
     private lateinit var objectUnderTest: TaskRepository
@@ -231,14 +233,14 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when delete task request sent then check for unknown exception`() {
-
-        coEvery { mockTaskRepository.canDeleteTask(any()) } throws exception
+        val mockException = MockKException("mocked exception")
+        coEvery { mockTaskRepository.canDeleteTask(any()) } throws mockException
 
         runBlocking {
             val actualResult = mockTaskRepository.canDeleteTask("23")
 
             assertTrue(actualResult is ViewState.Error)
-            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+            assertEquals(mockException::class, (actualResult as ViewState.Error).exception::class)
         }
     }
 
