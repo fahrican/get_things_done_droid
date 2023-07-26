@@ -12,7 +12,6 @@ import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import io.mockk.MockKAnnotations
 import io.mockk.MockKException
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -22,7 +21,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -40,19 +38,22 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     private val gson = GsonBuilder().create()
+
+    private val exception = Exception("triggered exception")
+
     private val createRequest = TaskCreateRequest(
         description = "test data",
         isReminderSet = true,
         isTaskOpen = true,
         priority = Priority.LOW
     )
+
     private val updateRequest = TaskUpdateRequest(
         description = "test test",
         isReminderSet = null,
         isTaskOpen = null,
         priority = null
     )
-    private val exception = Exception("triggered exception")
 
     private lateinit var taskApi: TaskApi
     private lateinit var objectUnderTest: TaskRepository
@@ -63,8 +64,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Before
     override fun setUp() {
-        MockKAnnotations.init(this)
-
         taskApi = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
             .addConverterFactory(ScalarsConverterFactory.create()) //important
