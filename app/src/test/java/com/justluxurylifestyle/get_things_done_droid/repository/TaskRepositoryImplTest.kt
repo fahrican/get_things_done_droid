@@ -229,7 +229,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when patch task request sent the check for success response`() {
+    fun `when patch task request sent then check for success response`() {
         val expectedTask = getDataClass<TaskFetchResponse>(TASK_PATCH_REQUEST)
 
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_PATCH_REQUEST).content))
@@ -241,7 +241,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when patch task request sent the check for http exception`() {
+    fun `when patch task request sent then check for http exception`() {
         mockWebServer.enqueue(MockResponse().setResponseCode(INTERNAL_SERVER_ERROR))
 
         runBlocking {
@@ -253,7 +253,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     }
 
     @Test
-    fun `when patch task request sent  then check for unknown exception`() {
+    fun `when patch task request sent then check for unknown exception`() {
         coEvery { mockTaskRepository.updateTask(any(), any()) } throws exception
 
         runBlocking {
