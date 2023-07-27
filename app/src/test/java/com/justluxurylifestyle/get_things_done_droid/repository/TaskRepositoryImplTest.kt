@@ -29,7 +29,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     companion object {
-        private const val TASKS_RESPONSE = "tasks_response.json"
+        private const val TASKS_RESPONSE = "get_tasks_response.json"
         private const val TASK_BY_ID_RESPONSE = "get_task_by_id_response.json"
         private const val TASK_POST_REQUEST = "post_request_task.json"
         private const val TASK_PATCH_REQUEST = "patch_request_task.json"
@@ -57,8 +57,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     private lateinit var taskApi: TaskApi
     private lateinit var objectUnderTest: TaskRepository
 
-    private val mockTaskApi: TaskApi = mockk()
-    private lateinit var mockTaskRepository: TaskRepository
+    private val mockTaskApi = mockk<TaskApi>()
+    private val mockTaskRepository = TaskRepositoryImpl(mockTaskApi)
 
 
     @Before
@@ -71,7 +71,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
             .create(TaskApi::class.java)
 
         objectUnderTest = TaskRepositoryImpl(taskApi)
-        mockTaskRepository = TaskRepositoryImpl(mockTaskApi)
     }
 
     @Test
