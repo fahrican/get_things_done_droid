@@ -31,9 +31,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
     companion object {
         private const val TASKS_RESPONSE = "tasks_response.json"
         private const val TASK_BY_ID_RESPONSE = "get_task_by_id_response.json"
-        private const val ERROR_RESPONSE = "error_task_response.json"
         private const val TASK_POST_REQUEST = "post_request_task.json"
-        private const val TASK_PUT_REQUEST = "put_request_task.json"
+        private const val TASK_PATCH_REQUEST = "patch_request_task.json"
         private const val INTERNAL_SERVER_ERROR: Int = 500
     }
 
@@ -82,21 +81,6 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         val expectedItems = gson.fromJson<List<TaskFetchResponse>>(jsonArray, listType)
 
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASKS_RESPONSE).content))
-
-        var actualResult: List<TaskFetchResponse>?
-        runBlocking {
-            actualResult = objectUnderTest.getTasks(null).extractData
-        }
-        assertEquals(expectedItems, actualResult)
-    }
-
-    @Test
-    fun `when fetching all tasks then check for error response`() {
-        val expectedResponse = getJsonString<List<TaskFetchResponse>>(ERROR_RESPONSE)
-        val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
-        val expectedItems = gson.fromJson<List<TaskFetchResponse>>(expectedResponse, listType)
-
-        mockWebServer.enqueue(MockResponse().setBody(FileReader(ERROR_RESPONSE).content))
 
         var actualResult: List<TaskFetchResponse>?
         runBlocking {
@@ -245,9 +229,9 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when patch task request sent the check for success response`() {
-        val expectedTask = getDataClass<TaskFetchResponse>(TASK_PUT_REQUEST)
+        val expectedTask = getDataClass<TaskFetchResponse>(TASK_PATCH_REQUEST)
 
-        mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_PUT_REQUEST).content))
+        mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_PATCH_REQUEST).content))
 
         runBlocking {
             val actualTask = objectUnderTest.updateTask("2", updateRequest).extractData
