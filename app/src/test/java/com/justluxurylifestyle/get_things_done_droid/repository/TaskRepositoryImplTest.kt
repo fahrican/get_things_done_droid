@@ -75,17 +75,19 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when fetching all tasks then check for success response`() {
+        // given
         val jsonArray = getJsonString<List<TaskFetchResponse>>(TASKS_RESPONSE)
         val listType = object : TypeToken<ArrayList<TaskFetchResponse?>?>() {}.type
         val expectedItems = gson.fromJson<List<TaskFetchResponse>>(jsonArray, listType)
 
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASKS_RESPONSE).content))
 
-        var actualResult: List<TaskFetchResponse>?
         runBlocking {
-            actualResult = objectUnderTest.getTasks(null).extractData
+            // when
+            val actualResult = objectUnderTest.getTasks(null).extractData
+            // then
+            assertEquals(expectedItems, actualResult)
         }
-        assertEquals(expectedItems, actualResult)
     }
 
     @Test
