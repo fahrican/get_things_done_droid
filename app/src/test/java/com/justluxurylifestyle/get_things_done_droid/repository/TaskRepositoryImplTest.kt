@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.justluxurylifestyle.get_things_done_droid.BaseRepoTest
 import com.justluxurylifestyle.get_things_done_droid.FileReader
-import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
@@ -98,8 +98,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.getTasks(null)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -111,8 +111,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = mockTaskRepository.getTasks(null)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(exception.message, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -138,8 +138,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.getTaskById("825")
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -150,8 +150,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = mockTaskRepository.getTaskById("825")
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(exception.message, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -176,8 +176,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.createTask(createRequest)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -188,8 +188,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = mockTaskRepository.createTask(createRequest)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(exception.message, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -211,8 +211,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.canDeleteTask("2")
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -224,8 +224,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = mockTaskRepository.canDeleteTask("23")
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(mockException::class, (actualResult as ViewState.Error).exception::class)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(mockException::class, (actualResult as StateOfView.Error).exception::class)
         }
     }
 
@@ -248,8 +248,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = objectUnderTest.updateTask("2", updateRequest)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(SOMETHING_WRONG, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(SOMETHING_WRONG, (actualResult as StateOfView.Error).exception.message)
         }
     }
 
@@ -260,8 +260,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         runBlocking {
             val actualResult = mockTaskRepository.updateTask("11", updateRequest)
 
-            assertTrue(actualResult is ViewState.Error)
-            assertEquals(exception.message, (actualResult as ViewState.Error).exception.message)
+            assertTrue(actualResult is StateOfView.Error)
+            assertEquals(exception.message, (actualResult as StateOfView.Error).exception.message)
         }
     }
 }

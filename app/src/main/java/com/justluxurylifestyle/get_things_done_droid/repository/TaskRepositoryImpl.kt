@@ -1,6 +1,6 @@
 package com.justluxurylifestyle.get_things_done_droid.repository
 
-import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
@@ -42,7 +42,7 @@ class TaskRepositoryImpl @Inject constructor(
             taskApiService.updateTaskWithId(id, updateRequest)
         }
 
-    private suspend fun <T : Any> executeSafeApiCall(apiCall: suspend () -> T): ViewState<T> {
+    private suspend fun <T : Any> executeSafeApiCall(apiCall: suspend () -> T): StateOfView<T> {
         return try {
             handleSuccess(apiCall.invoke())
         } catch (error: HttpException) {
@@ -50,7 +50,7 @@ class TaskRepositoryImpl @Inject constructor(
             handleException(error.code())
         } catch (error: Exception) {
             Timber.e("Unknown exception: ${error.message}")
-            ViewState.Error(error)
+            StateOfView.Error(error)
         }
     }
 }

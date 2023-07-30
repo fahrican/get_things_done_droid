@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
-import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.util.displayAlertDialog
@@ -103,12 +103,12 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     private fun observeTaskLiveData() {
         viewModel.tasks.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ViewState.Loading -> {
+                is StateOfView.Loading -> {
                     binding.recyclerView.visibility = View.GONE
                     binding.shimmerFrame.startShimmerAnimation()
                 }
 
-                is ViewState.Success -> {
+                is StateOfView.Success -> {
                     this.tasks.clear()
                     if (response.data.isEmpty()) {
                         showEmptyScreen()
@@ -131,7 +131,7 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
                     }
                 }
 
-                is ViewState.Error -> {
+                is StateOfView.Error -> {
                     showEmptyScreen()
                 }
             }

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
-import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.util.displayAlertDialog
@@ -52,15 +52,15 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     private fun observeTaskLiveData() {
         viewModel.task.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ViewState.Loading -> {
+                is StateOfView.Loading -> {
                     showLoadingState()
                 }
 
-                is ViewState.Success -> {
+                is StateOfView.Success -> {
                     handleSuccessState(response.data)
                 }
 
-                is ViewState.Error -> {
+                is StateOfView.Error -> {
                     handleErrorState(response.exception.message.toString())
                 }
             }

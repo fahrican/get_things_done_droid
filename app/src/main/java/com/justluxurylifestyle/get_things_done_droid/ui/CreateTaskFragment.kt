@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
-import com.justluxurylifestyle.get_things_done_droid.core.ViewState
+import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
@@ -74,16 +74,16 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
     private fun observeCreateTaskLiveData() {
         viewModel.task.observe(viewLifecycleOwner) { response ->
             when (response) {
-                is ViewState.Loading -> {
+                is StateOfView.Loading -> {
                     Timber.d("data is loading ${response.extractData}")
                 }
 
-                is ViewState.Success -> {
+                is StateOfView.Success -> {
                     showToastMessage(requireContext(), REQUEST_SUCCESS)
                     findNavController().popBackStack()
                 }
 
-                is ViewState.Error -> {
+                is StateOfView.Error -> {
                     val errorMessage = response.exception.message ?: REQUEST_FAILURE
                     showToastMessage(requireContext(), errorMessage)
                 }
