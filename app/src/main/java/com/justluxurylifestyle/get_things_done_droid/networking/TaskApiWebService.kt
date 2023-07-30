@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object TaskApiWebService {
 
-    private const val TASK_API_BASE_URL = "https://backend4frontend.onrender.com/"
+    private const val TASK_API_BASE_URL = "https://api4android.onrender.com/"
 
     private fun createOkHttpClient(): OkHttpClient {
         val logger = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

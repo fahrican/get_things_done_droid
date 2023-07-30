@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.repository
 
-import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
@@ -15,8 +14,8 @@ class TaskRepositoryImpl @Inject constructor(
 ) : BaseRepository(), TaskRepository {
 
     companion object {
-        const val HTTP_EXCEPTION = "HttpException"
-        const val SUCCESS_NO_CONTENT: Int = 204
+        private const val HTTP_EXCEPTION = "HTTP Exception"
+        private const val SUCCESS_NO_CONTENT: Int = 204
     }
 
     override suspend fun getTasks(status: String?) = executeSafeApiCall {
@@ -38,9 +37,10 @@ class TaskRepositoryImpl @Inject constructor(
         response
     }
 
-    override suspend fun updateTask(id: String, updateRequest: TaskUpdateRequest) = executeSafeApiCall {
-        taskApiService.updateTaskWithId(id, updateRequest)
-    }
+    override suspend fun updateTask(id: String, updateRequest: TaskUpdateRequest) =
+        executeSafeApiCall {
+            taskApiService.updateTaskWithId(id, updateRequest)
+        }
 
     private suspend fun <T : Any> executeSafeApiCall(apiCall: suspend () -> T): ViewState<T> {
         return try {

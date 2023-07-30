@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.justluxurylifestyle.get_things_done_droid.BaseRepoTest
 import com.justluxurylifestyle.get_things_done_droid.FileReader
-import com.justluxurylifestyle.get_things_done_droid.core.BaseRepository.Companion.SOMETHING_WRONG
 import com.justluxurylifestyle.get_things_done_droid.core.ViewState
 import com.justluxurylifestyle.get_things_done_droid.model.Priority
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
@@ -34,6 +33,8 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         private const val TASK_POST_REQUEST = "post_request_task.json"
         private const val TASK_PATCH_REQUEST = "patch_request_task.json"
         private const val INTERNAL_SERVER_ERROR: Int = 500
+        private const val SUCCESS_NO_CONTENT: Int = 204
+        private const val SOMETHING_WRONG = "Something went wrong"
     }
 
     private val gson = GsonBuilder().create()
@@ -194,7 +195,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
 
     @Test
     fun `when delete task request sent then check for successful removal`() {
-        mockWebServer.enqueue(MockResponse().setResponseCode(TaskRepositoryImpl.SUCCESS_NO_CONTENT))
+        mockWebServer.enqueue(MockResponse().setResponseCode(SUCCESS_NO_CONTENT))
 
         runBlocking {
             val actualMessage = objectUnderTest.canDeleteTask("15").extractData
