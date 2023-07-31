@@ -86,9 +86,9 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     }
 
     private fun setUpSwipeRefresh() {
-        binding.swipeRefresh.let {
-            it.setOnRefreshListener(this)
-            it.setColorSchemeResources(R.color.purple_200)
+        binding.swipeRefresh.apply {
+            this.setOnRefreshListener(this@TaskFragment)
+            this.setColorSchemeResources(R.color.purple_200)
         }
     }
 
@@ -153,10 +153,10 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
         with(binding) {
             shimmerFrame.stopShimmerAnimation()
             shimmerFrame.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
             retryFetchButton.visibility = View.GONE
             swipeRefresh.isRefreshing = false
-            recyclerView.visibility = View.VISIBLE
         }
     }
 
