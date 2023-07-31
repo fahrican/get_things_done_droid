@@ -42,10 +42,6 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
     private fun setUpTwoWayDataBinding() {
         binding.task = args.taskItem
-        args.taskItem.isTaskOpen?.let { isOpen -> binding.editTaskIsTaskOpenBox.isChecked = isOpen }
-        args.taskItem.isReminderSet?.let { isReminderSet ->
-            binding.editTaskSetReminderCheckBox.isChecked = isReminderSet
-        }
         when (args.taskItem.priority) {
             Priority.LOW -> binding.priorityLow.isChecked = true
             Priority.MEDIUM -> binding.priorityMedium.isChecked = true
