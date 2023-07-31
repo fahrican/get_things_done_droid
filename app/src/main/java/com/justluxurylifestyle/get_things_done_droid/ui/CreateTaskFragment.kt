@@ -23,11 +23,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
-    companion object {
-        private const val REQUEST_SUCCESS = "Request was successful!"
-        private const val REQUEST_FAILURE = "Request couldn't be processed!"
-    }
-
     private val viewModel by viewModels<TaskViewModelImpl>()
 
     override fun createBinding(
@@ -79,12 +74,16 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
                 }
 
                 is StateOfView.Success -> {
-                    showToastMessage(requireContext(), REQUEST_SUCCESS)
+                    showToastMessage(
+                        requireContext(),
+                        getString(R.string.task_request_success_message)
+                    )
                     findNavController().popBackStack()
                 }
 
                 is StateOfView.Error -> {
-                    val errorMessage = response.exception.message ?: REQUEST_FAILURE
+                    val errorMessage = response.exception.message
+                        ?: getString(R.string.task_request_failure_message)
                     showToastMessage(requireContext(), errorMessage)
                 }
             }
