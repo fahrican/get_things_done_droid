@@ -12,6 +12,10 @@ data class TaskFetchResponse(
     val isReminderSet: Boolean?,
     val isTaskOpen: Boolean?,
     val createdOn: String?,
+    val startedOn: String?,
+    val finishedOn: String?,
+    val timeInterval: String?,
+    val timeTaken: Int?,
     val priority: Priority?
 ) : Parcelable {
 

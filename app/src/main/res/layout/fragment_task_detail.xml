@@ -145,91 +145,89 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/task_detail_created_on" />
 
-                <!--            <TextView
-                                android:id="@+id/task_started_on"
-                                style="@style/NightModeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
-                                android:text="@{@string/task_detail_started_on(task.startedOn)}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_created_on_line"
-                                tools:text="startedOn: 2022-07-28T19:12:05" />
+                <TextView
+                    android:id="@+id/task_started_on"
+                    style="@style/NightModeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@{@string/task_detail_started_on(task.startedOn)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_created_detail_on_line"
+                    tools:text="startedOn: 2022-07-28T19:12:05" />
 
-                            <View
-                                android:id="@+id/task_started_on_line"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_margin="8dp"
-                                android:background="@android:color/black"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_started_on" />
+                <View
+                    android:id="@+id/task_started_on_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_started_on" />
 
-                            <TextView
-                                android:id="@+id/task_finished_on"
-                                style="@style/NightModeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
-                                android:text="@{@string/task_detail_finished_on(task.finishedOn)}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_started_on_line"
-                                tools:text="finishedOn: 2022-07-28T19:12:05" />
+                <TextView
+                    android:id="@+id/task_finished_on"
+                    style="@style/NightModeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@{@string/task_detail_finished_on(task.finishedOn)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_started_on_line"
+                    tools:text="finishedOn: 2022-07-28T19:12:05" />
 
-                            <View
-                                android:id="@+id/task_finished_on_line"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_margin="8dp"
-                                android:background="@android:color/black"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_created_on_line" />
+                <View
+                    android:id="@+id/task_finished_on_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_finished_on" />
 
+                <TextView
+                    android:id="@+id/task_time_interval"
+                    style="@style/NightModeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@{@string/task_detail_time_interval(task.timeInterval)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_finished_on_line"
+                    tools:text="timeInterval: 14days" />
 
-                            <TextView
-                                android:id="@+id/task_time_interval"
-                                style="@style/NightModeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
-                                android:text="@{@string/task_detail_time_interval(task.timeInterval)}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_finished_on_line"
-                                tools:text="timeInterval: 14days" />
+                <View
+                    android:id="@+id/task_time_interval_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_time_interval" />
 
-                            <View
-                                android:id="@+id/task_time_interval_line"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_margin="8dp"
-                                android:background="@android:color/black"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_time_interval" />
+                <TextView
+                    android:id="@+id/task_time_taken"
+                    style="@style/NightModeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@{@string/task_detail_time_taken(task.timeTaken)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_time_interval_line"
+                    tools:text="timeTaken: 15" />
 
-                            <TextView
-                                android:id="@+id/task_time_taken"
-                                style="@style/NightModeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="16dp"
-                                android:text="@{@string/task_detail_time_taken(task.timeTaken)}"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_time_interval_line"
-                                tools:text="timeTaken: 15" />
-
-
-                            <View
-                                android:id="@+id/task_ime_taken_line"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_margin="8dp"
-                                android:background="@android:color/black"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/task_finished_on_line" /> -->
+                <View
+                    android:id="@+id/task_ime_taken_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="8dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/task_time_taken" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/task_detail_priority"
@@ -239,7 +237,7 @@
                     android:layout_margin="16dp"
                     android:text="@{@string/task_detail_priority(task.priority)}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/task_created_detail_on_line"
+                    app:layout_constraintTop_toBottomOf="@id/task_ime_taken_line"
                     tools:text="priority: HIGH" />
 
                 <View
