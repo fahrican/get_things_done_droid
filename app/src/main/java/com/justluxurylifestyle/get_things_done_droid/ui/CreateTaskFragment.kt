@@ -44,7 +44,6 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
     private fun createTaskItem(): TaskCreateRequest? {
         val description = binding.createTaskDescriptionInput.text.toString()
         val timeInterval = binding.createTaskTimeIntervalInput.text.toString()
-        val timeTaken: Int = Integer.parseInt(binding.createTaskTimeTakenInput.text.toString())
         val isSetReminderSet = binding.createTaskSetReminderCheckBox.isChecked
 
         if (description.isEmpty()) {
@@ -60,9 +59,10 @@ class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
         return TaskCreateRequest(
             description = description,
-            priority = priority,
             isReminderSet = isSetReminderSet,
-            isTaskOpen = true
+            isTaskOpen = true,
+            timeInterval = timeInterval,
+            priority = priority
         )
     }
 

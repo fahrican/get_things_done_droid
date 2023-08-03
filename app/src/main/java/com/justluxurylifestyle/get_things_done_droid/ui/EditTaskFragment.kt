@@ -62,6 +62,10 @@ class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
                 isReminderSet = binding.editTaskSetReminderCheckBox.isChecked,
                 isTaskOpen = binding.editTaskIsTaskOpenBox.isChecked,
                 priority = selectedPriority,
+                startedOn = null,
+                finishedOn = null,
+                timeInterval = binding.editTaskTimeIntervalInput.text.toString(),
+                timeTaken = binding.editTaskTimeTakenInput.text.toString().toInt()
             )
             lifecycleScope.launch(Dispatchers.Main) {
                 async { viewModel.updateTask(args.taskItem.id.toString(), updateRequest) }.await()
