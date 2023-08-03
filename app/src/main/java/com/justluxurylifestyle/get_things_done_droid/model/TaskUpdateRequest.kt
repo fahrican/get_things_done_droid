@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.model
 
-import java.time.LocalDateTime
 
 data class TaskUpdateRequest(
     val description: String?,
