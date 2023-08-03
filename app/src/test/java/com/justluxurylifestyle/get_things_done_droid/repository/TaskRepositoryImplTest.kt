@@ -45,14 +45,19 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         description = "test data",
         isReminderSet = true,
         isTaskOpen = true,
-        priority = Priority.LOW
+        priority = Priority.LOW,
+        timeInterval = "2 weeks"
     )
 
     private val updateRequest = TaskUpdateRequest(
         description = "test test",
         isReminderSet = null,
         isTaskOpen = null,
-        priority = null
+        priority = null,
+        startedOn = null,
+        finishedOn = null,
+        timeInterval = "2 weeks",
+        timeTaken = 3
     )
 
     private lateinit var taskApi: TaskApi
@@ -236,7 +241,7 @@ internal class TaskRepositoryImplTest : BaseRepoTest() {
         mockWebServer.enqueue(MockResponse().setBody(FileReader(TASK_PATCH_REQUEST).content))
 
         runBlocking {
-            val actualTask = objectUnderTest.updateTask("2", updateRequest).extractData
+            val actualTask = objectUnderTest.updateTask("605", updateRequest).extractData
             assertEquals(expectedTask, actualTask)
         }
     }

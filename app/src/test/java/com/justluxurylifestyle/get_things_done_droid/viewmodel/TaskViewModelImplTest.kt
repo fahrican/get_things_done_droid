@@ -55,17 +55,22 @@ internal class TaskViewModelImplTest {
     private lateinit var objectUnderTest: TaskViewModelImpl
 
     private val createRequest = TaskCreateRequest(
-        description = "Buy Hummus",
+        description = "test data",
         isReminderSet = true,
         isTaskOpen = true,
-        priority = Priority.HIGH
+        priority = Priority.LOW,
+        timeInterval = "2 weeks"
     )
 
     private val updateRequest = TaskUpdateRequest(
-        description = "Feed the cat",
-        isReminderSet = false,
-        isTaskOpen = false,
-        priority = Priority.LOW
+        description = "test test",
+        isReminderSet = null,
+        isTaskOpen = null,
+        priority = null,
+        startedOn = null,
+        finishedOn = null,
+        timeInterval = "2 weeks",
+        timeTaken = 3
     )
 
     private val fetchResponse = TaskFetchResponse(
@@ -74,7 +79,11 @@ internal class TaskViewModelImplTest {
         null,
         null,
         null,
-        null
+        null,
+        finishedOn = null,
+        timeInterval = null,
+        timeTaken = null,
+        priority = Priority.LOW
     )
 
 
