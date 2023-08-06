@@ -19,7 +19,7 @@ class AllTasksFragment : TaskFragment() {
     }
 
     override fun initializeController() {
-        val color = ContextCompat.getColor(requireActivity(), R.color.black)
+        val color = ContextCompat.getColor(requireActivity(), R.color.teal_700)
         controller = TaskController(color)
         binding.fabLayout.visibility = View.GONE
     }
