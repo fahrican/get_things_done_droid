@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/closed_tasks"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.ClosedTaskFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskClosedFragment"
         android:label="@string/closed_tasks"
         tools:layout="@layout/fragment_task">
 
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/open_tasks"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.OpenTaskFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskOpenFragment"
         android:label="@string/open_tasks"
         tools:layout="@layout/fragment_task">
 
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/all_tasks"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.AllTasksFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskAllFragment"
         android:label="@string/all_tasks"
         tools:layout="@layout/fragment_task">
 
@@ -87,13 +87,13 @@
 
     <fragment
         android:id="@+id/create_task"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.CreateTaskFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskCreateFragment"
         android:label="@string/create_task"
         tools:layout="@layout/fragment_create_task" />
 
     <fragment
         android:id="@+id/edit_task"
-        android:name="com.justluxurylifestyle.get_things_done_droid.ui.EditTaskFragment"
+        android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskEditFragment"
         android:label="@string/task_detail_edit_task"
         tools:layout="@layout/fragment_edit_task">
 

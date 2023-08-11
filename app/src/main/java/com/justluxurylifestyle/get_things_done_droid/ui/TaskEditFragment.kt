@@ -22,9 +22,9 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class EditTaskFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
+class TaskEditFragment : ViewBindingFragment<FragmentEditTaskBinding>() {
 
-    private val args: EditTaskFragmentArgs by navArgs()
+    private val args: TaskEditFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
 
     override fun createBinding(

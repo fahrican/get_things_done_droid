@@ -21,7 +21,7 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CreateTaskFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
+class TaskCreateFragment : ViewBindingFragment<FragmentCreateTaskBinding>() {
 
     private val viewModel by viewModels<TaskViewModelImpl>()
 

@@ -1,6 +1,5 @@
 package com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav
 
-import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -13,12 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class OpenTaskFragment : TaskFragment() {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpCreateTaskButton()
-    }
+class TaskClosedFragment : TaskFragment() {
 
     override fun onResume() {
         super.onResume()
@@ -26,30 +20,24 @@ class OpenTaskFragment : TaskFragment() {
     }
 
     override fun initializeController() {
-        val color = ContextCompat.getColor(requireActivity(), R.color.darker_gray)
+        val color = ContextCompat.getColor(requireActivity(), R.color.green_dark)
         controller = TaskController(color)
+        binding.fabLayout.visibility = View.GONE
     }
 
     override fun callViewModel() {
-        viewModel.fetchTasks(TaskStatus.OPEN.toString())
+        viewModel.fetchTasks(TaskStatus.CLOSED.toString())
     }
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            OpenTaskFragmentDirections.actionOpenTaskToEditTask(task)
+            TaskClosedFragmentDirections.actionClosedTaskToEditTask(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            OpenTaskFragmentDirections.actionOpenTaskToTaskDetail(task.id)
+            TaskClosedFragmentDirections.actionClosedTaskToTaskDetail(task.id)
         findNavController().navigate(action)
-    }
-
-    private fun setUpCreateTaskButton() {
-        binding.fabBtn.setOnClickListener {
-            val action = OpenTaskFragmentDirections.actionOpenTaskToCreateTask()
-            findNavController().navigate(action)
-        }
     }
 }
