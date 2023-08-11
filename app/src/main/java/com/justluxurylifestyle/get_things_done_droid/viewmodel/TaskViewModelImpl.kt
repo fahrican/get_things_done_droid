@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
-import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,8 +1,8 @@
 package com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client
 
-import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskUpdateRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

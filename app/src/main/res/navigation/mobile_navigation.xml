@@ -99,7 +99,7 @@
 
         <argument
             android:name="task_item"
-            app:argType="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
+            app:argType="com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse" />
 
         <action
             android:id="@+id/action_edit_task_to_task_detail"

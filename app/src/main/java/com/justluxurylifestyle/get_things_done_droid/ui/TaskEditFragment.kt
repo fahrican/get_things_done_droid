@@ -11,8 +11,8 @@ import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentEditTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.Priority
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

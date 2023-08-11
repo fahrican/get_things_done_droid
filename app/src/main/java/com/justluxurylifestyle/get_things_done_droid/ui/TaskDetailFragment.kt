@@ -11,7 +11,7 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentDetailTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.util.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.ui.util.showToastMessage
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl

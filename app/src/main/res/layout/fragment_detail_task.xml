@@ -7,7 +7,7 @@
 
         <variable
             name="task"
-            type="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
+            type="com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse" />
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout

@@ -10,8 +10,8 @@ import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentCreateTaskBinding
-import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.Priority
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.ui.util.showToastMessage
 import com.justluxurylifestyle.get_things_done_droid.viewmodel.TaskViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint

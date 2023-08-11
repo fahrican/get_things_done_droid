@@ -5,8 +5,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.justluxurylifestyle.get_things_done_droid.R
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy.TaskController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

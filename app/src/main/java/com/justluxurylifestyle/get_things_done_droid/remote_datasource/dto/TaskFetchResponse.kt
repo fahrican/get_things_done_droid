@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.model
+package com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto
 
 import android.os.Parcelable
 import android.view.View

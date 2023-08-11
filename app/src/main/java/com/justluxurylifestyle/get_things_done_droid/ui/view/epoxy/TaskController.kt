@@ -2,7 +2,7 @@ package com.justluxurylifestyle.get_things_done_droid.ui.view.epoxy
 
 import com.airbnb.epoxy.EpoxyController
 import com.justluxurylifestyle.get_things_done_droid.itemTask
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
 
 class TaskController(private val cardBgColor: Int) : EpoxyController() {
 

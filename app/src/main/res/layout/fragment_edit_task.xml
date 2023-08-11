@@ -6,7 +6,7 @@
 
         <variable
             name="task"
-            type="com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse" />
+            type="com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse" />
     </data>
 
     <androidx.core.widget.NestedScrollView
