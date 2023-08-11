@@ -106,7 +106,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentDetailTaskBinding>() {
     private fun setUpEditTask() {
         binding.taskDetailEditTaskBtn.setOnClickListener {
             fetchResponse?.let {
-                val action = TaskDetailFragmentDirections.actionTaskDetailToEditTask(it)
+                val action = TaskDetailFragmentDirections.actionTaskDetailToTaskEdit(it)
                 findNavController().navigate(action)
             }
         }

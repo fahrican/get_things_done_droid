@@ -19,7 +19,7 @@
 
         <action
             android:id="@+id/action_task_closed_to_task_edit"
-            app:destination="@+id/edit_task"
+            app:destination="@+id/task_edit"
             app:popUpTo="@id/task_closed"
             app:popUpToInclusive="false" />
     </fragment>
@@ -38,13 +38,13 @@
 
         <action
             android:id="@+id/action_task_open_to_task_create"
-            app:destination="@+id/create_task"
+            app:destination="@+id/task_create"
             app:popUpTo="@id/task_open"
             app:popUpToInclusive="false" />
 
         <action
             android:id="@+id/action_task_open_to_task_edit"
-            app:destination="@+id/edit_task"
+            app:destination="@+id/task_edit"
             app:popUpTo="@id/task_open"
             app:popUpToInclusive="false" />
     </fragment>
@@ -63,7 +63,7 @@
 
         <action
             android:id="@+id/action_task_all_to_task_edit"
-            app:destination="@+id/edit_task"
+            app:destination="@+id/task_edit"
             app:popUpTo="@id/task_all"
             app:popUpToInclusive="false" />
     </fragment>
@@ -75,8 +75,8 @@
         tools:layout="@layout/fragment_detail_task">
 
         <action
-            android:id="@+id/action_task_detail_to_edit_task"
-            app:destination="@+id/edit_task"
+            android:id="@+id/action_task_detail_to_task_edit"
+            app:destination="@+id/task_edit"
             app:popUpTo="@id/task_detail"
             app:popUpToInclusive="false" />
 
@@ -86,13 +86,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/create_task"
+        android:id="@+id/task_create"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskCreateFragment"
         android:label="@string/create_task"
         tools:layout="@layout/fragment_create_task" />
 
     <fragment
-        android:id="@+id/edit_task"
+        android:id="@+id/task_edit"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.TaskEditFragment"
         android:label="@string/task_detail_edit_task"
         tools:layout="@layout/fragment_edit_task">
@@ -102,9 +102,9 @@
             app:argType="com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse" />
 
         <action
-            android:id="@+id/action_edit_task_to_task_detail"
+            android:id="@+id/action_task_edit_to_task_detail"
             app:destination="@+id/task_detail"
-            app:popUpTo="@id/edit_task"
+            app:popUpTo="@id/task_edit"
             app:popUpToInclusive="true" />
 
     </fragment>
