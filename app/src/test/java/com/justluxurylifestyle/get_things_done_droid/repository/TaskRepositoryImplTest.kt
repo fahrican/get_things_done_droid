@@ -6,11 +6,11 @@ import com.google.gson.reflect.TypeToken
 import com.justluxurylifestyle.get_things_done_droid.BaseRepoTest
 import com.justluxurylifestyle.get_things_done_droid.FileReader
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
-import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.Priority
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskUpdateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client.TaskApi
 import io.mockk.MockKException
 import io.mockk.coEvery
 import io.mockk.mockk

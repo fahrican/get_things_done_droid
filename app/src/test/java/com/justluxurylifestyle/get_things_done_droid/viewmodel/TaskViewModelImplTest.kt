@@ -4,10 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.justluxurylifestyle.get_things_done_droid.TestCoroutineRule
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
-import com.justluxurylifestyle.get_things_done_droid.model.Priority
-import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
-import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
-import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.Priority
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskCreateRequest
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskFetchResponse
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.dto.TaskUpdateRequest
 import com.justluxurylifestyle.get_things_done_droid.repository.TaskRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
