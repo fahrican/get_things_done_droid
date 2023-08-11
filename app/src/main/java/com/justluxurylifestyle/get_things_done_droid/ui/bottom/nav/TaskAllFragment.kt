@@ -30,13 +30,13 @@ class TaskAllFragment : TaskFragment() {
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            TaskAllFragmentDirections.actionAllTasksToEditTask(task)
+            TaskAllFragmentDirections.actionTaskAllToTaskEdit(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            TaskAllFragmentDirections.actionAllTasksToTaskDetail(task.id)
+            TaskAllFragmentDirections.actionTaskAllToTaskDetail(task.id)
         findNavController().navigate(action)
     }
 }

@@ -31,13 +31,13 @@ class TaskClosedFragment : TaskFragment() {
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            TaskClosedFragmentDirections.actionClosedTaskToEditTask(task)
+            TaskClosedFragmentDirections.actionTaskClosedToTaskEdit(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            TaskClosedFragmentDirections.actionClosedTaskToTaskDetail(task.id)
+            TaskClosedFragmentDirections.actionTaskClosedToTaskDetail(task.id)
         findNavController().navigate(action)
     }
 }

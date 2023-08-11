@@ -3,68 +3,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/screen_navigation"
-    app:startDestination="@+id/open_tasks">
+    app:startDestination="@+id/task_open_fragment">
 
     <fragment
-        android:id="@+id/closed_tasks"
+        android:id="@+id/task_closed_fragment"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskClosedFragment"
         android:label="@string/closed_tasks"
         tools:layout="@layout/fragment_task">
 
         <action
-            android:id="@+id/action_closed_task_to_task_detail"
+            android:id="@+id/action_task_closed_to_task_detail"
             app:destination="@+id/task_detail"
-            app:popUpTo="@id/closed_tasks"
+            app:popUpTo="@id/task_closed_fragment"
             app:popUpToInclusive="false" />
 
         <action
-            android:id="@+id/action_closed_task_to_edit_task"
+            android:id="@+id/action_task_closed_to_task_edit"
             app:destination="@+id/edit_task"
-            app:popUpTo="@id/closed_tasks"
+            app:popUpTo="@id/task_closed_fragment"
             app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
-        android:id="@+id/open_tasks"
+        android:id="@+id/task_open_fragment"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskOpenFragment"
         android:label="@string/open_tasks"
         tools:layout="@layout/fragment_task">
 
         <action
-            android:id="@+id/action_open_task_to_task_detail"
+            android:id="@+id/action_task_open_to_task_detail"
             app:destination="@+id/task_detail"
-            app:popUpTo="@id/open_tasks"
+            app:popUpTo="@id/task_open_fragment"
             app:popUpToInclusive="false" />
 
         <action
-            android:id="@+id/action_open_task_to_create_task"
+            android:id="@+id/action_task_open_to_task_create"
             app:destination="@+id/create_task"
-            app:popUpTo="@id/open_tasks"
+            app:popUpTo="@id/task_open_fragment"
             app:popUpToInclusive="false" />
 
         <action
-            android:id="@+id/action_open_task_to_edit_task"
+            android:id="@+id/action_task_open_to_task_edit"
             app:destination="@+id/edit_task"
-            app:popUpTo="@id/open_tasks"
+            app:popUpTo="@id/task_open_fragment"
             app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
-        android:id="@+id/all_tasks"
+        android:id="@+id/task_all_fragment"
         android:name="com.justluxurylifestyle.get_things_done_droid.ui.bottom.nav.TaskAllFragment"
         android:label="@string/all_tasks"
         tools:layout="@layout/fragment_task">
 
         <action
-            android:id="@+id/action_all_tasks_to_task_detail"
+            android:id="@+id/action_task_all_to_task_detail"
             app:destination="@+id/task_detail"
-            app:popUpTo="@id/all_tasks"
+            app:popUpTo="@id/task_all_fragment"
             app:popUpToInclusive="false" />
 
         <action
-            android:id="@+id/action_all_tasks_to_edit_task"
+            android:id="@+id/action_task_all_to_task_edit"
             app:destination="@+id/edit_task"
-            app:popUpTo="@id/all_tasks"
+            app:popUpTo="@id/task_all_fragment"
             app:popUpToInclusive="false" />
     </fragment>
 

@@ -36,19 +36,19 @@ class TaskOpenFragment : TaskFragment() {
 
     override fun navigateToEditTask(task: TaskFetchResponse) {
         val action =
-            TaskOpenFragmentDirections.actionOpenTaskToEditTask(task)
+            TaskOpenFragmentDirections.actionTaskOpenToTaskEdit(task)
         findNavController().navigate(action)
     }
 
     override fun navigateToTaskDetail(task: TaskFetchResponse) {
         val action =
-            TaskOpenFragmentDirections.actionOpenTaskToTaskDetail(task.id)
+            TaskOpenFragmentDirections.actionTaskOpenToTaskDetail(task.id)
         findNavController().navigate(action)
     }
 
     private fun setUpCreateTaskButton() {
         binding.fabBtn.setOnClickListener {
-            val action = TaskOpenFragmentDirections.actionOpenTaskToCreateTask()
+            val action = TaskOpenFragmentDirections.actionTaskOpenToTaskCreate()
             findNavController().navigate(action)
         }
     }

@@ -27,9 +27,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.closed_tasks,
-                R.id.open_tasks,
-                R.id.all_tasks
+                R.id.task_closed_fragment,
+                R.id.task_open_fragment,
+                R.id.task_all_fragment
             )
         )
 
