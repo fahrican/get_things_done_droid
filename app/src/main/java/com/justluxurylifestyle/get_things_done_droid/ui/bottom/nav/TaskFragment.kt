@@ -163,8 +163,8 @@ abstract class TaskFragment : ViewBindingFragment<FragmentTaskBinding>(),
     private fun observeDeleteTaskLiveData() {
         viewModel.isDeleteSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                Timber.d("Delete status: $isSuccessful")
                 callViewModel()
+                Timber.d("Delete status: $isSuccessful")
             } else {
                 showToastMessage(requireContext(), getString(R.string.task_request_failure_message))
                 Timber.d("Delete status: $isSuccessful")
