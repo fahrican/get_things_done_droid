@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.networking
+package com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
-object TaskApiWebService {
+object TaskWebService {
 
     private const val TASK_API_BASE_URL = "https://task-manager.justluxurylifestyle.com/"
 

@@ -4,7 +4,7 @@ import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskStatus
 import com.justluxurylifestyle.get_things_done_droid.model.TaskUpdateRequest
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client.TaskApi
 import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject

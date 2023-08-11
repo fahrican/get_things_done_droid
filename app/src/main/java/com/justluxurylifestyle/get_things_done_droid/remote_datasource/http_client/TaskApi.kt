@@ -1,4 +1,4 @@
-package com.justluxurylifestyle.get_things_done_droid.networking
+package com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client
 
 import com.justluxurylifestyle.get_things_done_droid.model.TaskCreateRequest
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse

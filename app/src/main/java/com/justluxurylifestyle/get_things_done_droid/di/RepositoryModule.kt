@@ -1,7 +1,7 @@
 package com.justluxurylifestyle.get_things_done_droid.di
 
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApi
-import com.justluxurylifestyle.get_things_done_droid.networking.TaskApiWebService
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client.TaskApi
+import com.justluxurylifestyle.get_things_done_droid.remote_datasource.http_client.TaskWebService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideTaskApiWebService(): TaskApi = TaskApiWebService.getTaskApiClient()
+    fun provideTaskApiWebService(): TaskApi = TaskWebService.getTaskApiClient()
 }
