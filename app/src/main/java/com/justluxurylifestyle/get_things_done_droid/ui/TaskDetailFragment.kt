@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.justluxurylifestyle.get_things_done_droid.R
 import com.justluxurylifestyle.get_things_done_droid.core.ViewBindingFragment
 import com.justluxurylifestyle.get_things_done_droid.core.StateOfView
-import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentTaskDetailBinding
+import com.justluxurylifestyle.get_things_done_droid.databinding.FragmentDetailTaskBinding
 import com.justluxurylifestyle.get_things_done_droid.model.TaskFetchResponse
 import com.justluxurylifestyle.get_things_done_droid.ui.util.displayAlertDialog
 import com.justluxurylifestyle.get_things_done_droid.ui.util.showToastMessage
@@ -21,7 +21,7 @@ import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
+class TaskDetailFragment : ViewBindingFragment<FragmentDetailTaskBinding>() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
     private val viewModel by viewModels<TaskViewModelImpl>()
@@ -30,7 +30,7 @@ class TaskDetailFragment : ViewBindingFragment<FragmentTaskDetailBinding>() {
     override fun createBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentTaskDetailBinding = FragmentTaskDetailBinding.inflate(inflater)
+    ): FragmentDetailTaskBinding = FragmentDetailTaskBinding.inflate(inflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
